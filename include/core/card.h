@@ -29,7 +29,9 @@ class PlayerCard : public Card {
   public:
     PlayerCard() = default;
     PlayerCard(const std::string &name_file, int id, std::string ability) : Card(name_file, id, ability){};
+    uint32_t get_owner();
     void change_owner(uint32_t owner);
+    virtual void activate_abillity(); // Cant use virtual because it is an interface in vector
 }; // class PlayerCard
 
 class Minion : public PlayerCard {
