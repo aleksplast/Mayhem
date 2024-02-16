@@ -42,8 +42,7 @@ public:
 
 class Action : public PlayerCard {
 public:
-    virtual ~Action() override {};
-    void activate_abillity() override;
+    void activate_abillity() override {};
 }; // class Action
 
 } // namespace Mayhem

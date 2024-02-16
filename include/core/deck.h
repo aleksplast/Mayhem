@@ -5,7 +5,6 @@
 #include "entity.h"
 #include <cstdint>
 #include <list>
-#include <iostream>
 
 namespace Mayhem {
 

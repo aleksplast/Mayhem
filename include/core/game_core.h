@@ -7,14 +7,13 @@
 #include <vector>
 #include <string>
 #include <deque>
-#include <SFML/Graphics.hpp>
 #include "deck.h"
 #include "card.h"
 #include "entity.h"
 
 namespace Mayhem {
 
-class Player: public Entity {
+class Player : public Entity {
 private:
     Deck<PlayerCard> hand_;
     Deck<PlayerCard> dump_deck_;
@@ -28,11 +27,11 @@ public:
     void dump_card(PlayerCard* card); // card to dump deck
     void gain_card(); // from deck to hand
 
-public: // graphic functions
-    void draw(sf::Window &window);
+public: // graphic function
+    void draw(Graphics &graphic);
 }; // class Player
 
-class Playground {
+class Playground : public Drawable {
 private:
     Deck<Base*> active_bases_;
     Deck<Base*> bases_;
@@ -45,8 +44,8 @@ public:
     void destroy_base(Base& base);
     void set_new_base();
 
-public: //graphic functions
-    void draw(sf::Window &window);
+public: // graphic function
+    void draw(Graphics &graphic);
 }; // class Playground
 
 class Engine {
@@ -56,14 +55,14 @@ private:
     int turn; // FIXME: just mock
 
 public:
+    Engine() = default;
     void give_points(uint16_t number, uint16_t player_id) {};
     void give_card(uint16_t id, PlayerCard* card); // так это типо отдать игроку карту, после завершения хода
     void place_card(uint16_t player_id, PlayerCard* card, uint16_t base);
     void end_turn(uint16_t player_id);
 
 public: //graphic functions
-    PlayerCard* contains(sf::Vector2f &pos);
-    void draw(sf::Window &window, uint16_t player_id);
+    void draw(Graphics &grafics);
 }; // class Engine
 
 } // namespace Mayhem
