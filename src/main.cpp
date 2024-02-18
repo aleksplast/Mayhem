@@ -6,13 +6,13 @@ using namespace Mayhem;
 
 int main()
 {
-    Graphics graphics(Graphics::GameType::OFLINE, 4, 0);
+    Graphics graphics(Graphics::GameType::OFLINE, 0);
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     graphics.window.create(sf::VideoMode::getFullscreenModes()[0], "Mayhem", sf::Style::Default, settings);
     graphics.window.setFramerateLimit(100);
 
-    Engine engine(graphics.window);
+    Engine engine(graphics);
     while (graphics.window.isOpen())
     {
         sf::Event event;
