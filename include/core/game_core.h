@@ -24,6 +24,7 @@ private:
 
 public:
     Player() = default;
+    Player(Graphics &graphics) : Entity("./src/graphics/images/player.png") { sprite.setColor(sf::Color(0,0,0,100)); };
     void play_card(PlayerCard* card); //from hand to base, just destroys card in hand, no interaction with the base
     void end_turn();
     void dump_card(PlayerCard* card); // card to dump deck
@@ -44,11 +45,17 @@ private:
 
 public:
     Playground() = delete;
-    Playground(sf::RenderWindow &window) : Drawable("./src/graphics/images/playground.jpg")
+    Playground(Graphics &graphics) : Drawable("./src/graphics/images/playground.jpg")
     {
-        auto window_size = window.getSize();
+        auto window_size = graphics.window.getSize();
+        sprite.setPosition(sf::Vector2f(window_size.x / 2, window_size.y / 2));
         sprite.setScale(static_cast<float>(window_size.x) / texture.getSize().x,
                         static_cast<float>(window_size.y) / texture.getSize().y);
+        
+        players_.push_back(*(new Player(graphics)));
+        players_.push_back(*(new Player(graphics)));
+        players_.push_back(*(new Player(graphics)));
+        players_.push_back(*(new Player(graphics)));
     };
     void clear_base(Base& base); // FIXME: just mock
     void destroy_base(Base& base);
@@ -67,7 +74,7 @@ private:
 
 public:
     Engine() = delete;
-    Engine(sf::RenderWindow &window) : playground(window) {};
+    Engine(Graphics &graphics) : playground(graphics) {};
     void give_points(uint16_t number, uint16_t player_id) {};
     void give_card(uint16_t id, PlayerCard* card); // так это типо отдать игроку карту, после завершения хода
     void place_card(uint16_t player_id, PlayerCard* card, uint16_t base);

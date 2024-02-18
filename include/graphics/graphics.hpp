@@ -19,9 +19,10 @@ public:
     };
 
 private:
+    const float num_cards_per_side_ = 10;
     const GameType type_;
-    const uint16_t num_players_;
-    uint16_t draw_plaeyr_; // num player who graphic draw
+    uint16_t draw_player_; // num player who graphic draw
+    const float player_increase_ = 1.8;
     
 public:
     sf::RenderWindow window;
@@ -31,18 +32,19 @@ public:
     
 public:
     Graphics() = delete;
-    Graphics(GameType type, uint16_t num_players, uint16_t draw_player = 0) : type_(type), num_players_(num_players), draw_plaeyr_(draw_player) {};
+    Graphics(GameType type, uint16_t draw_player = 0) : type_(type), draw_player_(draw_player) {};
     void end_turn();
+    const float get_num_cards_per_side() const;
+    uint16_t get_draw_player() const;
+    const float get_player_increase() const;
     ~Graphics() = default;
 }; // class Grafics
 
 class Drawable {
-protected:
-    sf::Texture texture;
-
 public:
     sf::Sprite sprite;
-
+    sf::Texture texture;
+    
 public:
     Drawable() = default;
     Drawable(const std::string &texture_file);
