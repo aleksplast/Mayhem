@@ -9,9 +9,9 @@ class Entity : public Drawable {
     int id_;
 
 public:
-    Entity(int id) : id_(id) {};
+    Entity(const std::string &name_file) : Drawable(name_file) {};
     virtual ~Entity() {};
-    int get_id() const { return id_; };
+    int get_id() { return id_; };
 }; // class Entity
 
 } //namespace Mayhem

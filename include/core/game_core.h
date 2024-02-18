@@ -10,6 +10,7 @@
 #include "deck.h"
 #include "card.h"
 #include "entity.h"
+#include <iostream>
 
 namespace Mayhem {
 
@@ -22,11 +23,13 @@ private:
     uint32_t points_;
 
 public:
+    Player() = default;
     void play_card(PlayerCard* card); //from hand to base, just destroys card in hand, no interaction with the base
     void end_turn();
     void dump_card(PlayerCard* card); // card to dump deck
     void gain_card(); // from deck to hand
-
+    ~Player() = default;
+    
 public: // graphic function
     void draw(Graphics &graphic);
 }; // class Player
@@ -40,9 +43,17 @@ private:
     std::vector<Player> players_;
 
 public:
+    Playground() = delete;
+    Playground(sf::RenderWindow &window) : Drawable("./src/graphics/images/playground.jpg")
+    {
+        auto window_size = window.getSize();
+        sprite.setScale(static_cast<float>(window_size.x) / texture.getSize().x,
+                        static_cast<float>(window_size.y) / texture.getSize().y);
+    };
     void clear_base(Base& base); // FIXME: just mock
     void destroy_base(Base& base);
     void set_new_base();
+    ~Playground() = default;
 
 public: // graphic function
     void draw(Graphics &graphic);
@@ -55,11 +66,13 @@ private:
     int turn; // FIXME: just mock
 
 public:
-    Engine() = default;
+    Engine() = delete;
+    Engine(sf::RenderWindow &window) : playground(window) {};
     void give_points(uint16_t number, uint16_t player_id) {};
     void give_card(uint16_t id, PlayerCard* card); // так это типо отдать игроку карту, после завершения хода
     void place_card(uint16_t player_id, PlayerCard* card, uint16_t base);
     void end_turn(uint16_t player_id);
+    ~Engine() = default;
 
 public: //graphic functions
     void draw(Graphics &grafics);
