@@ -1,14 +1,18 @@
 #include "../include/core/game_core.h"
 #include "../include/graphics/graphics.hpp"
+#include <iostream>
 
 using namespace Mayhem;
 
 int main()
 {
-    Engine engine;
     Graphics graphics(Graphics::GameType::OFLINE, 4, 0);
-    graphics.window.create(sf::VideoMode(800, 600), "Mayhem");
-    
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+    graphics.window.create(sf::VideoMode::getFullscreenModes()[0], "Mayhem", sf::Style::Default, settings);
+    graphics.window.setFramerateLimit(100);
+
+    Engine engine(graphics.window);
     while (graphics.window.isOpen())
     {
         sf::Event event;
@@ -19,6 +23,9 @@ int main()
                 graphics.window.close();
             }
         }
+        graphics.window.clear();
+        engine.draw(graphics);
+        graphics.window.display();
     }
     return 0;
 }

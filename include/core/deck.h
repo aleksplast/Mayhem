@@ -10,7 +10,7 @@ namespace Mayhem {
 
 template <class T> class Deck {
 private:
-    std::list<T> cards_;
+    std::list<T*> cards_;
 
 public: // Iterator functions
     using container = std::list<T>;

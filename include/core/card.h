@@ -18,6 +18,7 @@ protected:
     std::string ability_;
 
 public:
+    Card(const std::string &name_file) : Entity(name_file) {};
     virtual void activate_abillity() = 0;
     Card(int id, std::string ability) : Entity(id), ability_(ability) {};
 
@@ -28,7 +29,9 @@ private:
     uint32_t owner_id_;
 
 public:
-    void change_owner(uint32_t owner_id);
+    PlayerCard() = default;
+    PlayerCard(const std::string &name_file) : Card(name_file) {};
+    void change_owner(uint32_t owner);
 }; // class PlayerCard
 
 class Minion : public PlayerCard {
@@ -36,12 +39,14 @@ private:
     uint32_t power_;
 
 public:
+    Minion(const std::string &minion_file) : PlayerCard(minion_file) {};
     void activate_abillity() override {};
     uint32_t get_power() const { return power_;}
 }; // class Minion
 
 class Action : public PlayerCard {
 public:
+    Action(const std::string &action_file) : PlayerCard(action_file) {};
     void activate_abillity() override {};
 }; // class Action
 

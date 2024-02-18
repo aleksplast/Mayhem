@@ -2,6 +2,7 @@
 #define GRAFICS_H
 
 #include <SFML/Graphics.hpp>
+#include "../../include/core/deck.h"
 
 class PlayerCard;
 class Deck;
@@ -23,9 +24,9 @@ private:
     uint16_t draw_plaeyr_; // num player who graphic draw
     
 public:
-    sf::Window window;
+    sf::RenderWindow window;
     std::vector<PlayerCard*> player_cards;
-    std::vector<Deck<PlayerCard*>*> decks;
+    std::vector<Deck<PlayerCard>*> decks;
     std::vector<Base*> active_bases;
     
 public:
@@ -36,13 +37,15 @@ public:
 }; // class Grafics
 
 class Drawable {
-public:
+protected:
     sf::Texture texture;
+
+public:
     sf::Sprite sprite;
 
 public:
     Drawable() = default;
-    Drawable(std::string &file_name);
+    Drawable(const std::string &texture_file);
     ~Drawable() = default;
 }; // class Drawable
 
