@@ -5,7 +5,9 @@ class Entity {
     int id_;
 
 public:
-    int get_id() { return id_; };
+    Entity(int id) : id_(id) {};
+    virtual ~Entity() {};
+    int get_id() const { return id_; };
 }; // class Entity
 
 #endif // ENTITY_H
