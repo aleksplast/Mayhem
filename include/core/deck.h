@@ -1,10 +1,9 @@
 #ifndef DECK_H
 #define DECK_H
 
-#include "card.h"
-#include "entity.h"
 #include <cstdint>
 #include <list>
+#include <cstdlib>
 
 namespace Mayhem {
 
@@ -23,31 +22,15 @@ public: // Iterator functions
     const_iterator end() const { return cards_.end(); };
 
 public: // Interface functions
-    void gain_card(const T* card) {
-        cards_.push_back(*card);
-    }
-    void remove_card(const T& card) {
-        int card_id = card.get_id();
-
-        for (auto it_curr = cards_.begin(), it_end = cards_.end(); it_curr != it_end; ++it_curr) {
-            if (card_id == it_curr->get_id()) {
-                cards_.erase(it_curr);
-                break;
-            }
-        }
-    }
-    std::size_t size() const {
-        return cards_.size();
-    }
-    void shuffle() {
-        cards_.sort(cards_.begin(), cards_.end(), cmp_func());
-    }
-
-int cmp_func() {
-    return std::rand() - RAND_MAX / 2;
-}
+    void gain_card(const T* card);
+    void remove_card(const T& card);
+    std::size_t size() const;
+    void shuffle();
+    int cmp_func();
 }; // class Deck
 
 } // namespace Mayhem
+
+#include "deck.tpp"
 
 #endif // DECK_H

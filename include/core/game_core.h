@@ -3,6 +3,7 @@
 
 #include "card.h"
 #include "deck.h"
+#include "../graphics/graphics.hpp"
 #include "entity.h"
 #include <array>
 #include <deque>
@@ -24,7 +25,7 @@ private:
 
 public:
   Player() = default;
-  Player(Graphics &graphics) : Entity("./src/graphics/images/player.png") {
+  Player(Graphics &graphics, int id) : Entity("./src/graphics/images/player.png", id) {
     sprite.setColor(sf::Color(0, 0, 0, 100));
   };
   void play_card(PlayerCard *card); // from hand to base, just destroys card in
@@ -55,10 +56,10 @@ public:
     sprite.setScale(static_cast<float>(window_size.x) / texture.getSize().x,
                     static_cast<float>(window_size.y) / texture.getSize().y);
 
-    players_.push_back(*(new Player(graphics)));
-    players_.push_back(*(new Player(graphics)));
-    players_.push_back(*(new Player(graphics)));
-    players_.push_back(*(new Player(graphics)));
+    players_.push_back(*(new Player(graphics, 0)));
+    players_.push_back(*(new Player(graphics, 1)));
+    players_.push_back(*(new Player(graphics, 2)));
+    players_.push_back(*(new Player(graphics, 3)));
   };
   void clear_base(Base &base); // FIXME: just mock
   void destroy_base(Base &base);

@@ -1,8 +1,8 @@
 #ifndef GRAFICS_H
 #define GRAFICS_H
 
-#include <SFML/Graphics.hpp>
 #include "../../include/core/deck.h"
+#include <SFML/Graphics.hpp>
 
 class PlayerCard;
 class Deck;
@@ -23,9 +23,9 @@ private:
 
 public:
   sf::RenderWindow window;
-  std::vector<PlayerCard *> player_cards;
-  std::vector<Deck<PlayerCard> *> decks;
-  std::vector<Base *> active_bases;
+  Deck<PlayerCard *> player_cards;
+  Deck<PlayerCard *> decks;
+  Deck<Base *> active_bases;
 
 public:
   Graphics() = delete;
@@ -38,17 +38,6 @@ public:
   const float get_player_increase() const;
   ~Graphics() = default;
 }; // class Grafics
-
-class Drawable {
-public:
-  sf::Sprite sprite;
-  sf::Texture texture;
-
-public:
-  Drawable() = default;
-  Drawable(const std::string &texture_file);
-  ~Drawable() = default;
-}; // class Drawable
 
 } // namespace Mayhem
 

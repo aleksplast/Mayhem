@@ -4,9 +4,6 @@
 
 namespace Mayhem {
 
-void Base::draw(Graphics &graphics) // draw cards
-{}
-
 void Player::draw(Graphics &graphics) // draw cards
 {}
 

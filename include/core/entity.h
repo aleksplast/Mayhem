@@ -1,7 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "../graphics/graphics.hpp"
+#include "../graphics/drawable.hpp"
 
 namespace Mayhem {
 
@@ -9,7 +9,7 @@ class Entity : public Drawable {
     int id_;
 
 public:
-    Entity(const std::string &name_file) : Drawable(name_file) {};
+    Entity(const std::string &name_file, int id) : Drawable(name_file), id_(id) {};
     virtual ~Entity() {};
     int get_id() { return id_; };
 }; // class Entity
