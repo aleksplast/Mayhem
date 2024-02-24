@@ -2,16 +2,16 @@
 #define DECK_H
 
 #include <cstdint>
-#include <list>
 #include <cstdlib>
+#include <list>
 
 namespace Mayhem {
 
 template <class T> class Deck {
-private:
+  private:
     std::list<T> cards_;
 
-public: // Iterator functions
+  public: // Iterator functions
     using container = std::list<T>;
     using iterator = typename container::iterator;
     using const_iterator = typename container::const_iterator;
@@ -21,9 +21,9 @@ public: // Iterator functions
     const_iterator begin() const { return cards_.begin(); };
     const_iterator end() const { return cards_.end(); };
 
-public: // Interface functions
-    void gain_card(const T* card);
-    void remove_card(const T& card);
+  public: // Interface functions
+    void gain_card(const T *card);
+    void remove_card(const T &card);
     std::size_t size() const;
     void shuffle();
     int cmp_func();

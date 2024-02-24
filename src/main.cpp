@@ -7,8 +7,7 @@ int main() {
     Graphics graphics(Graphics::GameType::OFLINE, 0);
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    graphics.window.create(sf::VideoMode::getFullscreenModes()[0], "Mayhem",
-                          sf::Style::Default, settings);
+    graphics.window.create(sf::VideoMode::getFullscreenModes()[0], "Mayhem", sf::Style::Default, settings);
     graphics.window.setFramerateLimit(100);
 
     Engine engine(graphics);
@@ -18,7 +17,7 @@ int main() {
             ;
         {
             if (event.type == sf::Event::Closed) {
-            graphics.window.close();
+                graphics.window.close();
             }
         }
         graphics.window.clear();

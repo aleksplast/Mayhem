@@ -3,17 +3,11 @@
 
 namespace Mayhem {
 
-int cmp_func() {
-    return std::rand() - RAND_MAX / 2;
-}
+int cmp_func() { return std::rand() - RAND_MAX / 2; }
 
-template<class T>
-void Deck<T>::gain_card(const T* card) {
-    cards_.push_back(*card);
-}
+template <class T> void Deck<T>::gain_card(const T *card) { cards_.push_back(*card); }
 
-template<class T>
-void Deck<T>::remove_card(const T& card) {
+template <class T> void Deck<T>::remove_card(const T &card) {
     int card_id = card.get_id();
 
     for (auto it_curr = cards_.begin(), it_end = cards_.end(); it_curr != it_end; ++it_curr) {
@@ -24,19 +18,10 @@ void Deck<T>::remove_card(const T& card) {
     }
 }
 
-template <class T>
-std::size_t Deck<T>::size() const {
-    return cards_.size();
-}
+template <class T> std::size_t Deck<T>::size() const { return cards_.size(); }
 
-template<class T>
-void Deck<T>::shuffle() {
-    cards_.sort(cards_.begin(), cards_.end(), cmp_func());
-}
+template <class T> void Deck<T>::shuffle() { cards_.sort(cards_.begin(), cards_.end(), cmp_func()); }
 
-template<class T>
-int Deck<T>::cmp_func() {
-    return std::rand() - RAND_MAX / 2;
-}
+template <class T> int Deck<T>::cmp_func() { return std::rand() - RAND_MAX / 2; }
 
 } // namespace Mayhem

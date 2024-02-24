@@ -7,13 +7,13 @@
 namespace Mayhem {
 
 class Base : public Card {
-private:
+  private:
     uint32_t power_to_win_;
     std::array<uint32_t, 3> points_;
     Deck<Minion> cards_;
     uint32_t current_power_;
 
-    public:
+  public:
     void activate_abillity() override{};
 
     void gain_minion(const Minion *card) {
@@ -30,18 +30,16 @@ private:
 
     bool is_captured() const {
         if (current_power_ >= power_to_win_) {
-        return true;
+            return true;
         } else {
-        return false;
+            return false;
         }
     }
 
-public: // graphic functions
-    Base(Graphics &graphics, const std::string &base_file, int id,
-        std::string ability, uint32_t power_to_win,
-        std::array<uint32_t, 3> points)
-        : Card(graphics, base_file, id, ability), power_to_win_(power_to_win),
-            points_(points){};
+  public: // graphic functions
+    Base(Graphics &graphics, const std::string &base_file, int id, std::string ability, uint32_t power_to_win,
+         std::array<uint32_t, 3> points)
+        : Card(graphics, base_file, id, ability), power_to_win_(power_to_win), points_(points){};
 }; // class Base
 
 } // namespace Mayhem

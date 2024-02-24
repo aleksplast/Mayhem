@@ -8,8 +8,8 @@ void Player::draw(Graphics &graphics) // draw cards
 {}
 
 void Playground::set_player_posission(Graphics &graphics, uint16_t player_id) {
-    sf::Vector2f playground_size = sf::Vector2f(texture.getSize().x * sprite.getScale().x,
-                                                texture.getSize().y * sprite.getScale().y);
+    sf::Vector2f playground_size =
+        sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
     auto &curr_sprite = players_[player_id].sprite;
     switch (player_id) {
     case 0:
@@ -47,23 +47,19 @@ void Playground::set_rotate(Graphics &graphics, uint16_t player_id) {
 }
 
 void Playground::set_scale(Graphics &graphics, uint16_t player_id) {
-    sf::Vector2f playground_size = sf::Vector2f(texture.getSize().x * sprite.getScale().x,
-                                                texture.getSize().y * sprite.getScale().y);
+    sf::Vector2f playground_size =
+        sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
     auto texture_size = players_[player_id].texture.getSize();
     auto &curr_sprite = players_[player_id].sprite;
 
     if (player_id == 0) {
-        curr_sprite.setScale(
-            graphics.get_player_increase() * playground_size.x /
-                (graphics.get_num_players_per_side() * texture_size.x),
-            graphics.get_player_increase() * playground_size.y /
-                (graphics.get_num_players_per_side() * texture_size.y));
+        curr_sprite.setScale(graphics.get_player_increase() * playground_size.x /
+                                 (graphics.get_num_players_per_side() * texture_size.x),
+                             graphics.get_player_increase() * playground_size.y /
+                                 (graphics.get_num_players_per_side() * texture_size.y));
     } else {
-        curr_sprite.setScale(
-            playground_size.x /
-                (graphics.get_num_players_per_side() * texture_size.x),
-            playground_size.y /
-                (graphics.get_num_players_per_side() * texture_size.y));
+        curr_sprite.setScale(playground_size.x / (graphics.get_num_players_per_side() * texture_size.x),
+                             playground_size.y / (graphics.get_num_players_per_side() * texture_size.y));
     }
 }
 
@@ -73,8 +69,7 @@ void Playground::draw(Graphics &graphics) // draw bases, players
     uint16_t draw_player = graphics.get_draw_player();
     auto window_size = graphics.window.getSize();
     do {
-        uint16_t player_id =
-            (num_players + draw_player - graphics.get_draw_player()) % num_players;
+        uint16_t player_id = (num_players + draw_player - graphics.get_draw_player()) % num_players;
         set_player_posission(graphics, player_id);
         set_rotate(graphics, player_id);
         set_scale(graphics, player_id);
