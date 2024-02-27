@@ -1,4 +1,4 @@
-#include "../../include/graphics/graphics.hpp"
+#include "graphics/graphics.hpp"
 
 namespace Mayhem {
 

@@ -22,6 +22,7 @@ template <class T> class Deck {
     const_iterator end() const { return cards_.end(); };
 
   public: // Interface functions
+    Deck() {};
     void gain_card(const T *card);
     void remove_card(const T &card);
     std::size_t size() const;

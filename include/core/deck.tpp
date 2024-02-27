@@ -3,8 +3,6 @@
 
 namespace Mayhem {
 
-int cmp_func() { return std::rand() - RAND_MAX / 2; }
-
 template <class T> void Deck<T>::gain_card(const T *card) { cards_.push_back(*card); }
 
 template <class T> void Deck<T>::remove_card(const T &card) {
@@ -20,8 +18,5 @@ template <class T> void Deck<T>::remove_card(const T &card) {
 
 template <class T> std::size_t Deck<T>::size() const { return cards_.size(); }
 
-template <class T> void Deck<T>::shuffle() { cards_.sort(cards_.begin(), cards_.end(), cmp_func()); }
-
-template <class T> int Deck<T>::cmp_func() { return std::rand() - RAND_MAX / 2; }
-
+template <class T> void Deck<T>::shuffle() { std::shuffle(cards.begin(), cards.end()) }
 } // namespace Mayhem

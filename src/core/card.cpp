@@ -1,5 +1,5 @@
-#include "../../include/core/card.h"
-#include "../../include/core/deck.h"
+#include "core/card.h"
+#include "core/deck.h"
 #include <cstdint>
 
 namespace Mayhem {

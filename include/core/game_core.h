@@ -1,7 +1,7 @@
 #ifndef GAME_CORE_H
 #define GAME_CORE_H
 
-#include "../graphics/graphics.hpp"
+#include "graphics/graphics.hpp"
 #include "card.h"
 #include "deck.h"
 #include "entity.h"

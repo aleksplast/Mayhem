@@ -1,7 +1,7 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include "../graphics/graphics.hpp"
+#include "graphics/graphics.hpp"
 #include "entity.h"
 #include <array>
 #include <deque>

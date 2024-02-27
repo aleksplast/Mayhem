@@ -1,7 +1,7 @@
 #ifndef GRAFICS_H
 #define GRAFICS_H
 
-#include "../../include/core/deck.h"
+#include "core/deck.h"
 #include <SFML/Graphics.hpp>
 
 class PlayerCard;
