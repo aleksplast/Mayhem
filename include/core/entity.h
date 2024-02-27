@@ -14,7 +14,6 @@ class Entity : public Drawable {
     Entity(const std::string &name_file, const int id) : Drawable(name_file), id_(id){};
     virtual ~Entity(){};
     int get_id() { return id_; };
-    virtual ~Entity() = 0;
 }; // class Entity
 
 } // namespace Mayhem
