@@ -7,9 +7,70 @@
 
 namespace Mayhem {
 
+void Player::set_decks_position(Graphics &graphics) {
+    sf::Vector2f player_pos = sprite.getPosition();
+    sf::Vector2f player_size =
+        sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
+
+    size_t num_card = 0;
+    size_t num_cards = hand_.size();
+    switch (static_cast<int>(sprite.getRotation())) {
+    case 0:
+        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
+            curr_card->sprite.setPosition(player_pos.x + (num_card - static_cast<float>(num_cards) / 2) *
+                                                             graphics.card_shift_to_player * player_size.x,
+                                          player_pos.y);
+        }
+        break;
+    case 90:
+        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
+            curr_card->sprite.setPosition(player_pos.x, player_pos.y + (num_card - static_cast<float>(num_cards) / 2) *
+                                                                           graphics.card_shift_to_player *
+                                                                           player_size.y);
+        }
+        break;
+    case 180:
+        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
+            curr_card->sprite.setPosition(player_pos.x - (num_card - static_cast<float>(num_cards) / 2) *
+                                                             graphics.card_shift_to_player * player_size.x,
+                                          player_pos.y);
+        }
+        break;
+    case 270:
+        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
+            curr_card->sprite.setPosition(player_pos.x, player_pos.y - (num_card - static_cast<float>(num_cards) / 2) *
+                                                                           graphics.card_shift_to_player *
+                                                                           player_size.y);
+        }
+        break;
+    }
+}
+
+void Player::set_decks_rotation() {
+    auto player_rotation = sprite.getRotation();
+    for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card) {
+        curr_card->sprite.setRotation(player_rotation);
+    }
+}
+
+void Player::set_decks_scale(Graphics &graphics) {
+    sf::Vector2f player_size =
+        sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
+
+    for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card) {
+        sf::Vector2u texture_size = curr_card->texture.getSize();
+        const float card_scale = player_size.x * graphics.card_scale_to_player / texture_size.x;
+        curr_card->sprite.setScale(card_scale, card_scale);
+    }
+}
+
 void Player::draw(Graphics &graphics) // draw cards
 {
-
+    set_decks_position(graphics);
+    set_decks_scale(graphics);
+    set_decks_rotation();
+    for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card)
+        graphics.window.draw(curr_card->sprite);
 }
 
 void Playground::set_player_position(Graphics &graphics, uint16_t player_id) {
@@ -44,7 +105,7 @@ void Playground::set_player_rotate(Graphics &graphics, uint16_t player_id) {
         curr_sprite.setRotation(90);
         break;
     case 3:
-        curr_sprite.setRotation(-90);
+        curr_sprite.setRotation(270);
         break;
     default:
         break;

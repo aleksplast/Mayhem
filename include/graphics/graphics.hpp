@@ -20,6 +20,8 @@ class Graphics {
   public:
     constexpr static const float player_scale_to_playground = 0.35;
     constexpr static const float player_increase = 1.8;
+    constexpr static const float card_shift_to_player = 0.03;
+    constexpr static const float card_scale_to_player = 0.2;
 
   public:
     sf::RenderWindow window;
