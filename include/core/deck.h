@@ -1,6 +1,7 @@
 #ifndef DECK_H
 #define DECK_H
 
+#include <algorithm>
 #include <cstdint>
 #include <cstdlib>
 #include <list>
@@ -21,13 +22,13 @@ template <class T> class Deck {
     const_iterator begin() const { return cards_.begin(); };
     const_iterator end() const { return cards_.end(); };
 
-public: // Interface functions
-    Deck() {};
+  public: // Interface functions
+    Deck(){};
     void gain_card(const T *card);
     void remove_card(const T &card);
     std::size_t size() const;
     void shuffle();
-    T take_card() { return cards_.pop_back(); };
+    T take_card();
 
 }; // class Deck
 

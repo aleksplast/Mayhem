@@ -5,7 +5,10 @@
 #include "card.h"
 #include "deck.h"
 #include "entity.h"
+#include "base.h"
+
 #include <array>
+#include <cstdint>
 #include <deque>
 #include <iostream>
 #include <list>
@@ -24,19 +27,18 @@ class Player : public Entity {
 
     uint32_t points_;
 
+    virtual void activate_abillity() {};
+
 // get number of card
 public:
-  Player() = default;
-  Player(Graphics &graphics) : Entity("./src/graphics/images/player.png") {
+  Player(Graphics &graphics, uint32_t id) : Entity("./src/graphics/images/player.png", id) {
     sprite.setColor(sf::Color(0, 0, 0, 100));
   };
-  void play_card(PlayerCard *card); // from hand to base, just destroys card in
-                                    // hand, no interaction with the base
-    ~Player() = default;
-  
+  ~Player() = default;
+
 public:
-    void play_card(PlayerCard* card); //from hand to base, just destroys card in hand, no interaction with the base
-    void dump_card(PlayerCard* card); // card to dump deck
+    void play_card(PlayerCard* card) {} ;//from hand to base, just destroys card in hand, no interaction with the base
+    void dump_card(PlayerCard* card) {}; // card to dump deck
     void end_turn();
     void take_card(uint32_t number_of_cards); // from deck to hand, just card to hand
     void set_points(uint32_t point);
@@ -71,22 +73,25 @@ public:
 
     Playground(std::vector<Entity*>& entities);
     std::vector<Base*> check_bases();
-    LeaderBoard_t& capture_base(Base& base);
+    LeaderBoard_t capture_base(Base& base);
     void clear_base(Base& base); // FIXME: just mock
     void destroy_base(Base& base);
     void set_new_base();
     ~Playground() = default;
 
+
 public:
-    uint16_t get_number_of_players();
+    uint16_t get_number_of_players() { return players_.size(); };
 
 
 public: //graphic functions
-    void draw(sf::Window &window);
+    void set_player_position(Graphics &graphics, uint16_t player_id);
+    void set_rotate(Graphics &graphics, uint16_t player_id);
+    void set_scale(Graphics &graphics, uint16_t player_id);
+    void draw(Graphics &graphics);
 }; // class Playground
 
 class Engine {
-
 
 private:
     int time_; // FIXME: just mock
@@ -100,7 +105,7 @@ public:
     void give_card(uint16_t player_id, uint16_t card_id); // так это типо отдать игроку карту, после завершения хода
     bool place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
     void end_turn(uint16_t player_id);
-    void distribute_points(LeaderBoard_t& leaderboard);
+    void distribute_points(LeaderBoard_t& leaderboard) {};
 
     Engine(Graphics &graphics) : playground(graphics){};
 

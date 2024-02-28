@@ -1,4 +1,5 @@
-#include "../../include/graphics/drawable.hpp"
+#include "graphics/drawable.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace Mayhem {
 

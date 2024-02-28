@@ -5,7 +5,6 @@
 #include <SFML/Graphics.hpp>
 
 class PlayerCard;
-class Deck;
 class Base;
 
 namespace Mayhem {

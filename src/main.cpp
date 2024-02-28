@@ -1,5 +1,6 @@
-#include "../include/core/game_core.h"
-#include "../include/graphics/graphics.hpp"
+#include "core/game_core.h"
+#include "graphics/graphics.hpp"
+#include <SFML/Graphics.hpp>
 
 using namespace Mayhem;
 
