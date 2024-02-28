@@ -56,13 +56,12 @@ void Playground::set_scale(Graphics &graphics, uint16_t player_id) {
     auto &curr_sprite = players_[player_id]->sprite;
 
     if (player_id == 0) {
-        curr_sprite.setScale(graphics.get_player_increase() * playground_size.x /
-                                 (graphics.get_num_players_per_side() * texture_size.x),
-                             graphics.get_player_increase() * playground_size.y /
-                                 (graphics.get_num_players_per_side() * texture_size.y));
+        curr_sprite.setScale(
+            graphics.player_increase * playground_size.x * graphics.player_scale_to_playground / texture_size.x,
+            graphics.player_increase * playground_size.y * graphics.player_scale_to_playground / texture_size.y);
     } else {
-        curr_sprite.setScale(playground_size.x / (graphics.get_num_players_per_side() * texture_size.x),
-                             playground_size.y / (graphics.get_num_players_per_side() * texture_size.y));
+        curr_sprite.setScale(playground_size.x * graphics.player_scale_to_playground / texture_size.x,
+                             playground_size.y * graphics.player_scale_to_playground / texture_size.y);
     }
 }
 
