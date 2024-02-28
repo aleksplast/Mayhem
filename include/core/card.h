@@ -1,8 +1,8 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include "graphics/graphics.hpp"
 #include "entity.h"
+#include "graphics/graphics.hpp"
 #include <array>
 #include <deque>
 #include <list>
@@ -18,7 +18,7 @@ class Card : public Entity {
 
   public:
     Card(const std::string &name_file, int id, std::string ability) : Entity(name_file, id){};
-    virtual void activate_abillity() = 0;
+    virtual void activate_abillity(){};
 
 }; // class Card
 
@@ -27,9 +27,8 @@ class PlayerCard : public Card {
     uint32_t owner_id_;
 
   public:
-    PlayerCard() = default;
     PlayerCard(const std::string &name_file, int id, std::string ability) : Card(name_file, id, ability){};
-    uint32_t get_owner();
+    uint32_t get_owner() { return owner_id_; };
     void change_owner(uint32_t owner);
 }; // class PlayerCard
 

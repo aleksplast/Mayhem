@@ -1,5 +1,6 @@
-#include "../../include/core/card.h"
-#include "../../include/core/game_core.h"
+#include "SFML/Graphics.hpp"
+#include "core/card.h"
+#include "core/game_core.h"
 #include <SFML/System/Vector2.hpp>
 
 namespace Mayhem {
@@ -7,7 +8,7 @@ namespace Mayhem {
 void Player::draw(Graphics &graphics) // draw cards
 {}
 
-void Playground::set_player_posission(Graphics &graphics, uint16_t player_id) {
+void Playground::set_player_position(Graphics &graphics, uint16_t player_id) {
     sf::Vector2f playground_size =
         sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
     auto &curr_sprite = players_[player_id].sprite;
@@ -70,7 +71,7 @@ void Playground::draw(Graphics &graphics) // draw bases, players
     auto window_size = graphics.window.getSize();
     do {
         uint16_t player_id = (num_players + draw_player - graphics.get_draw_player()) % num_players;
-        set_player_posission(graphics, player_id);
+        set_player_position(graphics, player_id);
         set_rotate(graphics, player_id);
         set_scale(graphics, player_id);
         players_[player_id].draw(graphics);
