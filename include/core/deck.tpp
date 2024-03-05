@@ -3,6 +3,12 @@
 
 namespace Mayhem {
 
+template <class T> void Deck<T>::clear_deck() { 
+    for (size_t i = 0, sz = size(); i < sz; ++i) {
+        auto _ = take_card();
+    }
+}
+
 template <class T> void Deck<T>::gain_card(const T &card) { cards_.push_back(card); }
 
 template <class T> void Deck<T>::remove_card(const T &card) {

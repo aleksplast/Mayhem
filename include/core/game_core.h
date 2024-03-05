@@ -39,13 +39,13 @@ class Player : public Entity {
     ~Player() = default;
 
   public:
-    void play_card(PlayerCard *card){}; // from hand to base, just destroys card in hand, no interaction with the base
+    void play_card(PlayerCard *card);// from hand to base, just destroys card in hand, no interaction with the base
     void dump_card(PlayerCard *card){}; // card to dump deck
     void gain_card_on_start(PlayerCard *card); // gain card to deck on the start of the game
     void end_turn();
     void take_card(uint32_t number_of_cards); // from deck to hand, just card to hand
     void set_points(uint32_t point);
-    std::size_t get_number_of_cards() { return hand_.size(); };
+    size_t get_number_of_cards() { return hand_.size(); };
 
   public: // graphic function
     void draw(Graphics &graphic);

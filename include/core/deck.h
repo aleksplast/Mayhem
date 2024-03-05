@@ -25,9 +25,10 @@ template <class T> class Deck {
 
   public: // Interface functions
     Deck() {};
+    void clear_deck(); 
     void gain_card(const T& card);
     void remove_card(const T &card);
-    std::size_t size() const;
+    size_t size() const;
     void shuffle();
     T take_card();
 
