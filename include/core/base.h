@@ -10,20 +10,20 @@ class Base : public Card {
   private:
     uint32_t power_to_win_;
     std::array<uint32_t, 3> points_;
-    Deck<Minion> cards_;
+    Deck<Minion *> cards_;
     uint32_t current_power_;
 
   public:
     void activate_abillity() override{};
 
-    void gain_minion(const Minion *card) {
+    void gain_minion(Minion *card) {
         current_power_ += card->get_power();
 
         cards_.gain_card(card);
     }
 
-    void remove_minion(const Minion &card) {
-        current_power_ -= card.get_power();
+    void remove_minion(Minion *card) {
+        current_power_ -= card->get_power();
 
         cards_.remove_card(card);
     }
@@ -41,7 +41,7 @@ class Base : public Card {
          std::array<uint32_t, 3> points)
         : Card(base_file, id, ability), power_to_win_(power_to_win), points_(points){};
 
-    const Deck<Minion> &get_cards() { return cards_; }
+    const Deck<Minion *> &get_cards() { return cards_; }
 }; // class Base
 
 } // namespace Mayhem

@@ -11,7 +11,7 @@ void Player::draw(Graphics &graphics) // draw cards
 void Playground::set_player_position(Graphics &graphics, uint16_t player_id) {
     sf::Vector2f playground_size =
         sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
-    auto &curr_sprite = players_[player_id].sprite;
+    auto &curr_sprite = players_[player_id]->sprite;
     switch (player_id) {
     case 0:
         curr_sprite.setPosition(playground_size.x / 2, playground_size.y);
@@ -31,7 +31,7 @@ void Playground::set_player_position(Graphics &graphics, uint16_t player_id) {
 }
 
 void Playground::set_rotate(Graphics &graphics, uint16_t player_id) {
-    auto &curr_sprite = players_[player_id].sprite;
+    auto &curr_sprite = players_[player_id]->sprite;
     switch (player_id) {
     case 1:
         curr_sprite.setRotation(180);
@@ -50,8 +50,8 @@ void Playground::set_rotate(Graphics &graphics, uint16_t player_id) {
 void Playground::set_scale(Graphics &graphics, uint16_t player_id) {
     sf::Vector2f playground_size =
         sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
-    auto texture_size = players_[player_id].texture.getSize();
-    auto &curr_sprite = players_[player_id].sprite;
+    auto texture_size = players_[player_id]->texture.getSize();
+    auto &curr_sprite = players_[player_id]->sprite;
 
     if (player_id == 0) {
         curr_sprite.setScale(graphics.get_player_increase() * playground_size.x /
@@ -74,8 +74,8 @@ void Playground::draw(Graphics &graphics) // draw bases, players
         set_player_position(graphics, player_id);
         set_rotate(graphics, player_id);
         set_scale(graphics, player_id);
-        players_[player_id].draw(graphics);
-        graphics.window.draw(players_[draw_player].sprite);
+        players_[player_id]->draw(graphics);
+        graphics.window.draw(players_[draw_player]->sprite);
         draw_player = (draw_player + 1) % num_players;
     } while (draw_player != graphics.get_draw_player());
 }

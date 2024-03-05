@@ -1,6 +1,10 @@
 #include "core/game_core.h"
 #include "graphics/graphics.hpp"
+#include "json/parser.h"
 #include <SFML/Graphics.hpp>
+#include "core/base.h"
+#include "core/deck.h"
+
 
 using namespace Mayhem;
 
@@ -11,7 +15,9 @@ int main() {
     graphics.window.create(sf::VideoMode::getFullscreenModes()[0], "Mayhem", sf::Style::Default, settings);
     graphics.window.setFramerateLimit(100);
 
-    Engine engine(graphics);
+    Engine engine (graphics);
+    engine.start_game();
+
     while (graphics.window.isOpen()) {
         sf::Event event;
         while (graphics.window.pollEvent(event))

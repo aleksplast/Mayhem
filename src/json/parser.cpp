@@ -27,19 +27,17 @@ void Parser::parse_minion(std::vector<Entity*>& entities, const Value& item_valu
     std::string name, ability;
     uint32_t power;
 
-    for (const auto& character : item_value.items()) {
-        for (const auto& field : character.value().items()) {
-            if (field.key() == "name") {
-                name = field.value();
-            } else if (field.key() == "ability") {
-                ability = field.value();
-            } else if (field.key() == "power") {
-                power = field.value();
-            }
+    for (const auto& field : item_value.items()) {
+        if (field.key() == "name") {
+            name = field.value();
+        } else if (field.key() == "ability") {
+            ability = field.value();
+        } else if (field.key() == "power") {
+            power = field.value();
         }
     }
 
-    std::string minion_file = "../../include/graphics/images/" + name;
+    std::string minion_file = "../src/graphics/images/" + name;
 
     Entity *ent = new Minion(minion_file, entities.size(), ability, power);
     entities.push_back(ent);
@@ -49,17 +47,16 @@ void Parser::parse_minion(std::vector<Entity*>& entities, const Value& item_valu
 void Parser::parse_action(std::vector<Entity*>& entities, const Value& item_value) {
     std::string name, ability;
 
-    for (const auto& character : item_value.items()) {
-        for (const auto& field : character.value().items()) {
-            if (field.key() == "name") {
-                name = field.value();
-            }
-            if (field.key() == "ability") {
-                ability = field.value();
-            }
+    for (const auto& field : item_value.items()) {
+        if (field.key() == "name") {
+            name = field.value();
+        }
+        if (field.key() == "ability") {
+            ability = field.value();
         }
     }
-    std::string action_file = "../../include/graphics/images/" + name;
+
+    std::string action_file = "../src/graphics/images/" + name;
 
     Entity *ent = new Action(action_file, entities.size(), ability);
     entities.push_back(ent);
@@ -70,21 +67,19 @@ void Parser::parse_base(std::vector<Entity*>& entities, const Value& item_value)
     uint32_t power;
     std::array<uint32_t, 3> points;
 
-    for (const auto& character : item_value.items()) {
-        for (const auto& field : character.value().items()) {
-            if (field.key() == "name") {
-                name = field.value();
-            } else if (field.key() == "ability") {
-                ability = field.value();
-            } else if (field.key() == "power") {
-                power = field.value();
-            } else if (field.key() == "points") {
-                // PARSE POINTS HERE
-            }
+    for (const auto& field : item_value.items()) {
+        if (field.key() == "name") {
+            name = field.value();
+        } else if (field.key() == "ability") {
+            ability = field.value();
+        } else if (field.key() == "power") {
+            power = field.value();
+        } else if (field.key() == "points") {
+            // PARSE POINTS HERE
         }
     }
 
-    std::string minion_file = "../../include/graphics/images/" + name;
+    std::string minion_file = "../src/graphics/images/" + name;
 
     Entity *ent = new Base(minion_file, entities.size(), ability, power, points);
     entities.push_back(ent);
