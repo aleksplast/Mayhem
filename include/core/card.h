@@ -37,7 +37,7 @@ class Minion : public PlayerCard {
     uint32_t power_;
 
   public:
-    Minion(const std::string &minion_file, int id, std::string ability) : PlayerCard(minion_file, id, ability){};
+    Minion(const std::string &minion_file, int id, std::string ability, uint32_t power) : PlayerCard(minion_file, id, ability){};
     void activate_abillity() override{};
     uint32_t get_power() const { return power_; }
 }; // class Minion
