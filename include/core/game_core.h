@@ -6,7 +6,7 @@
 #include "deck.h"
 #include "entity.h"
 #include "graphics/graphics.hpp"
-#include "json/parser.h"
+#include "parser/parser.h"
 
 #include <array>
 #include <cstdint>
