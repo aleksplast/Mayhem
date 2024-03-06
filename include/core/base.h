@@ -64,7 +64,7 @@ class Base : public Card {
   public: // graphic functions
     Base(const std::string &base_file, int id, std::string ability, uint32_t power_to_win,
          std::array<uint32_t, 3> points)
-        : Card(base_file, id, ability), power_to_win_(power_to_win), points_(points){};
+        : Card(base_file, id, ability), power_to_win_(power_to_win), points_(points), cards_("../src/graphics/images/deck"){};
 
     const Deck<Minion *> &get_cards() { return cards_; }
 }; // class Base

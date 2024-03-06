@@ -1,3 +1,6 @@
+#ifndef DRAWABLE_H
+#define DRAWABLE_H
+
 #include <SFML/Graphics.hpp>
 
 namespace Mayhem {
@@ -14,3 +17,5 @@ class Drawable {
 }; // class Drawable
 
 } // namespace Mayhem
+
+#endif // DRAWABLE_H

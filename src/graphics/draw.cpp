@@ -24,24 +24,35 @@ void Player::set_decks_position(Graphics &graphics) {
                 ->sprite.setPosition(player_pos.x + static_cast<float>(2 * num_card - num_cards) * shift / 2,
                                      player_pos.y);
         }
+        deck_.sprite.setPosition(player_pos.x + player_size.x / 2, player_pos.y);
+        dump_deck_.sprite.setPosition(player_pos.x - player_size.x / 2, player_pos.y);
+
     } else if (rotation == 90.0) {
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
             (*curr_card)
                 ->sprite.setPosition(player_pos.x,
                                      player_pos.y + static_cast<float>(2 * num_card - num_cards) * shift / 2);
         }
+        deck_.sprite.setPosition(player_pos.x, player_pos.y - player_size.x / 2);
+        dump_deck_.sprite.setPosition(player_pos.x, player_pos.y + player_size.x / 2);
+
     } else if (rotation == 180.0) {
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
             (*curr_card)
                 ->sprite.setPosition(player_pos.x - static_cast<float>(2 * num_card - num_cards) * shift / 2,
                                      player_pos.y);
         }
+        deck_.sprite.setPosition(player_pos.x - player_size.x / 2, player_pos.y);
+        dump_deck_.sprite.setPosition(player_pos.x + player_size.x / 2, player_pos.y);
+
     } else if (rotation == 270.0) {
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
             (*curr_card)
                 ->sprite.setPosition(player_pos.x,
                                      player_pos.y - static_cast<float>(2 * num_card - num_cards) * shift / 2);
         }
+        deck_.sprite.setPosition(player_pos.x, player_pos.y + player_size.x / 2);
+        dump_deck_.sprite.setPosition(player_pos.x, player_pos.y - player_size.x / 2);
     }
 }
 
@@ -50,6 +61,8 @@ void Player::set_decks_rotation() {
     for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card) {
         (*curr_card)->sprite.setRotation(player_rotation);
     }
+    deck_.sprite.setRotation(player_rotation);
+    dump_deck_.sprite.setRotation(player_rotation);
 }
 
 void Player::set_decks_scale(Graphics &graphics) {
@@ -61,6 +74,11 @@ void Player::set_decks_scale(Graphics &graphics) {
         const float card_scale = player_size.x * graphics.card_scale_to_player / texture_size.x;
         (*curr_card)->sprite.setScale(card_scale, card_scale);
     }
+    const float deck_scale = player_size.x * graphics.card_scale_to_player / deck_.texture.getSize().x;
+    const float dump_deck_scale = player_size.x * graphics.card_scale_to_player / dump_deck_.texture.getSize().x;
+
+    deck_.sprite.setScale(deck_scale, deck_scale);
+    dump_deck_.sprite.setScale(dump_deck_scale, dump_deck_scale);
 }
 
 void Player::draw(Graphics &graphics) // draw cards
@@ -68,6 +86,9 @@ void Player::draw(Graphics &graphics) // draw cards
     set_decks_position(graphics);
     set_decks_scale(graphics);
     set_decks_rotation();
+
+    graphics.window.draw(deck_.sprite);
+    graphics.window.draw(dump_deck_.sprite);
     for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card)
         graphics.window.draw((*curr_card)->sprite);
 }
@@ -156,8 +177,8 @@ void Playground::draw(Graphics &graphics) // draw bases, players
         set_player_position(graphics, player_id);
         set_player_rotate(graphics, player_id);
         set_player_scale(graphics, player_id);
-        players_[player_id]->draw(graphics);
         graphics.window.draw(players_[draw_player]->sprite);
+        players_[player_id]->draw(graphics);
         draw_player = (draw_player + 1) % num_players;
     } while (draw_player != graphics.get_draw_player());
 

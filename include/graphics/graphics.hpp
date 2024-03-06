@@ -18,7 +18,7 @@ class Graphics {
     uint16_t draw_player_; // num player who graphic draw
 
   public:
-    constexpr static const float player_scale_to_playground = 0.35;
+    constexpr static const float player_scale_to_playground = 0.38;
     constexpr static const float player_increase = 1.8;
     constexpr static const float base_shift_to_playground = 0.1;
     constexpr static const float card_scale_to_player = 0.2;

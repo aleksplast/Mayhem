@@ -6,10 +6,11 @@
 #include <cstdlib>
 #include <list>
 #include <iostream>
+#include "graphics/drawable.hpp"
 
 namespace Mayhem {
 
-template <class T> class Deck {
+template <class T> class Deck : public Drawable {
   private:
     std::list<T> cards_;
 
@@ -24,7 +25,8 @@ template <class T> class Deck {
     const_iterator end() const { return cards_.end(); };
 
   public: // Interface functions
-    Deck() {};
+    Deck() = default;
+    Deck(const std::string &deck_file) : Drawable(deck_file) {};
     void clear_deck();
     void gain_card(const T& card);
     void remove_card(const T &card);
