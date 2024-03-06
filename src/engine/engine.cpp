@@ -1,4 +1,5 @@
-#include "core/game_core.h"
+#include "engine/engine.h"
+#include "engine/player.h"
 #include "core/base.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
@@ -78,80 +79,9 @@ void Engine::start_game() {
 
         curr_id = entities_.size();
 
-        player->take_card(5);
+        player->take_card(2);
     }
 
-}
-
-} // namespace Mayhem
-
-namespace Mayhem { // Playground methods
-
-std::vector<Base *> Playground::check_bases() {
-    std::vector<Base *> captured_bases{};
-
-    for (auto curr = active_bases_.begin(), end = active_bases_.end(); curr != end;
-         ++curr) { // here we can iterate over ref, not iterators
-        if ((*curr)->is_captured()) {
-            captured_bases.push_back(*curr);
-        }
-    }
-
-    return captured_bases;
-}
-
-LeaderBoard_t Playground::capture_base(Base *base) {
-    auto cards = base->get_cards();
-    LeaderBoard_t leader_board;
-
-    for (auto curr = cards.begin(), end = cards.end(); curr != end; ++curr) {
-        players_[(*curr)->get_owner()]->dump_card(*curr); //
-        leader_board[(*curr)->get_owner()] += (*curr)->get_power();
-        base->remove_minion(*curr);
-    }
-
-    return leader_board;
-}
-
-void Playground::destroy_base(Base *base) {
-    active_bases_.remove_card(base);
-    dump_.gain_card(base);
-}
-
-void Playground::set_new_base() {
-    Base *top_base = bases_.take_card();
-    active_bases_.gain_card(top_base);
-}
-
-void Playground::gain_base_on_start(Base *base) { bases_.gain_card(base); }
-
-} // namespace Mayhem
-
-namespace Mayhem { // Player methods
-
-void Player::dump_card (PlayerCard* card) {
-    deck_.remove_card(card);
-    dump_deck_.gain_card(card);
-}
-
-void Player::take_card (uint32_t number_of_cards) { 
-    for (uint32_t i = 0; i < number_of_cards; ++i) {
-        if (deck_.size == 0) {
-            deck_ = dump_deck_;
-            dump_deck_.clear_deck();
-        }
-
-        PlayerCard* new_card = deck_.take_card();
-        hand_.take_card(new_card);
-    }
-}
-
-void Player::play_card (PlayerCard *card) {
-    hand_.remove_card(card);
-}
-
-void Player::gain_card_on_start(PlayerCard *card) {
-    dump_deck_.gain_card(card);
 }
 
 } // namespace Mayhem

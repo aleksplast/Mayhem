@@ -1,4 +1,4 @@
-#include "core/game_core.h"
+#include "engine/engine.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
 #include "core/base.h"
@@ -16,6 +16,7 @@ int main() {
 
     Engine engine (graphics);
     engine.start_game();
+    // engine.dump_state("dump_file");
 
     while (graphics.window.isOpen()) {
         sf::Event event;

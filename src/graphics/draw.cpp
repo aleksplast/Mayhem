@@ -1,6 +1,8 @@
 #include "SFML/Graphics.hpp"
 #include "core/card.h"
-#include "core/game_core.h"
+#include "engine/player.h"
+#include "engine/playground.h"
+#include "engine/engine.h"
 #include <SFML/System/Vector2.hpp>
 
 namespace Mayhem {
