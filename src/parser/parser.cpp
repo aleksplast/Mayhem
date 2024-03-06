@@ -77,7 +77,11 @@ void Parser::parse_base(std::vector<Entity *> &entities, const Value &item_value
         } else if (field.key() == "power") {
             power = field.value();
         } else if (field.key() == "points") {
-            // PARSE POINTS HERE
+            size_t i = 0;
+            for (const auto& point : (field.value()).items()) {
+                points[i] = point.value();
+                ++i;
+            } 
         }
     }
 
