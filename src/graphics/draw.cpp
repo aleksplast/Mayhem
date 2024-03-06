@@ -17,28 +17,28 @@ void Player::set_decks_position(Graphics &graphics) {
     switch (static_cast<int>(sprite.getRotation())) {
     case 0:
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            curr_card->sprite.setPosition(player_pos.x + (num_card - static_cast<float>(num_cards) / 2) *
+            (*curr_card)->sprite.setPosition(player_pos.x + (num_card - static_cast<float>(num_cards) / 2) *
                                                              graphics.card_shift_to_player * player_size.x,
                                           player_pos.y);
         }
         break;
     case 90:
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            curr_card->sprite.setPosition(player_pos.x, player_pos.y + (num_card - static_cast<float>(num_cards) / 2) *
+            (*curr_card)->sprite.setPosition(player_pos.x, player_pos.y + (num_card - static_cast<float>(num_cards) / 2) *
                                                                            graphics.card_shift_to_player *
                                                                            player_size.y);
         }
         break;
     case 180:
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            curr_card->sprite.setPosition(player_pos.x - (num_card - static_cast<float>(num_cards) / 2) *
+            (*curr_card)->sprite.setPosition(player_pos.x - (num_card - static_cast<float>(num_cards) / 2) *
                                                              graphics.card_shift_to_player * player_size.x,
                                           player_pos.y);
         }
         break;
     case 270:
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            curr_card->sprite.setPosition(player_pos.x, player_pos.y - (num_card - static_cast<float>(num_cards) / 2) *
+            (*curr_card)->sprite.setPosition(player_pos.x, player_pos.y - (num_card - static_cast<float>(num_cards) / 2) *
                                                                            graphics.card_shift_to_player *
                                                                            player_size.y);
         }
@@ -49,7 +49,7 @@ void Player::set_decks_position(Graphics &graphics) {
 void Player::set_decks_rotation() {
     auto player_rotation = sprite.getRotation();
     for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card) {
-        curr_card->sprite.setRotation(player_rotation);
+        (*curr_card)->sprite.setRotation(player_rotation);
     }
 }
 
@@ -58,9 +58,9 @@ void Player::set_decks_scale(Graphics &graphics) {
         sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
 
     for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card) {
-        sf::Vector2u texture_size = curr_card->texture.getSize();
+        sf::Vector2u texture_size = (*curr_card)->texture.getSize();
         const float card_scale = player_size.x * graphics.card_scale_to_player / texture_size.x;
-        curr_card->sprite.setScale(card_scale, card_scale);
+        (*curr_card)->sprite.setScale(card_scale, card_scale);
     }
 }
 
@@ -70,7 +70,7 @@ void Player::draw(Graphics &graphics) // draw cards
     set_decks_scale(graphics);
     set_decks_rotation();
     for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card)
-        graphics.window.draw(curr_card->sprite);
+        graphics.window.draw((*curr_card)->sprite);
 }
 
 void Playground::set_player_position(Graphics &graphics, uint16_t player_id) {
@@ -96,7 +96,7 @@ void Playground::set_player_position(Graphics &graphics, uint16_t player_id) {
 }
 
 void Playground::set_player_rotate(Graphics &graphics, uint16_t player_id) {
-    auto &curr_sprite = players_[player_id].sprite;
+    auto &curr_sprite = players_[player_id]->sprite;
     switch (player_id) {
     case 1:
         curr_sprite.setRotation(180);
@@ -138,8 +138,8 @@ void Playground::draw(Graphics &graphics) // draw bases, players
         set_player_position(graphics, player_id);
         set_player_rotate(graphics, player_id);
         set_player_scale(graphics, player_id);
-        players_[player_id].draw(graphics);
-        graphics.window.draw(players_[draw_player].sprite);
+        players_[player_id]->draw(graphics);
+        graphics.window.draw(players_[draw_player]->sprite);
         draw_player = (draw_player + 1) % num_players;
     } while (draw_player != graphics.get_draw_player());
 }

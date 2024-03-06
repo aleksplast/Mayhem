@@ -54,8 +54,8 @@ class Playground : public Drawable {
 
   public: // graphic functions
     void set_player_position(Graphics &graphics, uint16_t player_id);
-    void set_rotate(Graphics &graphics, uint16_t player_id);
-    void set_scale(Graphics &graphics, uint16_t player_id);
+    void set_player_rotate(Graphics &graphics, uint16_t player_id);
+    void set_player_scale(Graphics &graphics, uint16_t player_id);
     void draw(Graphics &graphics);
 }; // class Playground
 

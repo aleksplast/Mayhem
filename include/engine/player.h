@@ -40,6 +40,9 @@ class Player : public Entity {
 
   public: // graphic function
     void draw(Graphics &graphic);
+    void set_decks_position(Graphics &graphics);
+    void set_decks_scale(Graphics &graphics);
+    void set_decks_rotation();
 }; // class Player
 
 } // namespace Mayhem
