@@ -3,6 +3,7 @@
 #include "core/card.h"
 #include "core/entity.h"
 #include <nlohmann/json.hpp>
+#include <variant>
 
 namespace Mayhem { // Parser methods
 
@@ -12,13 +13,15 @@ void Parser::parse_json(std::vector<Entity *> &entities, std::string input_file)
     std::ifstream in(input_file);
     json jsonData = json::parse(in);
 
-    for (const auto &item : jsonData.items()) {
-        if (item.key() == "Minion") {
-            parse_minion(entities, item.value());
-        } else if (item.key() == "Action") {
-            parse_action(entities, item.value());
-        } else if (item.key() == "Base") {
-            parse_base(entities, item.value());
+    for (const auto &block : jsonData.items()) {
+        for (const auto &item : block.value().items()) {
+            if (item.key() == "Minion") {
+                parse_minion(entities, item.value());
+            } else if (item.key() == "Action") {
+                parse_action(entities, item.value());
+            } else if (item.key() == "Base") {
+                parse_base(entities, item.value());
+            }
         }
     }
 }

@@ -79,7 +79,7 @@ void Engine::start_game() {
 
         curr_id = entities_.size();
 
-        player->take_card(2);
+        player->take_card(5);
     }
 
 }
