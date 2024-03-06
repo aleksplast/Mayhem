@@ -128,6 +128,25 @@ void Playground::set_player_scale(Graphics &graphics, uint16_t player_id) {
     }
 }
 
+void Playground::draw_active_bases(Graphics &graphics)
+{
+    uint16_t num_base = 1;
+    uint16_t num_active_bases = bases_.size();
+
+    sf::Vector2f playground_size(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
+    sf::Vector2f place_size(playground_size.x * graphics.bases_place_to_playground,
+                            playground_size.y * graphics.bases_place_to_playground);
+
+    for (auto curr_base = active_bases_.begin(); curr_base != active_bases_.end(); ++curr_base, ++num_base)
+    {
+        Base &base = **curr_base;
+        base.sprite.setPosition(place_size.x / 2 + static_cast<float>(num_base) * place_size.x / static_cast<float>(num_active_bases + 1),
+                                playground_size.y * graphics.bases_pos_to_playground);
+        const float base_scale = graphics.base_shift_to_playground * playground_size.x / base.texture.getSize().x;
+        base.sprite.setScale(base_scale, base_scale);
+    }
+}
+
 void Playground::draw(Graphics &graphics) // draw bases, players
 {
     uint16_t num_players = players_.size();
@@ -142,6 +161,8 @@ void Playground::draw(Graphics &graphics) // draw bases, players
         graphics.window.draw(players_[draw_player]->sprite);
         draw_player = (draw_player + 1) % num_players;
     } while (draw_player != graphics.get_draw_player());
+
+    draw_active_bases(graphics);
 }
 
 void Engine::draw(Graphics &graphics) // draw Playground
