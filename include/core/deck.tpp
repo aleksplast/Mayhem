@@ -3,7 +3,7 @@
 
 namespace Mayhem {
 
-template <class T> void Deck<T>::clear_deck() { 
+template <class T> void Deck<T>::clear_deck() {
     for (size_t i = 0, sz = size(); i < sz; ++i) {
         auto _ = take_card();
     }
@@ -30,5 +30,11 @@ template <class T> T Deck<T>::take_card() {
     T card = cards_.back();
     cards_.pop_back();
     return card;
-};
+}
+
+template <class T> void Deck<T>::dump_state(std::ofstream &os) const {
+    for (auto& item : cards_) {
+        item->dump_state(os);
+    }
+}
 } // namespace Mayhem

@@ -2,6 +2,7 @@
 #include "core/base.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
+#include <fstream>
 #include <iostream>
 
 namespace Mayhem { // Player methods
@@ -29,6 +30,20 @@ void Player::play_card(PlayerCard *card) {
 
 void Player::gain_card_on_start(PlayerCard *card) {
     dump_deck_.gain_card(card);
+}
+
+void Player::dump_state(std::ofstream &os) const {
+    os << "\nDumping player\n";
+    os << "-----\n";
+    os << "points: " << points_;
+    os << "\nDumping deck\n";
+    deck_.dump_state(os);
+    os << "\nDumping hand\n";
+    hand_.dump_state(os);
+    os << "\nDumping dump deck\n";
+    dump_deck_.dump_state(os);
+
+    os << "-----\n";
 }
 
 } // namespace Mayhem

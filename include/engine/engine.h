@@ -36,6 +36,7 @@ class Engine {
     void distribute_points(LeaderBoard_t &leaderboard){};
     void start_game();
     void place_card_to_deck(uint16_t player_id, Entity *entity);
+    void dump_state(std::string file_name) const;
 
   public: // graphic functions
     void draw(Graphics &grafics);

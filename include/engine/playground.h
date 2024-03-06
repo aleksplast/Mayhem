@@ -11,6 +11,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <fstream>
+#include <iostream>
 
 namespace Mayhem {
 
@@ -46,11 +47,10 @@ class Playground : public Drawable {
     void clear_base(Base *base); // FIXME: just mock
     void destroy_base(Base *base);
     void set_new_base();
-    ~Playground() = default;
-
-  public:
     uint16_t get_number_of_players() { return players_.size(); };
     void gain_base_on_start(Base *base);
+    void dump_state(std::ofstream &os) const;
+    ~Playground() = default;
 
   public: // graphic functions
     void set_player_position(Graphics &graphics, uint16_t player_id);

@@ -19,8 +19,6 @@ class Player : public Entity {
 
     uint32_t points_;
 
-    virtual void activate_abillity(){};
-
     // get number of card
   public:
     Player(Graphics &grpahics, uint32_t id)
@@ -37,6 +35,7 @@ class Player : public Entity {
     void take_card(uint32_t number_of_cards); // from deck to hand, just card to hand
     void set_points(uint32_t point);
     size_t get_number_of_cards() { return hand_.size(); };
+    void dump_state(std::ofstream &os) const;
 
   public: // graphic function
     void draw(Graphics &graphic);

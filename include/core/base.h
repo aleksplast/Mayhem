@@ -3,6 +3,9 @@
 
 #include "card.h"
 #include "deck.h"
+#include <cstdint>
+#include <iostream>
+#include <fstream>
 
 namespace Mayhem {
 
@@ -11,7 +14,7 @@ class Base : public Card {
     uint32_t power_to_win_;
     std::array<uint32_t, 3> points_;
     Deck<Minion *> cards_;
-    uint32_t current_power_;
+    uint32_t current_power_ = 0;
 
   public:
     void activate_abillity() override{};
@@ -34,6 +37,28 @@ class Base : public Card {
         } else {
             return false;
         }
+    }
+
+    uint32_t get_power_to_win() const {
+      return power_to_win_;
+    }
+
+    uint32_t get_current_power() const {
+      return current_power_;
+    }
+
+    std::array<uint32_t, 3> get_points() const {
+      return points_;
+    }
+
+    void dump_state(std::ofstream &os) const {
+      os << "\nDumping base\n";
+      os << "---\n";
+      os << "points: " << points_.at(0) << " " << points_.at(1) << " " << points_.at(2) << "\n";
+      os << "current power: " << current_power_ << "\n";
+      os << "power to win: " << power_to_win_ << "\n";
+      cards_.dump_state(os);
+      os << "---\n";
     }
 
   public: // graphic functions
