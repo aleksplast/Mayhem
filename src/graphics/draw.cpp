@@ -1,8 +1,8 @@
 #include "SFML/Graphics.hpp"
 #include "core/card.h"
+#include "engine/engine.h"
 #include "engine/player.h"
 #include "engine/playground.h"
-#include "engine/engine.h"
 #include <SFML/System/Vector2.hpp>
 
 namespace Mayhem {
@@ -12,37 +12,36 @@ void Player::set_decks_position(Graphics &graphics) {
     sf::Vector2f player_size =
         sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
 
-    size_t num_card = 0;
-    size_t num_cards = hand_.size();
-    switch (static_cast<int>(sprite.getRotation())) {
-    case 0:
+    int num_cards = hand_.size();
+    auto rotation = sprite.getRotation();
+    sf::Vector2f cards_place(player_size.x * graphics.cards_place_to_player,
+                             player_size.y * graphics.cards_place_to_player);
+    const float shift = cards_place.x / static_cast<float>(num_cards + 1);
+    int num_card = 1;
+    if (rotation == 0.0) {
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            (*curr_card)->sprite.setPosition(player_pos.x + (num_card - static_cast<float>(num_cards) / 2) *
-                                                             graphics.card_shift_to_player * player_size.x,
-                                          player_pos.y);
+            (*curr_card)
+                ->sprite.setPosition(player_pos.x + static_cast<float>(2 * num_card - num_cards) * shift / 2,
+                                     player_pos.y);
         }
-        break;
-    case 90:
+    } else if (rotation == 90.0) {
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            (*curr_card)->sprite.setPosition(player_pos.x, player_pos.y + (num_card - static_cast<float>(num_cards) / 2) *
-                                                                           graphics.card_shift_to_player *
-                                                                           player_size.y);
+            (*curr_card)
+                ->sprite.setPosition(player_pos.x,
+                                     player_pos.y + static_cast<float>(2 * num_card - num_cards) * shift / 2);
         }
-        break;
-    case 180:
+    } else if (rotation == 180.0) {
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            (*curr_card)->sprite.setPosition(player_pos.x - (num_card - static_cast<float>(num_cards) / 2) *
-                                                             graphics.card_shift_to_player * player_size.x,
-                                          player_pos.y);
+            (*curr_card)
+                ->sprite.setPosition(player_pos.x - static_cast<float>(2 * num_card - num_cards) * shift / 2,
+                                     player_pos.y);
         }
-        break;
-    case 270:
+    } else if (rotation == 270.0) {
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            (*curr_card)->sprite.setPosition(player_pos.x, player_pos.y - (num_card - static_cast<float>(num_cards) / 2) *
-                                                                           graphics.card_shift_to_player *
-                                                                           player_size.y);
+            (*curr_card)
+                ->sprite.setPosition(player_pos.x,
+                                     player_pos.y - static_cast<float>(2 * num_card - num_cards) * shift / 2);
         }
-        break;
     }
 }
 
@@ -128,22 +127,22 @@ void Playground::set_player_scale(Graphics &graphics, uint16_t player_id) {
     }
 }
 
-void Playground::draw_active_bases(Graphics &graphics)
-{
+void Playground::draw_active_bases(Graphics &graphics) {
     uint16_t num_base = 1;
-    uint16_t num_active_bases = bases_.size();
+    uint16_t num_active_bases = active_bases_.size();
 
     sf::Vector2f playground_size(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
     sf::Vector2f place_size(playground_size.x * graphics.bases_place_to_playground,
                             playground_size.y * graphics.bases_place_to_playground);
 
-    for (auto curr_base = active_bases_.begin(); curr_base != active_bases_.end(); ++curr_base, ++num_base)
-    {
+    for (auto curr_base = active_bases_.begin(); curr_base != active_bases_.end(); ++curr_base, ++num_base) {
         Base &base = **curr_base;
-        base.sprite.setPosition(place_size.x / 2 + static_cast<float>(num_base) * place_size.x / static_cast<float>(num_active_bases + 1),
+        base.sprite.setPosition((playground_size.x - place_size.x) / 2 + static_cast<float>(num_base) * place_size.x /
+                                                                             static_cast<float>(num_active_bases + 1),
                                 playground_size.y * graphics.bases_pos_to_playground);
         const float base_scale = graphics.base_shift_to_playground * playground_size.x / base.texture.getSize().x;
         base.sprite.setScale(base_scale, base_scale);
+        graphics.window.draw(base.sprite);
     }
 }
 
