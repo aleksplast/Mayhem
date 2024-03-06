@@ -46,4 +46,21 @@ void Playground::set_new_base() {
 
 void Playground::gain_base_on_start(Base *base) { bases_.gain_card(base); }
 
+void Playground::dump_state(std::ofstream &os) const {
+    os << "\nDumping playground\n";
+    os << "-------------\n";
+
+    os << "Dumping bases deck\n";
+    bases_.dump_state(os);
+    os << "Dumping active bases\n";
+    active_bases_.dump_state(os);
+    os << "Dumping dump bases\n";
+    dump_.dump_state(os);
+
+    for (auto& player : players_) {
+        player->dump_state(os);
+    }
+
+    os << "-------------\n";
+}
 } // namespace Mayhem

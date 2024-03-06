@@ -3,6 +3,7 @@
 #include "core/base.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
+#include <fstream>
 #include <iostream>
 
 namespace Mayhem { // Engine methods
@@ -60,7 +61,6 @@ void Engine::start_game() {
     size_t curr_id = playground.get_number_of_players();
 
     parser_.parse_json(entities_, "base_deck.json"); // FIXME: automate it
-
     for (size_t id = curr_id; id < entities_.size(); id++) {
         playground.gain_base_on_start(static_cast<Base *>(entities_.at(id)));
     }
@@ -82,6 +82,24 @@ void Engine::start_game() {
         player->take_card(5);
     }
 
+}
+
+void Engine::dump_state(std::string file_name) const {
+    std::ofstream os(file_name);
+
+    os << "------------------------------------\n";
+    os << "Dumping state of engine\n";
+    os << "Turn: " << turn_ << "\n";
+    os << "Time: " << time_ << "\n";
+
+    os << "Dumping entities\n";
+    for (auto curr = entities_.begin(), end = entities_.end(); curr != end; ++curr) {
+        os << "\tId: " << (*curr)->get_id() << "\n";
+    }
+
+    playground.dump_state(os);
+
+    os << "------------------------------------\n";
 }
 
 } // namespace Mayhem

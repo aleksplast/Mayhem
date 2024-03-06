@@ -16,7 +16,7 @@ int main() {
 
     Engine engine (graphics);
     engine.start_game();
-    // engine.dump_state("dump_file");
+    engine.dump_state("dump_file");
 
     while (graphics.window.isOpen()) {
         sf::Event event;
