@@ -63,4 +63,5 @@ void Playground::dump_state(std::ofstream &os) const {
 
     os << "-------------\n";
 }
+
 } // namespace Mayhem

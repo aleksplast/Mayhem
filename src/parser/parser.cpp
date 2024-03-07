@@ -67,7 +67,7 @@ void Parser::parse_action(std::vector<Entity *> &entities, const Value &item_val
 void Parser::parse_base(std::vector<Entity *> &entities, const Value &item_value) {
     std::string name, ability;
     uint32_t power;
-    std::array<uint32_t, 3> points;
+    std::array<uint32_t, 3> points = {0, 0, 0};
 
     for (const auto &field : item_value.items()) {
         if (field.key() == "name") {

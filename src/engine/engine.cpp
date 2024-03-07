@@ -65,6 +65,10 @@ void Engine::start_game() {
         playground.gain_base_on_start(static_cast<Base *>(entities_.at(id)));
     }
 
+    for (size_t i = 0; i < playground.get_number_of_players(); ++i) {
+        playground.set_new_base();
+    }
+
     curr_id = entities_.size();
 
     for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
@@ -82,6 +86,12 @@ void Engine::start_game() {
         player->take_card(5);
     }
 
+}
+
+Engine::~Engine() {
+    for (auto curr = entities_.begin(), end = entities_.end(); curr != end; ++curr) {
+        delete (*curr);
+    }
 }
 
 void Engine::dump_state(std::string file_name) const {

@@ -11,8 +11,8 @@ namespace Mayhem {
 
 class Base : public Card {
   private:
-    uint32_t power_to_win_;
-    std::array<uint32_t, 3> points_;
+    uint32_t power_to_win_ = 0;
+    std::array<uint32_t, 3> points_ = {0, 0, 0};
     Deck<Minion *> cards_;
     uint32_t current_power_ = 0;
 
