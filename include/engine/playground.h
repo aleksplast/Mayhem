@@ -52,7 +52,7 @@ class Playground : public Drawable {
     void dump_state(std::ofstream &os) const;
     ~Playground() = default;
 
-  public: // graphic functions
+  public: // graphics functions
     void set_player_position(Graphics &graphics, uint16_t player_id);
     void set_player_rotate(Graphics &graphics, uint16_t player_id);
     void set_player_scale(Graphics &graphics, uint16_t player_id);

@@ -38,7 +38,7 @@ class Player : public Entity {
     void dump_state(std::ofstream &os) const;
 
   public: // graphic function
-    void draw(Graphics &graphic);
+    void draw(Graphics &graphic, uint16_t player_id);
     void set_decks_position(Graphics &graphics);
     void set_decks_scale(Graphics &graphics);
     void set_decks_rotation();

@@ -7,6 +7,7 @@
 #include <list>
 #include <iostream>
 #include "graphics/drawable.hpp"
+#include "graphics/graphics.hpp"
 
 namespace Mayhem {
 
@@ -34,6 +35,9 @@ template <class T> class Deck : public Drawable {
     size_t size() const;
     void shuffle();
     T take_card();
+
+  public: // graphics functions
+    void show_cards(Graphics &graphics) {};
 
 }; // class Deck
 

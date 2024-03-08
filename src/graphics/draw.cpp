@@ -81,7 +81,7 @@ void Player::set_decks_scale(Graphics &graphics) {
     dump_deck_.sprite.setScale(dump_deck_scale, dump_deck_scale);
 }
 
-void Player::draw(Graphics &graphics) // draw cards
+void Player::draw(Graphics &graphics, uint16_t player_id) // draw cards
 {
     set_decks_position(graphics);
     set_decks_scale(graphics);
@@ -91,6 +91,14 @@ void Player::draw(Graphics &graphics) // draw cards
     graphics.window.draw(dump_deck_.sprite);
     for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card)
         graphics.window.draw((*curr_card)->sprite);
+
+    if (graphics.get_draw_player() == player_id) {
+        for (auto it : hand_) {
+            graphics.current_player_cards.push_back(it);
+        }
+        graphics.current_decks.push_back(&dump_deck_);
+        graphics.current_decks.push_back(&deck_);
+    }
 }
 
 void Playground::set_player_position(Graphics &graphics, uint16_t player_id) {
@@ -177,16 +185,25 @@ void Playground::draw(Graphics &graphics) // draw bases, players
         set_player_position(graphics, player_id);
         set_player_rotate(graphics, player_id);
         set_player_scale(graphics, player_id);
+
         graphics.window.draw(players_[draw_player]->sprite);
-        players_[player_id]->draw(graphics);
+        players_[player_id]->draw(graphics, player_id);
         draw_player = (draw_player + 1) % num_players;
     } while (draw_player != graphics.get_draw_player());
 
     draw_active_bases(graphics);
+
+    for (auto it : active_bases_) {
+        graphics.active_bases.push_back(it);
+    }
 }
 
 void Engine::draw(Graphics &graphics) // draw Playground
 {
+    graphics.active_bases.clear();
+    graphics.current_player_cards.clear();
+    graphics.current_decks.clear();
+
     graphics.window.draw(playground.sprite);
     playground.draw(graphics);
 }

@@ -19,13 +19,7 @@ int main() {
     engine.dump_state("dump_file");
 
     while (graphics.window.isOpen()) {
-        sf::Event event;
-        while (graphics.window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed) {
-                graphics.window.close();
-            }
-        }
+        graphics.process_events(engine);
         graphics.window.clear();
         engine.draw(graphics);
         graphics.window.display();
