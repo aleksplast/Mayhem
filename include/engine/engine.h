@@ -27,7 +27,7 @@ class Engine {
     Parser parser_;
 
   public:
-    Engine(Graphics &graphics) : turn_(1), time_(0), entities_(), playground(graphics, entities_), parser_(){};
+    Engine(Graphics &graphics) : turn_(0), time_(0), entities_(), playground(graphics, entities_), parser_(){};
     Entity *get_by_id(uint16_t entity_id);
     ~Engine();
     void give_card(uint16_t player_id, uint16_t card_id); // так это типо отдать игроку

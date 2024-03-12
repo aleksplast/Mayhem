@@ -15,11 +15,12 @@ int main() {
     graphics.window.setFramerateLimit(100);
 
     Engine engine (graphics);
+    Mayhem::Graphics::GameEvent game_event;
     engine.start_game();
     engine.dump_state("dump_file");
 
     while (graphics.window.isOpen()) {
-        graphics.process_events(engine);
+        graphics.process_events(engine, game_event);
         graphics.window.clear();
         engine.draw(graphics);
         graphics.window.display();

@@ -51,10 +51,11 @@ void Graphics::parse_events(GameEvent &game_event) {
         }
         if (event.type == sf::Event::MouseButtonPressed) {
             if (event.mouseButton.button == sf::Mouse::Left) {
-                PlayerCard* card = pressed_card(event.mouseButton.x, event.mouseButton.y);
-                if (card) game_event.card = card;
+                if (!game_event.card)
+                    game_event.card = pressed_card(event.mouseButton.x, event.mouseButton.y);
 
-                game_event.base = pressed_base(event.mouseButton.x, event.mouseButton.y);
+                if (!game_event.base)
+                    game_event.base = pressed_base(event.mouseButton.x, event.mouseButton.y);
                 if (!game_event.base)
                     game_event.deck = pressed_deck(event.mouseButton.x, event.mouseButton.y);
             }
@@ -80,17 +81,18 @@ void Graphics::parse_events(GameEvent &game_event) {
     }
 }
 
-void Graphics::process_events(Engine &engine) {
-    GameEvent game_event;
+void Graphics::process_events(Engine &engine, GameEvent &game_event) {
     parse_events(game_event);
     if (game_event.type == GameEvent::EventType::close_window)
         window.close();
     else
     if (game_event.type == GameEvent::EventType::place_card_to_base) {
         engine.place_card(draw_player_, game_event.card->get_id(), game_event.base->get_id());
+        game_event = GameEvent();
     } else
     if (game_event.type == GameEvent::EventType::end_turn) {
         engine.end_turn(draw_player_);
+        game_event = GameEvent();
     }
 }
 

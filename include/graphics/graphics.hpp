@@ -16,7 +16,7 @@ class Graphics {
   public:
     enum class GameType { ONLINE, OFLINE };
 
-  private:
+  public:
     class GameEvent {
       public:
         enum class EventType {
@@ -72,7 +72,7 @@ class Graphics {
   public:
     Graphics() = delete;
     Graphics(GameType type, uint16_t draw_player = 0);
-    void process_events(Engine &engine);
+    void process_events(Engine &engine, GameEvent &game_event);
     uint16_t get_draw_player() const;
     ~Graphics() = default;
 }; // class Grafics
