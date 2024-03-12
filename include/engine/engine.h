@@ -27,6 +27,12 @@ class Engine {
     Parser parser_;
 
   public:
+    Engine(const Engine &rhs) = delete;
+    Engine& operator=(Engine &&rhs) = delete;
+
+    Engine(Engine &&rhs) = delete;
+    Engine& operator=(const Engine &rhs) = delete;
+
     Engine(Graphics &graphics) : turn_(0), time_(0), entities_(), playground(graphics, entities_), parser_(){};
     Entity *get_by_id(uint16_t entity_id);
     ~Engine();

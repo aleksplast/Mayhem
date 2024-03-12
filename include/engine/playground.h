@@ -28,6 +28,12 @@ class Playground : public Drawable {
   public:
     Playground() = delete;
 
+    Playground(const Playground &rhs) = delete;
+    Playground& operator=(const Playground &rhs) = delete;
+
+    Playground(Playground &&rhs) = delete;
+    Playground& operator=(Playground &&rhs) = delete;
+
     Playground(Graphics &graphics, std::vector<Entity *> &entities)
         : Drawable("../src/graphics/images/playground.jpg"), bases_(), active_bases_(), dump_() {
         auto window_size = graphics.window.getSize();
