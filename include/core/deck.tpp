@@ -24,7 +24,7 @@ template <class T> void Deck<T>::remove_card(const T &card) {
 
 template <class T> std::size_t Deck<T>::size() const { return cards_.size(); }
 
-template <class T> void Deck<T>::shuffle() { std::shuffle(cards_.begin(), cards_.end()); }
+// template <class T> void Deck<T>::shuffle() { std::random_shuffle(cards_.begin(), cards_.end()); }
 
 template <class T> T Deck<T>::take_card() {
     T card = cards_.back();

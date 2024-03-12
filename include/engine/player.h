@@ -36,6 +36,7 @@ class Player : public Entity {
     void set_points(uint32_t point);
     size_t get_number_of_cards() { return hand_.size(); };
     void dump_state(std::ofstream &os) const;
+    void dump_random_card();
 
   public: // graphic function
     void draw(Graphics &graphic, uint16_t player_id);

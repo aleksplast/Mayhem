@@ -8,6 +8,9 @@
 
 namespace Mayhem { // Engine methods
 
+uint32_t MAX_CARDS_IN_HAND = 10;
+uint32_t CARDS_TO_DRAW_END_TURN = 2;
+
 Entity *Engine::get_by_id(uint16_t entity_id) {
     if (entity_id >= entities_.size()) {
         std::cout << "HERE NEED TO BE LOG: entity id is bigger than vector size" << std::endl;
@@ -39,25 +42,32 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
 }
 
 void Engine::end_turn(uint16_t player_id) {
+    // if (player_id != turn_) {
+        // return;
+    // }
     Player *player = dynamic_cast<Player *>(get_by_id(player_id));
 
     auto captured_bases = playground.check_bases();
-    for (auto p : captured_bases) {
-        auto leader_board = playground.capture_base(p);
-        playground.destroy_base(p);
+    for (auto base : captured_bases) {
+        auto leader_board = playground.capture_base(base);
+        playground.destroy_base(base);
         playground.set_new_base();
 
         distribute_points(leader_board);
     }
 
-    player->take_card(
-        2); // no overflow yet. For overflow I can suggest to make a state of overflow, So the interface constantly
-            // reads this state, and make player to choose card. He won't make a next move, before he choose card
+    player->take_card(CARDS_TO_DRAW_END_TURN);
+
+    while (player->get_number_of_cards() > MAX_CARDS_IN_HAND) {
+        player->dump_random_card();
+    }
 
     turn_ = (turn_ + 1) % (playground.get_number_of_players());
 }
 
 void Engine::start_game() {
+    std::srand(std::time(0));
+
     size_t curr_id = playground.get_number_of_players();
 
     parser_.parse_json(entities_, "base_deck.json"); // FIXME: automate it

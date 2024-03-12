@@ -2,6 +2,8 @@
 #include "core/base.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
+#include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 
@@ -17,6 +19,10 @@ void Player::take_card(uint32_t number_of_cards) {
         if (deck_.size() == 0) {
             deck_ = dump_deck_;
             dump_deck_.clear_deck();
+            // deck_.shuffle();
+        }
+        if (deck_.size() == 0) {
+            return;
         }
 
         PlayerCard* new_card = deck_.take_card();
@@ -30,6 +36,21 @@ void Player::play_card(PlayerCard *card) {
 
 void Player::gain_card_on_start(PlayerCard *card) {
     dump_deck_.gain_card(card);
+}
+
+void Player::dump_random_card() {
+    std::cout << "deck size: " << hand_.size() << "\n";
+    size_t card_num = static_cast<size_t>(std::rand()) % hand_.size();
+    std::cout << "card_num: " << card_num << "\n";
+    size_t num = 0;
+    auto dump = hand_.begin();
+    for (auto end = hand_.end(); dump != end; ++dump) {
+        if (num == card_num)
+            break;
+        num += 1;
+    }
+
+    hand_.remove_card(*dump);
 }
 
 void Player::dump_state(std::ofstream &os) const {

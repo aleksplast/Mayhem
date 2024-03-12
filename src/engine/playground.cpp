@@ -11,8 +11,7 @@ namespace Mayhem { // Playground methods
 std::vector<Base *> Playground::check_bases() {
     std::vector<Base *> captured_bases{};
 
-    for (auto curr = active_bases_.begin(), end = active_bases_.end(); curr != end;
-         ++curr) { // here we can iterate over ref, not iterators
+    for (auto curr = active_bases_.begin(), end = active_bases_.end(); curr != end; ++curr) {
         if ((*curr)->is_captured()) {
             captured_bases.push_back(*curr);
         }
@@ -40,6 +39,15 @@ void Playground::destroy_base(Base *base) {
 }
 
 void Playground::set_new_base() {
+    if (bases_.size() == 0) {
+        bases_ = dump_;
+        dump_.clear_deck();
+        // bases_.shuffle();
+    }
+    if (bases_.size() == 0) {
+        return;
+    }
+
     Base *top_base = bases_.take_card();
     active_bases_.gain_card(top_base);
 }
