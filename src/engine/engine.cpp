@@ -8,8 +8,8 @@
 
 namespace Mayhem { // Engine methods
 
-uint32_t MAX_CARDS_IN_HAND = 10;
-uint32_t CARDS_TO_DRAW_END_TURN = 2;
+const uint32_t MAX_CARDS_IN_HAND = 10;
+const uint32_t CARDS_TO_DRAW_END_TURN = 2;
 
 Entity *Engine::get_by_id(uint16_t entity_id) {
     if (entity_id >= entities_.size()) {
@@ -28,9 +28,9 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
     std::cout << "Player " << player_id << " played card " << card_id << " on base " << base_id
               << std::endl; // Change to more readable
 
-    Player *player = dynamic_cast<Player *>(get_by_id(player_id)); // FIXME: Change that
-    Minion *card = dynamic_cast<Minion *>(get_by_id(card_id));
-    Base *base = dynamic_cast<Base *>(get_by_id(base_id));
+    Player *player = static_cast<Player *>(get_by_id(player_id)); // FIXME: Change that
+    Minion *card = static_cast<Minion *>(get_by_id(card_id));
+    Base *base = static_cast<Base *>(get_by_id(base_id));
 
     if (player_id != card->get_owner())
         return false;
@@ -62,7 +62,22 @@ void Engine::end_turn(uint16_t player_id) {
         player->dump_random_card();
     }
 
+    auto win_pair = playground.check_for_winner();
+
+    if (win_pair.first) {
+        game_over_ = true;
+        winner_ = win_pair.second;
+    }
+
     turn_ = (turn_ + 1) % (playground.get_number_of_players());
+}
+
+bool Engine::is_over() const {
+    return game_over_;
+}
+
+uint32_t Engine::get_winner() const {
+    return winner_;
 }
 
 void Engine::start_game() {
@@ -72,7 +87,7 @@ void Engine::start_game() {
 
     parser_.parse_json(entities_, "base_deck.json"); // FIXME: automate it
     for (size_t id = curr_id; id < entities_.size(); id++) {
-        playground.gain_base_on_start(static_cast<Base *>(entities_.at(id)));
+        playground.gain_base_on_start(static_cast<Base *>(get_by_id(id)));
     }
 
     for (size_t i = 0; i < playground.get_number_of_players(); ++i) {
@@ -86,7 +101,7 @@ void Engine::start_game() {
         Player *player = static_cast<Player *>(get_by_id(i));
 
         for (size_t id = curr_id; id < entities_.size(); id++) {
-            PlayerCard *card = static_cast<PlayerCard *>(entities_.at(id));
+            PlayerCard *card = static_cast<PlayerCard *>(get_by_id(id));
             card->change_owner(i);
             player->gain_card_on_start(card);
         }
@@ -95,7 +110,13 @@ void Engine::start_game() {
 
         player->take_card(5);
     }
+}
 
+void Engine::distribute_points(LeaderBoard_t &leader_board) {
+    for (auto pair : leader_board) {
+        Player *player = static_cast<Player*>(get_by_id(pair.first));
+        player->gain_points(pair.second);
+    }
 }
 
 Engine::~Engine() {

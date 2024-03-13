@@ -39,9 +39,7 @@ void Player::gain_card_on_start(PlayerCard *card) {
 }
 
 void Player::dump_random_card() {
-    std::cout << "deck size: " << hand_.size() << "\n";
     size_t card_num = static_cast<size_t>(std::rand()) % hand_.size();
-    std::cout << "card_num: " << card_num << "\n";
     size_t num = 0;
     auto dump = hand_.begin();
     for (auto end = hand_.end(); dump != end; ++dump) {
@@ -51,6 +49,14 @@ void Player::dump_random_card() {
     }
 
     hand_.remove_card(*dump);
+}
+
+void Player::gain_points(uint32_t points) {
+    points_ += points;
+}
+
+uint32_t Player::get_points() const {
+    return points_;
 }
 
 void Player::dump_state(std::ofstream &os) const {

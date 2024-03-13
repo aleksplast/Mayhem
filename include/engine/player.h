@@ -33,10 +33,11 @@ class Player : public Entity {
     void gain_card_on_start(PlayerCard *card); // gain card to deck on the start of the game
     void end_turn();
     void take_card(uint32_t number_of_cards); // from deck to hand, just card to hand
-    void set_points(uint32_t point);
     size_t get_number_of_cards() { return hand_.size(); };
     void dump_state(std::ofstream &os) const;
     void dump_random_card();
+    void gain_points(uint32_t points);
+    uint32_t get_points() const;
 
   public: // graphic function
     void draw(Graphics &graphic, uint16_t player_id);

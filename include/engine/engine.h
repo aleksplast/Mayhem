@@ -21,10 +21,12 @@ class Engine {
 
   private:
     int time_;      // FIXME: just mock
-    uint16_t turn_; // FIXME: just mock
+    uint16_t turn_;
     std::vector<Entity *> entities_;
     Playground playground;
     Parser parser_;
+    size_t winner_ = SIZE_MAX;
+    bool game_over_ = false;
 
   public:
     Engine(const Engine &rhs) = delete;
@@ -36,14 +38,15 @@ class Engine {
     Engine(Graphics &graphics) : turn_(0), time_(0), entities_(), playground(graphics, entities_), parser_(){};
     Entity *get_by_id(uint16_t entity_id);
     ~Engine();
-    void give_card(uint16_t player_id, uint16_t card_id); // так это типо отдать игроку
-                                                          // карту, после завершения хода
+    void give_card(uint16_t player_id, uint16_t card_id);
     bool place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
     void end_turn(uint16_t player_id);
-    void distribute_points(LeaderBoard_t &leaderboard){};
+    void distribute_points(LeaderBoard_t &leaderboard);
     void start_game();
     void place_card_to_deck(uint16_t player_id, Entity *entity);
     void dump_state(std::string file_name) const;
+    bool is_over() const;
+    uint32_t get_winner() const;
 
   public: // graphic functions
     void draw(Graphics &grafics);

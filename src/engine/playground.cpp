@@ -8,6 +8,8 @@
 
 namespace Mayhem { // Playground methods
 
+const uint32_t POINTS_TO_WIN = 15;
+
 std::vector<Base *> Playground::check_bases() {
     std::vector<Base *> captured_bases{};
 
@@ -53,6 +55,29 @@ void Playground::set_new_base() {
 }
 
 void Playground::gain_base_on_start(Base *base) { bases_.gain_card(base); }
+
+std::pair<bool, uint32_t> Playground::check_for_winner() {
+    uint32_t max_points = 0;
+    uint32_t winner = SIZE_MAX;
+    bool winner_exists = false;
+
+    for (auto player: players_) {
+        uint32_t player_points = player->get_points();
+
+        if (player_points > POINTS_TO_WIN) {
+            if (player_points > max_points) {
+                max_points = player_points;
+                winner = player->get_id();
+                winner_exists = true;
+            } else if (player_points == max_points) {
+                winner = SIZE_MAX;
+                winner_exists = false;
+            }
+        }
+    }
+
+    return {winner_exists, winner};
+}
 
 void Playground::dump_state(std::ofstream &os) const {
     os << "\nDumping playground\n";

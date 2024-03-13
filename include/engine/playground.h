@@ -12,6 +12,7 @@
 #include <SFML/Graphics.hpp>
 #include <fstream>
 #include <iostream>
+#include <utility>
 
 namespace Mayhem {
 
@@ -56,6 +57,7 @@ class Playground : public Drawable {
     uint16_t get_number_of_players() { return players_.size(); };
     void gain_base_on_start(Base *base);
     void dump_state(std::ofstream &os) const;
+    std::pair<bool, uint32_t> check_for_winner();
     ~Playground() = default;
 
   public: // graphics functions
