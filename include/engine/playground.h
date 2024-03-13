@@ -5,9 +5,9 @@
 #include "core/card.h"
 #include "core/deck.h"
 #include "core/entity.h"
-#include "player.h"
 #include "graphics/graphics.hpp"
 #include "parser/parser.h"
+#include "player.h"
 
 #include <SFML/Graphics.hpp>
 #include <fstream>
@@ -30,20 +30,17 @@ class Playground : public Drawable {
     Playground() = delete;
 
     Playground(const Playground &rhs) = delete;
-    Playground& operator=(const Playground &rhs) = delete;
+    Playground &operator=(const Playground &rhs) = delete;
 
     Playground(Playground &&rhs) = delete;
-    Playground& operator=(Playground &&rhs) = delete;
+    Playground &operator=(Playground &&rhs) = delete;
 
-    Playground(Graphics &graphics, std::vector<Entity *> &entities)
+    Playground(Graphics::DrawingAttributes &attributes, std::vector<Entity *> &entities)
         : Drawable("../src/graphics/images/playground.jpg"), bases_(), active_bases_(), dump_() {
-        auto window_size = graphics.window.getSize();
-        sprite.setPosition(sf::Vector2f(window_size.x / 2, window_size.y / 2));
-        sprite.setScale(static_cast<float>(window_size.x) / texture.getSize().x,
-                        static_cast<float>(window_size.y) / texture.getSize().y);
-
+        auto window_size = attributes.window.getSize();
+        draw(attributes, sf::FloatRect(0.0, 0.0, window_size.x, window_size.y), 0);
         for (int i = 0; i < 4; i++) {
-            Player *player = new Player(graphics, i);
+            Player *player = new Player(i);
             players_.push_back(player);
             entities.push_back(player);
         }
@@ -60,12 +57,11 @@ class Playground : public Drawable {
     std::pair<bool, uint32_t> check_for_winner();
     ~Playground() = default;
 
+  private: // graphics functions
+    void draw_active_bases(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect);
+
   public: // graphics functions
-    void set_player_position(Graphics &graphics, uint16_t player_id);
-    void set_player_rotate(Graphics &graphics, uint16_t player_id);
-    void set_player_scale(Graphics &graphics, uint16_t player_id);
-    void draw_active_bases(Graphics &graphics);
-    void draw(Graphics &graphics);
+    void draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect, const float angle);
 }; // class Playground
 
 } // namespace Mayhem

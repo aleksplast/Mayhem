@@ -5,7 +5,6 @@
 #include "core/card.h"
 #include "core/deck.h"
 #include "core/entity.h"
-#include "graphics/graphics.hpp"
 #include "parser/parser.h"
 #include "playground.h"
 #include "player.h"
@@ -35,7 +34,7 @@ class Engine {
     Engine(Engine &&rhs) = delete;
     Engine& operator=(const Engine &rhs) = delete;
 
-    Engine(Graphics &graphics) : turn_(0), time_(0), entities_(), playground(graphics, entities_), parser_(){};
+    Engine(Graphics::DrawingAttributes &attributes) : turn_(0), time_(0), entities_(), playground(attributes, entities_), parser_(){};
     Entity *get_by_id(uint16_t entity_id);
     ~Engine();
     void give_card(uint16_t player_id, uint16_t card_id);
@@ -49,7 +48,7 @@ class Engine {
     uint32_t get_winner() const;
 
   public: // graphic functions
-    void draw(Graphics &grafics);
+    void draw(Graphics::DrawingAttributes &attributes);
 }; // class Engine
 
 } // namespace Mayhem

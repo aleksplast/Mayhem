@@ -4,208 +4,213 @@
 #include "engine/player.h"
 #include "engine/playground.h"
 #include "graphics/graphics.hpp"
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
 namespace Mayhem {
 
-void Player::set_decks_position(Graphics &graphics) {
-    sf::Vector2f player_pos = sprite.getPosition();
-    sf::Vector2f player_size =
-        sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
-
-    int num_cards = hand_.size();
-    auto rotation = sprite.getRotation();
-    sf::Vector2f cards_place(player_size.x * Graphics::LocationSettings::cards_place_to_player,
-                             player_size.y * Graphics::LocationSettings::cards_place_to_player);
-    const float shift = cards_place.x / static_cast<float>(num_cards + 1);
-    int num_card = 1;
-    if (rotation == 0.0) {
-        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            (*curr_card)
-                ->sprite.setPosition(player_pos.x + static_cast<float>(2 * num_card - num_cards) * shift / 2,
-                                     player_pos.y);
-        }
-        deck_.sprite.setPosition(player_pos.x + player_size.x / 2, player_pos.y);
-        dump_deck_.sprite.setPosition(player_pos.x - player_size.x / 2, player_pos.y);
-
-    } else if (rotation == 90.0) {
-        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            (*curr_card)
-                ->sprite.setPosition(player_pos.x,
-                                     player_pos.y + static_cast<float>(2 * num_card - num_cards) * shift / 2);
-        }
-        deck_.sprite.setPosition(player_pos.x, player_pos.y - player_size.x / 2);
-        dump_deck_.sprite.setPosition(player_pos.x, player_pos.y + player_size.x / 2);
-
-    } else if (rotation == 180.0) {
-        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            (*curr_card)
-                ->sprite.setPosition(player_pos.x - static_cast<float>(2 * num_card - num_cards) * shift / 2,
-                                     player_pos.y);
-        }
-        deck_.sprite.setPosition(player_pos.x - player_size.x / 2, player_pos.y);
-        dump_deck_.sprite.setPosition(player_pos.x + player_size.x / 2, player_pos.y);
-
-    } else if (rotation == 270.0) {
-        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++num_card) {
-            (*curr_card)
-                ->sprite.setPosition(player_pos.x,
-                                     player_pos.y - static_cast<float>(2 * num_card - num_cards) * shift / 2);
-        }
-        deck_.sprite.setPosition(player_pos.x, player_pos.y + player_size.x / 2);
-        dump_deck_.sprite.setPosition(player_pos.x, player_pos.y - player_size.x / 2);
-    }
-}
-
-void Player::set_decks_rotation() {
-    auto player_rotation = sprite.getRotation();
-    for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card) {
-        (*curr_card)->sprite.setRotation(player_rotation);
-    }
-    deck_.sprite.setRotation(player_rotation);
-    dump_deck_.sprite.setRotation(player_rotation);
-}
-
-void Player::set_decks_scale(Graphics &graphics) {
-    sf::Vector2f player_size =
-        sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
-
-    for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card) {
-        sf::Vector2u texture_size = (*curr_card)->texture.getSize();
-        const float card_scale = player_size.x * Graphics::LocationSettings::card_scale_to_player / texture_size.x;
-        (*curr_card)->sprite.setScale(card_scale, card_scale);
-    }
-    const float deck_scale = player_size.x * Graphics::LocationSettings::card_scale_to_player / deck_.texture.getSize().x;
-    const float dump_deck_scale = player_size.x * Graphics::LocationSettings::card_scale_to_player / dump_deck_.texture.getSize().x;
-
-    deck_.sprite.setScale(deck_scale, deck_scale);
-    dump_deck_.sprite.setScale(dump_deck_scale, dump_deck_scale);
-}
-
-void Player::draw(Graphics &graphics, uint16_t player_id) // draw cards
+void Player::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect, const float angle) // draw cards
 {
-    set_decks_position(graphics);
-    set_decks_scale(graphics);
-    set_decks_rotation();
+    Drawable::draw(attributes.window, rect, angle);
 
-    graphics.window.draw(deck_.sprite);
-    graphics.window.draw(dump_deck_.sprite);
-    for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card)
-        graphics.window.draw((*curr_card)->sprite);
+    sf::Vector2f place_size = sf::Vector2f(rect.width * Graphics::LocationSettings::cards_place_to_player_x,
+                                           rect.height* Graphics::LocationSettings::cards_place_to_player_y);
+    sf::Vector2f card_size = sf::Vector2f(rect.width * Graphics::LocationSettings::card_scale_to_player_x,
+                                          rect.height* Graphics::LocationSettings::card_scale_to_player_y);
 
-    if (graphics.get_draw_player() == player_id) {
-        for (auto it : hand_) {
-            graphics.current_player_cards.push_back(it);
+    const float deck_shift = rect.width * (1 - 2 * Graphics::LocationSettings::cards_place_to_player_x);
+
+    float index_card = 1;
+    float num_cards = static_cast<float>(hand_.size());
+
+    if (angle == 0.0) {
+        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
+            (*curr_card)->draw(
+                attributes.window,
+                sf::FloatRect(
+                    rect.left + rect.width / 2 + (index_card - num_cards / 2) * place_size.x / num_cards - card_size.x / 2,
+                    rect.top + rect.height / 2 - place_size.y / 2,
+                    card_size.x, card_size.y),
+                angle);
         }
-        graphics.current_decks.push_back(&dump_deck_);
-        graphics.current_decks.push_back(&deck_);
+        deck_.draw(
+            attributes.window,
+            sf::FloatRect(
+                rect.left + deck_shift - card_size.x / 2, rect.top + rect.height / 2 - card_size.y / 2,
+                card_size.x, card_size.y),
+            angle);
+        dump_deck_.draw(
+            attributes.window,
+            sf::FloatRect(
+                rect.left + rect.width - deck_shift - card_size.x / 2, rect.top + rect.height / 2 - card_size.y / 2,
+                card_size.x, card_size.y),
+            angle);
+
+    } else if (angle == 90.0) {
+        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
+            (*curr_card)->draw(
+                attributes.window,
+                sf::FloatRect(
+                    rect.left + rect.width / 2 - place_size.x / 2,
+                    rect.top + rect.height / 2 + (index_card - num_cards / 2) * place_size.y / num_cards - card_size.y / 2,
+                    card_size.x, card_size.y),
+                angle);
+        }
+        deck_.draw(
+            attributes.window,
+            sf::FloatRect(
+                rect.left + rect.width / 2 - card_size.x / 2,
+                rect.top + rect.height / 2 - rect.width / 2 + deck_shift - card_size.y / 2,
+                card_size.x, card_size.y),
+            angle);
+        dump_deck_.draw(
+            attributes.window,
+            sf::FloatRect(
+                rect.left + rect.width / 2,
+                rect.top + rect.height / 2 + rect.width / 2 - deck_shift - card_size.y / 2,
+                card_size.x, card_size.y),
+            angle);
+
+    } else if (angle == 180.0) {
+        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
+            (*curr_card)->draw(
+                attributes.window,
+                sf::FloatRect(
+                    rect.left + rect.width / 2 - (index_card - num_cards / 2) * place_size.x / num_cards,
+                    rect.top - place_size.y / 2,
+                    card_size.x, card_size.y),
+                angle);
+        }
+        deck_.draw(
+            attributes.window,
+            sf::FloatRect(
+                rect.left + rect.width - deck_shift - card_size.x / 2,
+                rect.top + rect.height / 2 - card_size.y / 2,
+                card_size.x, card_size.y),
+            angle);
+        dump_deck_.draw(
+            attributes.window,
+            sf::FloatRect(
+                rect.left + deck_shift - card_size.x / 2,
+                rect.top + rect.height / 2 - card_size.y / 2,
+                card_size.x, card_size.y),
+            angle);
+
+    } else { //angle == 270.0
+        for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
+            (*curr_card)->draw(
+                attributes.window,
+                sf::FloatRect(
+                    rect.left + rect.width / 2 - place_size.x / 2,
+                    rect.top + rect.height / 2 - (index_card - num_cards / 2) * place_size.y / num_cards,
+                    card_size.x, card_size.y),
+                angle);
+        }
+        deck_.draw(
+            attributes.window,
+            sf::FloatRect(
+                rect.left + rect.width / 2 - card_size.x / 2,
+                rect.top + rect.height / 2 + rect.width - deck_shift - card_size.y / 2,
+                card_size.x, card_size.y),
+            angle);
+        dump_deck_.draw(
+            attributes.window,
+            sf::FloatRect(
+                rect.left + rect.width / 2 - card_size.x / 2,
+                rect.top + deck_shift - card_size.y / 2,
+                card_size.x, card_size.y),
+            angle);
+    }
+
+    if (angle == 0.0) {
+        for (auto it : hand_) {
+            attributes.current_player_cards.push_back(it);
+        }
+        attributes.current_decks.push_back(&dump_deck_);
+        attributes.current_decks.push_back(&deck_);
     }
 }
 
-void Playground::set_player_position(Graphics &graphics, uint16_t player_id) {
-    sf::Vector2f playground_size =
-        sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
-    auto &curr_sprite = players_[player_id]->sprite;
-    switch (player_id) {
-    case 0:
-        curr_sprite.setPosition(playground_size.x / 2, playground_size.y);
-        break;
-    case 1:
-        curr_sprite.setPosition(playground_size.x / 2, 0.0);
-        break;
-    case 2:
-        curr_sprite.setPosition(0.0, playground_size.y / 2);
-        break;
-    case 3:
-        curr_sprite.setPosition(playground_size.x, playground_size.y / 2);
-        break;
-    default:
-        break;
-    }
-}
-
-void Playground::set_player_rotate(Graphics &graphics, uint16_t player_id) {
-    auto &curr_sprite = players_[player_id]->sprite;
-    switch (player_id) {
-    case 1:
-        curr_sprite.setRotation(180);
-        break;
-    case 2:
-        curr_sprite.setRotation(90);
-        break;
-    case 3:
-        curr_sprite.setRotation(270);
-        break;
-    default:
-        break;
-    }
-}
-
-void Playground::set_player_scale(Graphics &graphics, uint16_t player_id) {
-    sf::Vector2f playground_size =
-        sf::Vector2f(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
-    auto texture_size = players_[player_id]->texture.getSize();
-    auto &curr_sprite = players_[player_id]->sprite;
-
-    if (player_id == 0) {
-        curr_sprite.setScale(
-            Graphics::LocationSettings::player_increase * playground_size.x * Graphics::LocationSettings::player_scale_to_playground / texture_size.x,
-            Graphics::LocationSettings::player_increase * playground_size.y * Graphics::LocationSettings::bases_place_to_playground / texture_size.y);
-    } else {
-        curr_sprite.setScale(playground_size.x * Graphics::LocationSettings::player_scale_to_playground / texture_size.x,
-                             playground_size.y * Graphics::LocationSettings::player_scale_to_playground / texture_size.y);
-    }
-}
-
-void Playground::draw_active_bases(Graphics &graphics) {
+void Playground::draw_active_bases(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect) {
     uint16_t num_base = 1;
     uint16_t num_active_bases = active_bases_.size();
-
-    sf::Vector2f playground_size(texture.getSize().x * sprite.getScale().x, texture.getSize().y * sprite.getScale().y);
-    sf::Vector2f place_size(playground_size.x * Graphics::LocationSettings::bases_place_to_playground,
-                            playground_size.y * Graphics::LocationSettings::bases_place_to_playground);
-
+    sf::Vector2f base_size = sf::Vector2f(rect.width * Graphics::LocationSettings::bases_scale_to_place_x,
+                                          rect.height* Graphics::LocationSettings::bases_scale_to_place_y);
+    const float base_shift = rect.width / (num_active_bases + 1);
     for (auto curr_base = active_bases_.begin(); curr_base != active_bases_.end(); ++curr_base, ++num_base) {
         Base &base = **curr_base;
-        base.sprite.setPosition((playground_size.x - place_size.x) / 2 + static_cast<float>(num_base) * place_size.x /
-                                                                             static_cast<float>(num_active_bases + 1),
-                                playground_size.y * Graphics::LocationSettings::bases_pos_to_playground);
-        const float base_scale = Graphics::LocationSettings::base_shift_to_playground * playground_size.x / base.texture.getSize().x;
-        base.sprite.setScale(base_scale, base_scale);
-        graphics.window.draw(base.sprite);
+        base.draw(attributes.window,
+                  sf::FloatRect(
+                  rect.left + base_shift * num_base - base_size.x / 2,
+                  rect.top, base_size.x, base_size.y),
+        0);
     }
 }
 
-void Playground::draw(Graphics &graphics) // draw bases, players
+void Playground::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect,
+                      const float angle) // draw bases, players
 {
+    Drawable::draw(attributes.window, rect, angle);
+
     uint16_t num_players = players_.size();
-    uint16_t draw_player = graphics.get_draw_player();
-    auto window_size = graphics.window.getSize();
+    uint16_t drawing_player = attributes.draw_player;
+    sf::Vector2f player_size = sf::Vector2f(rect.width * Graphics::LocationSettings::player_scale_to_playground,
+                                            rect.height * Graphics::LocationSettings::player_scale_to_playground);
     do {
-        uint16_t player_id = (num_players + draw_player - graphics.get_draw_player()) % num_players;
-        set_player_position(graphics, player_id);
-        set_player_rotate(graphics, player_id);
-        set_player_scale(graphics, player_id);
+        uint16_t drawing_id = (num_players + drawing_player - attributes.draw_player) % num_players;
+        switch (drawing_id) {
+        case 0:
+            players_[drawing_id]->draw(
+                attributes,
+                sf::FloatRect(rect.left +
+                                  Graphics::LocationSettings::player_increase * (rect.width - player_size.x) / 2,
+                              rect.top + rect.height - Graphics::LocationSettings::player_increase * player_size.y / 2,
+                              player_size.x, player_size.y),
+                0);
+            break;
+        case 1:
+            players_[drawing_id]->draw(
+                attributes,
+                sf::FloatRect(rect.left + (rect.width - player_size.x) / 2,
+                              rect.top - player_size.y / 2, player_size.x, player_size.y),
+                180);
+            break;
+        case 2:
+            players_[drawing_id]->draw(
+                attributes,
+                sf::FloatRect(rect.left - player_size.x / 2,
+                              rect.top + (rect.height - player_size.y) / 2, player_size.x, player_size.y),
+                90);
+            break;
+        case 3:
+            players_[drawing_id]->draw(
+                attributes,
+                sf::FloatRect(rect.left + rect.width - player_size.x / 2,
+                              rect.top + (rect.height - player_size.y) / 2, player_size.x, player_size.y),
+                270);
+            break;
+        }
+        drawing_player = (drawing_player + 1) % num_players;
+    } while (drawing_player != attributes.draw_player);
 
-        graphics.window.draw(players_[draw_player]->sprite);
-        players_[player_id]->draw(graphics, player_id);
-        draw_player = (draw_player + 1) % num_players;
-    } while (draw_player != graphics.get_draw_player());
-
-    draw_active_bases(graphics);
+    draw_active_bases(attributes,
+        sf::FloatRect(rect.left + rect.width * (1.0 - Graphics::LocationSettings::bases_place_to_playground_x) / 2,
+                      rect.top + rect.height * Graphics::LocationSettings::bases_pos_to_playground,
+                      rect.width * Graphics::LocationSettings::bases_place_to_playground_x,
+                      rect.height * Graphics::LocationSettings::bases_plase_to_playground_y));
 
     for (auto it : active_bases_) {
-        graphics.active_bases.push_back(it);
+        attributes.active_bases.push_back(it);
     }
 }
 
-void Engine::draw(Graphics &graphics) // draw Playground
+void Engine::draw(Graphics::DrawingAttributes &attributes) // draw Playground
 {
-    graphics.active_bases.clear();
-    graphics.current_player_cards.clear();
-    graphics.current_decks.clear();
+    attributes.active_bases.clear();
+    attributes.current_player_cards.clear();
+    attributes.current_decks.clear();
 
-    graphics.window.draw(playground.sprite);
-    playground.draw(graphics);
+    sf::Vector2f window_size = sf::Vector2f(attributes.window.getSize());
+    playground.draw(attributes, sf::FloatRect(0.0, 0.0, window_size.x, window_size.y), 0);
 }
 } // namespace Mayhem

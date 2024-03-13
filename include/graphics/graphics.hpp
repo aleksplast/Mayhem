@@ -2,6 +2,7 @@
 #define GRAFICS_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <vector>
 
@@ -47,23 +48,34 @@ class Graphics {
       public:
         constexpr static const float player_scale_to_playground = 0.38;
         constexpr static const float player_increase = 1.8;
-        constexpr static const float base_shift_to_playground = 0.1;
-        constexpr static const float card_scale_to_player = 0.2;
-        constexpr static const float bases_place_to_playground = 0.8;
-        constexpr static const float cards_place_to_player = 0.6;
+        constexpr static const float bases_place_to_playground_x = 0.8;
+        constexpr static const float bases_plase_to_playground_y = 0.25;
+        constexpr static const float bases_scale_to_place_x = 0.2;
+        constexpr static const float bases_scale_to_place_y = 1;
         constexpr static const float bases_pos_to_playground = 0.25;
+        constexpr static const float cards_place_to_player_x = 0.6;
+        constexpr static const float cards_place_to_player_y = 1;
+        constexpr static const float card_scale_to_player_x = 0.2;
+        constexpr static const float card_scale_to_player_y = 1;
+        constexpr static const std::pair<uint32_t, uint32_t> default_window_size = std::make_pair(800, 600);
+    };
+
+    class DrawingAttributes {
+      public:
+        uint16_t draw_player; // num player who graphic draw
+        sf::RenderWindow window;
+        std::vector<PlayerCard *> current_player_cards;
+        std::vector<Deck<PlayerCard *> *> current_decks;
+        std::vector<Base *> active_bases;
     };
 
   private:
     const GameType type_;
-    uint16_t draw_player_; // num player who graphic draw
     GameEvent game_event_;
 
   public:
-    sf::RenderWindow window;
-    std::vector<PlayerCard *> current_player_cards;
-    std::vector<Deck<PlayerCard *> *> current_decks;
-    std::vector<Base *> active_bases;
+    DrawingAttributes attributes;
+
 
   private:
     PlayerCard *pressed_card(float x, float y) const;

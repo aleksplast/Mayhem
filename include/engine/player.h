@@ -21,14 +21,15 @@ class Player : public Entity {
 
     // get number of card
   public:
-    Player(Graphics &grpahics, uint32_t id)
-        : Entity("../src/graphics/images/player.png", id), hand_("../src/graphics/images/deck"), dump_deck_("../src/graphics/images/deck"), deck_("../src/graphics/images/deck"), points_(0) {
+    Player(uint32_t id)
+        : Entity("../src/graphics/images/player.png", id), hand_("../src/graphics/images/deck"),
+          dump_deck_("../src/graphics/images/deck"), deck_("../src/graphics/images/deck"), points_(0) {
         sprite.setColor(sf::Color(0, 0, 0, 0));
     };
     ~Player() = default;
 
   public:
-    void play_card(PlayerCard *card);// from hand to base, just destroys card in hand, no interaction with the base
+    void play_card(PlayerCard *card); // from hand to base, just destroys card in hand, no interaction with the base
     void dump_card(PlayerCard *card); // card to dump deck
     void gain_card_on_start(PlayerCard *card); // gain card to deck on the start of the game
     void end_turn();
@@ -39,11 +40,8 @@ class Player : public Entity {
     void gain_points(uint32_t points);
     uint32_t get_points() const;
 
-  public: // graphic function
-    void draw(Graphics &graphic, uint16_t player_id);
-    void set_decks_position(Graphics &graphics);
-    void set_decks_scale(Graphics &graphics);
-    void set_decks_rotation();
+  public: // graphics function
+    void draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect, const float angle);
 }; // class Player
 
 } // namespace Mayhem
