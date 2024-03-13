@@ -22,6 +22,7 @@ class Parser {
     void parse_minion(std::vector<Entity*>& entities, const Value &value);
     void parse_action(std::vector<Entity*>& entities, const Value &value);
     void parse_base(std::vector<Entity*>& entities, const Value &value);
+    const std::string &json_for_player(const std::string &input_file, const std::string &output_file);
 
 public:
     Parser() = default;
