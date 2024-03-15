@@ -80,7 +80,7 @@ uint32_t Engine::get_winner() const {
     return winner_;
 }
 
-void Engine::start_game() {
+void Engine::start_game(Graphics::DrawingAttributes &attributes) {
     std::srand(std::time(0));
 
     size_t curr_id = playground.get_number_of_players();
@@ -110,6 +110,7 @@ void Engine::start_game() {
 
         player->take_card(5);
     }
+    attributes.draw_player = 0;
 }
 
 void Engine::distribute_points(LeaderBoard_t &leader_board) {

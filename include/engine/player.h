@@ -24,7 +24,7 @@ class Player : public Entity {
     Player(uint32_t id)
         : Entity("../src/graphics/images/player.png", id), hand_("../src/graphics/images/deck"),
           dump_deck_("../src/graphics/images/deck"), deck_("../src/graphics/images/deck"), points_(0) {
-        sprite.setColor(sf::Color(0, 0, 0, 0));
+        sprite.setColor(sf::Color(0, 0, 0, 100));
     };
     ~Player() = default;
 

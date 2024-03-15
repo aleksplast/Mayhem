@@ -34,14 +34,14 @@ class Engine {
     Engine(Engine &&rhs) = delete;
     Engine& operator=(const Engine &rhs) = delete;
 
-    Engine(Graphics::DrawingAttributes &attributes) : turn_(0), time_(0), entities_(), playground(attributes, entities_), parser_(){};
+    Engine() : turn_(0), time_(0), entities_(), playground(entities_), parser_() {};
     Entity *get_by_id(uint16_t entity_id);
     ~Engine();
     void give_card(uint16_t player_id, uint16_t card_id);
     bool place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
     void end_turn(uint16_t player_id);
-    void distribute_points(LeaderBoard_t &leaderboard);
-    void start_game();
+    void distribute_points(LeaderBoard_t &leaderboard){};
+    void start_game(Graphics::DrawingAttributes &attributes);
     void place_card_to_deck(uint16_t player_id, Entity *entity);
     void dump_state(std::string file_name) const;
     bool is_over() const;

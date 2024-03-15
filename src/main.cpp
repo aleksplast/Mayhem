@@ -8,22 +8,10 @@
 using namespace Mayhem;
 
 int main() {
-    Graphics graphics(Graphics::GameType::OFLINE, 0);
-    sf::ContextSettings settings;
-    settings.antialiasingLevel = 8;
-    graphics.window.create(sf::VideoMode::getFullscreenModes()[0], "Mayhem", sf::Style::Default, settings);
-    graphics.window.setFramerateLimit(100);
-
-    Engine engine (graphics);
-    Mayhem::Graphics::GameEvent game_event;
-    engine.start_game();
+    Graphics graphics;
+    Engine engine;
+    engine.start_game(graphics.attributes);
     engine.dump_state("dump_file");
-
-    while (graphics.window.isOpen()) {
-        graphics.process_events(engine, game_event);
-        graphics.window.clear();
-        engine.draw(graphics);
-        graphics.window.display();
-    }
+    graphics.launch_game(engine);
     return 0;
 }

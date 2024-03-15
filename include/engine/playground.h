@@ -35,10 +35,8 @@ class Playground : public Drawable {
     Playground(Playground &&rhs) = delete;
     Playground &operator=(Playground &&rhs) = delete;
 
-    Playground(Graphics::DrawingAttributes &attributes, std::vector<Entity *> &entities)
+    Playground(std::vector<Entity *> &entities)
         : Drawable("../src/graphics/images/playground.jpg"), bases_(), active_bases_(), dump_() {
-        auto window_size = attributes.window.getSize();
-        draw(attributes, sf::FloatRect(0.0, 0.0, window_size.x, window_size.y), 0);
         for (int i = 0; i < 4; i++) {
             Player *player = new Player(i);
             players_.push_back(player);
