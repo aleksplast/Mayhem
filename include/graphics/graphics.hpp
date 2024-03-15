@@ -46,48 +46,46 @@ class Graphics {
 
     class LocationSettings {
       public:
-        constexpr static const float player_scale_to_playground = 0.38;
-        constexpr static const float player_increase = 1.8;
+        constexpr static const float player_scale_to_playground_x = 0.38;
+        constexpr static const float player_scale_to_playground_y = 0.25;
+        constexpr static const float player_increase = 1.6;
         constexpr static const float bases_place_to_playground_x = 0.8;
-        constexpr static const float bases_plase_to_playground_y = 0.25;
-        constexpr static const float bases_scale_to_place_x = 0.2;
+        constexpr static const float bases_plase_to_playground_y = 0.2;
+        constexpr static const float bases_scale_to_place_x = 0.15;
         constexpr static const float bases_scale_to_place_y = 1;
-        constexpr static const float bases_pos_to_playground = 0.25;
+        constexpr static const float bases_pos_to_playground = 0.2;
         constexpr static const float cards_place_to_player_x = 0.6;
-        constexpr static const float cards_place_to_player_y = 1;
+        constexpr static const float cards_place_to_player_y = 0.8;
         constexpr static const float card_scale_to_player_x = 0.2;
-        constexpr static const float card_scale_to_player_y = 1;
-        constexpr static const std::pair<uint32_t, uint32_t> default_window_size = std::make_pair(800, 600);
+        constexpr static const float card_scale_to_player_y = 0.8;
     };
 
     class DrawingAttributes {
       public:
         uint16_t draw_player; // num player who graphic draw
         sf::RenderWindow window;
+        sf::Vector2u default_window_size;
         std::vector<PlayerCard *> current_player_cards;
         std::vector<Deck<PlayerCard *> *> current_decks;
         std::vector<Base *> active_bases;
     };
 
   private:
-    const GameType type_;
-    GameEvent game_event_;
+    GameType type_;
 
   public:
     DrawingAttributes attributes;
 
-
   private:
-    PlayerCard *pressed_card(float x, float y) const;
-    Base *pressed_base(float x, float y) const;
-    Deck<PlayerCard *> *pressed_deck(float x, float y) const;
+    PlayerCard *pressed_card(const sf::Vector2f &pos) const;
+    Base *pressed_base(const sf::Vector2f &pos) const;
+    Deck<PlayerCard *> *pressed_deck(const sf::Vector2f &pos) const;
     void parse_events(GameEvent &game_event);
 
   public:
-    Graphics() = delete;
-    Graphics(GameType type, uint16_t draw_player = 0);
-    void process_events(Engine &engine, GameEvent &game_event);
-    uint16_t get_draw_player() const;
+    Graphics();
+    void process_events(Engine &engine);
+    void launch_game(Engine &engine);
     ~Graphics() = default;
 }; // class Grafics
 
