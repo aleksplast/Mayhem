@@ -81,6 +81,8 @@ class Graphics {
     Base *pressed_base(const sf::Vector2f &pos) const;
     Deck<PlayerCard *> *pressed_deck(const sf::Vector2f &pos) const;
     void parse_events(GameEvent &game_event);
+    void get_event_parameters(const sf::Event &event, GameEvent &game_event) const;
+    void set_event_type(GameEvent &game_event) const;
 
   public:
     Graphics();
