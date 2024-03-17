@@ -39,7 +39,7 @@ class Engine {
     ~Engine();
     void give_card(uint16_t player_id, uint16_t card_id);
     bool place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
-    void end_turn(uint16_t player_id);
+    uint16_t end_turn(uint16_t player_id);
     void distribute_points(LeaderBoard_t &leaderboard){};
     void start_game(Graphics::DrawingAttributes &attributes);
     void place_card_to_deck(uint16_t player_id, Entity *entity);

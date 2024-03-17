@@ -141,7 +141,7 @@ void Playground::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRe
         uint16_t drawing_id = (num_players + drawing_player - attributes.draw_player) % num_players;
         switch (drawing_id) {
         case 0:
-            players_[drawing_id]->draw(
+            players_[drawing_player]->draw(
                 attributes,
                 sf::FloatRect(rect.left + rect.width / 2 -
                                   Graphics::LocationSettings::player_increase * player_size.x / 2,
@@ -151,20 +151,20 @@ void Playground::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRe
                 0);
             break;
         case 1:
-            players_[drawing_id]->draw(attributes,
+            players_[drawing_player]->draw(attributes,
                                        sf::FloatRect(rect.left + (rect.width - player_size.x) / 2,
                                                      rect.top - player_size.y / 2, player_size.x, player_size.y),
                                        180);
             break;
         case 2:
-            players_[drawing_id]->draw(attributes,
+            players_[drawing_player]->draw(attributes,
                                        sf::FloatRect(rect.left - player_size.x / 2,
                                                      rect.top + (rect.height - player_size.y) / 2, player_size.x,
                                                      player_size.y),
                                        90);
             break;
         case 3:
-            players_[drawing_id]->draw(attributes,
+            players_[drawing_player]->draw(attributes,
                                        sf::FloatRect(rect.left + rect.width - player_size.x / 2,
                                                      rect.top + rect.height / 2 - player_size.y / 2, player_size.x,
                                                      player_size.y),

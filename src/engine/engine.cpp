@@ -41,10 +41,10 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
     return true;
 }
 
-void Engine::end_turn(uint16_t player_id) {
-    // if (player_id != turn_) {
-        // return;
-    // }
+uint16_t Engine::end_turn(uint16_t player_id) {
+    if (player_id != turn_) {
+        return turn_;
+    }
     Player *player = dynamic_cast<Player *>(get_by_id(player_id));
 
     auto captured_bases = playground.check_bases();
@@ -70,6 +70,7 @@ void Engine::end_turn(uint16_t player_id) {
     }
 
     turn_ = (turn_ + 1) % (playground.get_number_of_players());
+    return turn_;
 }
 
 bool Engine::is_over() const {

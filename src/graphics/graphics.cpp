@@ -11,6 +11,7 @@
 namespace Mayhem {
 
 Graphics::Graphics() {
+    type_ = GameType::OFLINE;
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     sf::VideoMode video_mode = sf::VideoMode::getFullscreenModes()[4];
@@ -110,11 +111,17 @@ void Graphics::process_events(Engine &engine) {
     parse_events(game_event);
     if (game_event.type == GameEvent::EventType::close_window)
         attributes.window.close();
+
     else if (game_event.type == GameEvent::EventType::place_card_to_base) {
         engine.place_card(attributes.draw_player, game_event.card->get_id(), game_event.base->get_id());
         game_event = GameEvent();
+
     } else if (game_event.type == GameEvent::EventType::end_turn) {
-        engine.end_turn(attributes.draw_player);
+        if (type_ == GameType::OFLINE) {
+            attributes.draw_player = engine.end_turn(attributes.draw_player);
+        } else {
+            engine.end_turn(attributes.draw_player);
+        }
         game_event = GameEvent();
     }
 }
