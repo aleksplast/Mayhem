@@ -6,15 +6,17 @@
 #include <variant>
 #include <ctime>
 #include <cstdlib>
+#include <unordered_set>
 
-
-
-#define NUMBER_OF_CARDS 10
-#define ALL_THE_MINION_CARDS 10
-#define ALL_THE_ACTION_CARDS 10
 
 
 namespace Mayhem { // Parser methods
+
+
+const size_t NUMBER_OF_CARDS = 2;
+const size_t ALL_THE_MINION_CARDS = 1;
+const size_t ALL_THE_ACTION_CARDS = 1;
+
 
 using Value = nlohmann::basic_json<>;
 

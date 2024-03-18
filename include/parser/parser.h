@@ -27,7 +27,7 @@ class Parser {
 public:
     Parser() = default;
 
-    void parse_json(std::vector<Entity*>& entities, std::string input_file);
+    void parse_json(std::vector<Entity *> &entities, const std::string &input_file);
 };
 
 }
