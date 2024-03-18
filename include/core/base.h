@@ -3,10 +3,12 @@
 
 #include "card.h"
 #include "deck.h"
-#include <cstdint>
-#include <iostream>
-#include <fstream>
 #include "graphics/graphics.hpp"
+#include <SFML/Graphics/Rect.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <cstdint>
+#include <fstream>
+#include <iostream>
 
 namespace Mayhem {
 
@@ -40,36 +42,29 @@ class Base : public Card {
         }
     }
 
-    uint32_t get_power_to_win() const {
-      return power_to_win_;
-    }
+    uint32_t get_power_to_win() const { return power_to_win_; }
 
-    uint32_t get_current_power() const {
-      return current_power_;
-    }
+    uint32_t get_current_power() const { return current_power_; }
 
-    std::array<uint32_t, 3> get_points() const {
-      return points_;
-    }
+    std::array<uint32_t, 3> get_points() const { return points_; }
 
     void dump_state(std::ofstream &os) const {
-      os << "\nDumping base\n";
-      os << "---\n";
-      os << "points: " << points_.at(0) << " " << points_.at(1) << " " << points_.at(2) << "\n";
-      os << "current power: " << current_power_ << "\n";
-      os << "power to win: " << power_to_win_ << "\n";
-      cards_.dump_state(os);
-      os << "---\n";
+        os << "\nDumping base\n";
+        os << "---\n";
+        os << "points: " << points_.at(0) << " " << points_.at(1) << " " << points_.at(2) << "\n";
+        os << "current power: " << current_power_ << "\n";
+        os << "power to win: " << power_to_win_ << "\n";
+        cards_.dump_state(os);
+        os << "---\n";
     }
 
   public: // graphic functions
     Base(const std::string &base_file, int id, std::string ability, uint32_t power_to_win,
          std::array<uint32_t, 3> points)
-        : Card(base_file, id, ability), power_to_win_(power_to_win), points_(points), cards_("../src/graphics/images/deck"){};
+        : Card(base_file, id, ability), power_to_win_(power_to_win), points_(points),
+          cards_("../src/graphics/images/deck"){};
 
-    void show_cards(Graphics &graphics) {
-
-    }
+    void show_cards(Graphics::DrawingAttributes &attributes) const { cards_.show_cards(attributes); }
 
     const Deck<Minion *> &get_cards() { return cards_; }
 }; // class Base

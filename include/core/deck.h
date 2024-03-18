@@ -37,7 +37,7 @@ template <class T> class Deck : public Drawable {
     T take_card();
 
   public: // graphics functions
-    void show_cards(Graphics &graphics) {};
+    void show_cards(Graphics::DrawingAttributes &attributes) const;
 
 }; // class Deck
 

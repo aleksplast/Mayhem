@@ -21,6 +21,7 @@ class Graphics {
     class GameEvent {
       public:
         enum class EventType {
+            no_event,
             place_card_to_base,
             place_card_to_deck,
             show_deck,
@@ -28,19 +29,27 @@ class Graphics {
             end_turn,
             close_window,
             wait_event,
-            no_event,
         };
 
       public:
-        EventType type;
-        const PlayerCard *card;
-        const Base *base;
-        const Deck<PlayerCard *> *deck;
+        EventType type = EventType::no_event;
+        const PlayerCard *card = nullptr;
+        const Base *displayed_base = nullptr;
+        const Deck<PlayerCard *> *displayed_deck = nullptr;
+        const Base *base = nullptr;
+        const Deck<PlayerCard *> *deck = nullptr;
 
       public:
-        GameEvent(EventType type_ = EventType::no_event, const PlayerCard *card_ptr = nullptr,
-                  const Base *base_ptr = nullptr, const Deck<PlayerCard *> *deck_ptr = nullptr)
-            : type(type_), card(card_ptr), base(base_ptr), deck(deck_ptr) {}
+        explicit GameEvent() = default;
+        explicit GameEvent(EventType Type, const PlayerCard *Card = nullptr,
+                           const Base *Displayed_base = nullptr, const Deck<PlayerCard *> *Displaed_deck = nullptr,
+                           const Base *Base = nullptr, const Deck<PlayerCard *> *Deck = nullptr)
+            : type(Type), card(Card), displayed_base(Displayed_base), displayed_deck(Displaed_deck), base(Base),
+              deck(Deck) {}
+        explicit GameEvent(const GameEvent &) = delete;
+        explicit GameEvent(GameEvent &&) = delete;
+        const GameEvent& operator=(const GameEvent &rhs);
+        const GameEvent& operator=(GameEvent &&rhs);
         ~GameEvent() = default;
     };
 
@@ -49,11 +58,18 @@ class Graphics {
         constexpr static const float player_scale_to_playground_x = 0.38;
         constexpr static const float player_scale_to_playground_y = 0.25;
         constexpr static const float player_increase = 1.6;
+
         constexpr static const float bases_place_to_playground_x = 0.8;
         constexpr static const float bases_plase_to_playground_y = 0.2;
         constexpr static const float bases_scale_to_place_x = 0.15;
         constexpr static const float bases_scale_to_place_y = 1;
         constexpr static const float bases_pos_to_playground = 0.2;
+
+        constexpr static const float showen_place_size_to_playground_x = 0.7;
+        constexpr static const float showen_place_pos_to_playground_y = 0.6;
+        constexpr static const float showen_card_scale_to_playground_x = 0.1;
+        constexpr static const float showen_card_scale_to_playground_y = 0.2;
+
         constexpr static const float cards_place_to_player_x = 0.6;
         constexpr static const float cards_place_to_player_y = 0.8;
         constexpr static const float card_scale_to_player_x = 0.2;
@@ -82,7 +98,6 @@ class Graphics {
     Deck<PlayerCard *> *pressed_deck(const sf::Vector2f &pos) const;
     void parse_events(GameEvent &game_event);
     void get_event_parameters(const sf::Event &event, GameEvent &game_event) const;
-    void set_event_type(GameEvent &game_event) const;
 
   public:
     Graphics();
