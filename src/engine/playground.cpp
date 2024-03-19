@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-
+#include <limits>
 namespace Mayhem { // Playground methods
 
 const uint32_t POINTS_TO_WIN = 15;
@@ -58,7 +58,7 @@ void Playground::gain_base_on_start(Base *base) { bases_.gain_card(base); }
 
 std::pair<bool, uint32_t> Playground::check_for_winner() {
     uint32_t max_points = 0;
-    uint32_t winner = SIZE_MAX;
+    uint32_t winner = std::numeric_limits<uint32_t>::max();
     bool winner_exists = false;
 
     for (auto player: players_) {
@@ -70,7 +70,7 @@ std::pair<bool, uint32_t> Playground::check_for_winner() {
                 winner = player->get_id();
                 winner_exists = true;
             } else if (player_points == max_points) {
-                winner = SIZE_MAX;
+                winner = std::numeric_limits<uint32_t>::max();
                 winner_exists = false;
             }
         }
