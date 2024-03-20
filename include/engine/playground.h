@@ -36,7 +36,7 @@ class Playground : public Drawable {
     Playground &operator=(Playground &&rhs) = delete;
 
     Playground(std::vector<Entity *> &entities)
-        : Drawable("../src/graphics/images/playground.jpg"), bases_(), active_bases_(), dump_() {
+        : Drawable("../assets/images/playground.jpg"), bases_(), active_bases_(), dump_() {
         for (int i = 0; i < 4; i++) {
             Player *player = new Player(i);
             players_.push_back(player);
