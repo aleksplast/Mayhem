@@ -55,25 +55,25 @@ class Graphics {
 
     class LocationSettings {
       public:
-        constexpr static const float player_scale_to_playground_x = 0.38;
-        constexpr static const float player_scale_to_playground_y = 0.25;
-        constexpr static const float player_increase = 1.6;
+        constexpr static float player_scale_to_playground_x = 0.38;
+        constexpr static float player_scale_to_playground_y = 0.25;
+        constexpr static float player_increase = 1.6;
 
-        constexpr static const float bases_place_to_playground_x = 0.8;
-        constexpr static const float bases_plase_to_playground_y = 0.2;
-        constexpr static const float bases_scale_to_place_x = 0.15;
-        constexpr static const float bases_scale_to_place_y = 1;
-        constexpr static const float bases_pos_to_playground = 0.2;
+        constexpr static float bases_place_to_playground_x = 0.8;
+        constexpr static float bases_plase_to_playground_y = 0.2;
+        constexpr static float bases_scale_to_place_x = 0.15;
+        constexpr static float bases_scale_to_place_y = 1;
+        constexpr static float bases_pos_to_playground = 0.2;
 
-        constexpr static const float showen_place_size_to_playground_x = 0.7;
-        constexpr static const float showen_place_pos_to_playground_y = 0.6;
-        constexpr static const float showen_card_scale_to_playground_x = 0.1;
-        constexpr static const float showen_card_scale_to_playground_y = 0.2;
+        constexpr static float showen_place_size_to_playground_x = 0.7;
+        constexpr static float showen_place_pos_to_playground_y = 0.6;
+        constexpr static float showen_card_scale_to_playground_x = 0.1;
+        constexpr static float showen_card_scale_to_playground_y = 0.2;
 
-        constexpr static const float cards_place_to_player_x = 0.6;
-        constexpr static const float cards_place_to_player_y = 0.8;
-        constexpr static const float card_scale_to_player_x = 0.2;
-        constexpr static const float card_scale_to_player_y = 0.8;
+        constexpr static float cards_place_to_player_x = 0.6;
+        constexpr static float cards_place_to_player_y = 0.8;
+        constexpr static float card_scale_to_player_x = 0.2;
+        constexpr static float card_scale_to_player_y = 0.8;
     };
 
     class DrawingAttributes {
