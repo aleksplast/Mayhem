@@ -76,6 +76,15 @@ Deck<PlayerCard *> *Graphics::pressed_deck(const sf::Vector2f &pos) const {
     return nullptr;
 }
 
+Graphics::DrawingAttributes::ButtonType Graphics::pressed_button(const sf::Vector2f &pos) const {
+    for (auto it : attributes.buttuns) {
+        if(it.second.contains(pos)) {
+            return it.first;
+        }
+    }
+    return DrawingAttributes::ButtonType::no_type;
+}
+
 void Graphics::get_event_parameters(const sf::Event &event, GameEvent &game_event) const {
     if (event.type == sf::Event::Closed) {
         game_event = GameEvent(GameEvent::EventType::close_window);
@@ -92,8 +101,11 @@ void Graphics::get_event_parameters(const sf::Event &event, GameEvent &game_even
             PlayerCard *card = pressed_card(mouse_pos);
             Base *base = pressed_base(mouse_pos);
             Deck<PlayerCard *> *deck = pressed_deck(mouse_pos);
+            DrawingAttributes::ButtonType button_type = pressed_button(mouse_pos);
 
-            if (card) {
+            if (button_type != DrawingAttributes::ButtonType::no_type) {
+                game_event = GameEvent(GameEvent::EventType::end_turn);
+            } else if (card) {
                 game_event = GameEvent(GameEvent::EventType::wait_event, card, game_event.displayed_base,
                                        game_event.displayed_deck, nullptr, nullptr);
             } else if (base) {
@@ -115,10 +127,6 @@ void Graphics::get_event_parameters(const sf::Event &event, GameEvent &game_even
             } else {
                 game_event = GameEvent(GameEvent::EventType::no_event);
             }
-        }
-    } else if (event.type == sf::Event::KeyPressed) {
-        if (event.key.code == sf::Keyboard::Enter) {
-            game_event = GameEvent(GameEvent::EventType::end_turn);
         }
     }
 }

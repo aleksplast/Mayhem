@@ -2,8 +2,10 @@
 #define GRAFICS_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+#include <utility>
 #include <vector>
 
 namespace Mayhem {
@@ -63,20 +65,31 @@ class Graphics {
         constexpr static float bases_plase_to_playground_y = 0.2;
         constexpr static float bases_scale_to_place_x = 0.15;
         constexpr static float bases_scale_to_place_y = 1;
-        constexpr static float bases_pos_to_playground = 0.2;
+        constexpr static float bases_pos_to_playground = 0.17;
 
         constexpr static float showen_place_size_to_playground_x = 0.7;
-        constexpr static float showen_place_pos_to_playground_y = 0.6;
-        constexpr static float showen_card_scale_to_playground_x = 0.1;
+        constexpr static float showen_place_pos_to_playground_y = 0.65;
+        constexpr static float showen_card_scale_to_playground_x = 0.08;
         constexpr static float showen_card_scale_to_playground_y = 0.2;
 
         constexpr static float cards_place_to_player_x = 0.6;
         constexpr static float cards_place_to_player_y = 0.8;
         constexpr static float card_scale_to_player_x = 0.2;
         constexpr static float card_scale_to_player_y = 0.8;
+
+        constexpr static float end_turn_pos_to_playground_x = 0.82;
+        constexpr static float end_turn_pos_to_playground_y = 0.46;
+        constexpr static float end_turn_scale_to_playground_x = 0.1;
+        constexpr static float end_turn_scale_to_playground_y = 0.08;
     };
 
     class DrawingAttributes {
+      public:
+        enum class ButtonType {
+            no_type,
+            end_tern,
+        };
+
       public:
         uint16_t draw_player; // num player who graphic draw
         sf::RenderWindow window;
@@ -84,6 +97,7 @@ class Graphics {
         std::vector<PlayerCard *> current_player_cards;
         std::vector<Deck<PlayerCard *> *> current_decks;
         std::vector<Base *> active_bases;
+        std::vector<std::pair<ButtonType, sf::FloatRect>> buttuns;
     };
 
   private:
@@ -96,6 +110,7 @@ class Graphics {
     PlayerCard *pressed_card(const sf::Vector2f &pos) const;
     Base *pressed_base(const sf::Vector2f &pos) const;
     Deck<PlayerCard *> *pressed_deck(const sf::Vector2f &pos) const;
+    DrawingAttributes::ButtonType pressed_button(const sf::Vector2f &pos) const;
     void parse_events(GameEvent &game_event);
     void get_event_parameters(const sf::Event &event, GameEvent &game_event) const;
 

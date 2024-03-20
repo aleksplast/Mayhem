@@ -8,8 +8,10 @@
 #include "graphics/graphics.hpp"
 #include "parser/parser.h"
 #include "player.h"
+#include "graphics/button.hpp"
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <fstream>
 #include <iostream>
 #include <utility>
@@ -26,6 +28,8 @@ class Playground : public Drawable {
 
     std::vector<Player *> players_;
 
+    Button end_turn_;
+
   public:
     Playground() = delete;
 
@@ -36,7 +40,8 @@ class Playground : public Drawable {
     Playground &operator=(Playground &&rhs) = delete;
 
     Playground(std::vector<Entity *> &entities)
-        : Drawable("../assets/images/playground.jpg"), bases_(), active_bases_(), dump_() {
+        : Drawable("../assets/images/playground.jpg"), bases_(), active_bases_(), dump_(),
+        end_turn_("") {
         for (int i = 0; i < 4; i++) {
             Player *player = new Player(i);
             players_.push_back(player);
@@ -57,6 +62,7 @@ class Playground : public Drawable {
 
   private: // graphics functions
     void draw_active_bases(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect);
+    void draw_button(sf::RenderWindow &window, const sf::FloatRect &rect);
 
   public: // graphics functions
     void draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect, const float angle);
