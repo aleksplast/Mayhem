@@ -40,7 +40,7 @@ void Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_val
         }
     }
 
-    std::string minion_file = "../src/graphics/images/" + name;
+    std::string minion_file = "../assets/images/" + name;
 
     Entity *ent = new Minion(minion_file, entities.size(), ability, power);
     entities.push_back(ent);
@@ -58,7 +58,7 @@ void Parser::parse_action(std::vector<Entity *> &entities, const Value &item_val
         }
     }
 
-    std::string action_file = "../src/graphics/images/" + name;
+    std::string action_file = "../assets/images/" + name;
 
     Entity *ent = new Action(action_file, entities.size(), ability);
     entities.push_back(ent);
@@ -81,11 +81,11 @@ void Parser::parse_base(std::vector<Entity *> &entities, const Value &item_value
             for (const auto& point : (field.value()).items()) {
                 points[i] = point.value();
                 ++i;
-            } 
+            }
         }
     }
 
-    std::string minion_file = "../src/graphics/images/" + name;
+    std::string minion_file = "../assets/images/" + name;
 
     Entity *ent = new Base(minion_file, entities.size(), ability, power, points);
     entities.push_back(ent);

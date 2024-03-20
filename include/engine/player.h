@@ -22,8 +22,8 @@ class Player : public Entity {
     // get number of card
   public:
     Player(uint32_t id)
-        : Entity("../src/graphics/images/player.png", id), hand_("../src/graphics/images/deck"),
-          dump_deck_("../src/graphics/images/deck"), deck_("../src/graphics/images/deck"), points_(0) {
+        : Entity("../assets/images/player.png", id), hand_("../assets/images/deck"),
+          dump_deck_("../assets/images/deck"), deck_("../assets/images/deck"), points_(0) {
         sprite.setColor(sf::Color(0, 0, 0, 100));
     };
     ~Player() = default;
