@@ -2,6 +2,7 @@
 Trivial card game project
 ## Requirements
 1. nlohmann/json
+2. SFML
 ## Build 
 ```sh
 mkdir build
