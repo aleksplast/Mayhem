@@ -57,10 +57,8 @@ class Base : public Card {
     }
 
   public: // graphic functions
-    Base(const std::string &base_file, int id, uint32_t power_to_win,
-         std::array<uint32_t, 3> points)
-        : Card(base_file, id), power_to_win_(power_to_win), points_(points),
-          cards_("../assets/images/deck"){};
+    Base(const std::string &base_file, int id, uint32_t power_to_win, std::array<uint32_t, 3> points)
+        : Card(base_file, id), power_to_win_(power_to_win), points_(points), cards_("../assets/images/deck"){};
 
     void show_cards(Graphics::DrawingAttributes &attributes) const { cards_.show_cards(attributes); }
 

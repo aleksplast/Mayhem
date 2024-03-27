@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <limits>
+#include <sstream>
 namespace Mayhem { // Playground methods
 
 const uint32_t POINTS_TO_WIN = 15;
@@ -61,7 +61,7 @@ std::pair<bool, uint32_t> Playground::check_for_winner() {
     uint32_t winner = std::numeric_limits<uint32_t>::max();
     bool winner_exists = false;
 
-    for (auto player: players_) {
+    for (auto player : players_) {
         uint32_t player_points = player->get_points();
 
         if (player_points > POINTS_TO_WIN) {
@@ -90,7 +90,7 @@ void Playground::dump_state(std::ofstream &os) const {
     os << "Dumping dump bases\n";
     dump_.dump_state(os);
 
-    for (auto& player : players_) {
+    for (auto &player : players_) {
         player->dump_state(os);
     }
 

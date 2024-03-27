@@ -1,13 +1,13 @@
 #ifndef DECK_H
 #define DECK_H
 
+#include "graphics/drawable.hpp"
+#include "graphics/graphics.hpp"
 #include <algorithm>
 #include <cstdint>
 #include <cstdlib>
-#include <list>
 #include <iostream>
-#include "graphics/drawable.hpp"
-#include "graphics/graphics.hpp"
+#include <list>
 
 namespace Mayhem {
 
@@ -27,9 +27,9 @@ template <class T> class Deck : public Drawable {
 
   public: // Interface functions
     Deck() = default;
-    Deck(const std::string &deck_file) : Drawable(deck_file) {};
+    Deck(const std::string &deck_file) : Drawable(deck_file){};
     void clear_deck();
-    void gain_card(const T& card);
+    void gain_card(const T &card);
     void remove_card(const T &card);
     void dump_state(std::ofstream &os) const;
     size_t size() const;

@@ -1,6 +1,6 @@
 #include "engine/engine.h"
-#include "engine/player.h"
 #include "core/base.h"
+#include "engine/player.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
 #include <fstream>
@@ -19,7 +19,6 @@ Entity *Engine::get_by_id(uint16_t entity_id) {
 
     return entities_[entity_id];
 }
-
 
 bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) {
     if (player_id != turn_)
@@ -73,13 +72,9 @@ uint16_t Engine::end_turn(uint16_t player_id) {
     return turn_;
 }
 
-bool Engine::is_over() const {
-    return game_over_;
-}
+bool Engine::is_over() const { return game_over_; }
 
-uint32_t Engine::get_winner() const {
-    return winner_;
-}
+uint32_t Engine::get_winner() const { return winner_; }
 
 void Engine::start_game(Graphics::DrawingAttributes &attributes) {
     std::srand(std::time(0));
@@ -116,7 +111,7 @@ void Engine::start_game(Graphics::DrawingAttributes &attributes) {
 
 void Engine::distribute_points(LeaderBoard_t &leader_board) {
     for (auto pair : leader_board) {
-        Player *player = static_cast<Player*>(get_by_id(pair.first));
+        Player *player = static_cast<Player *>(get_by_id(pair.first));
         player->gain_points(pair.second);
     }
 }

@@ -152,23 +152,23 @@ void Playground::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRe
             break;
         case 1:
             players_[drawing_player]->draw(attributes,
-                                       sf::FloatRect(rect.left + (rect.width - player_size.x) / 2,
-                                                     rect.top - player_size.y / 2, player_size.x, player_size.y),
-                                       180);
+                                           sf::FloatRect(rect.left + (rect.width - player_size.x) / 2,
+                                                         rect.top - player_size.y / 2, player_size.x, player_size.y),
+                                           180);
             break;
         case 2:
             players_[drawing_player]->draw(attributes,
-                                       sf::FloatRect(rect.left - player_size.x / 2,
-                                                     rect.top + (rect.height - player_size.y) / 2, player_size.x,
-                                                     player_size.y),
-                                       90);
+                                           sf::FloatRect(rect.left - player_size.x / 2,
+                                                         rect.top + (rect.height - player_size.y) / 2, player_size.x,
+                                                         player_size.y),
+                                           90);
             break;
         case 3:
             players_[drawing_player]->draw(attributes,
-                                       sf::FloatRect(rect.left + rect.width - player_size.x / 2,
-                                                     rect.top + rect.height / 2 - player_size.y / 2, player_size.x,
-                                                     player_size.y),
-                                       270);
+                                           sf::FloatRect(rect.left + rect.width - player_size.x / 2,
+                                                         rect.top + rect.height / 2 - player_size.y / 2, player_size.x,
+                                                         player_size.y),
+                                           270);
             break;
         }
         drawing_player = (drawing_player + 1) % num_players;

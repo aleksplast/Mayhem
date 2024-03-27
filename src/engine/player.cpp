@@ -9,7 +9,7 @@
 
 namespace Mayhem { // Player methods
 
-void Player::dump_card(PlayerCard* card) {
+void Player::dump_card(PlayerCard *card) {
     deck_.remove_card(card);
     dump_deck_.gain_card(card);
 }
@@ -25,18 +25,14 @@ void Player::take_card(uint32_t number_of_cards) {
             return;
         }
 
-        PlayerCard* new_card = deck_.take_card();
+        PlayerCard *new_card = deck_.take_card();
         hand_.gain_card(new_card);
     }
 }
 
-void Player::play_card(PlayerCard *card) {
-    hand_.remove_card(card);
-}
+void Player::play_card(PlayerCard *card) { hand_.remove_card(card); }
 
-void Player::gain_card_on_start(PlayerCard *card) {
-    dump_deck_.gain_card(card);
-}
+void Player::gain_card_on_start(PlayerCard *card) { dump_deck_.gain_card(card); }
 
 void Player::dump_random_card() {
     size_t card_num = static_cast<size_t>(std::rand()) % hand_.size();
@@ -51,13 +47,9 @@ void Player::dump_random_card() {
     hand_.remove_card(*dump);
 }
 
-void Player::gain_points(uint32_t points) {
-    points_ += points;
-}
+void Player::gain_points(uint32_t points) { points_ += points; }
 
-uint32_t Player::get_points() const {
-    return points_;
-}
+uint32_t Player::get_points() const { return points_; }
 
 void Player::dump_state(std::ofstream &os) const {
     os << "\nDumping player\n";

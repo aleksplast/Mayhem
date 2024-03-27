@@ -6,8 +6,8 @@
 #include "core/deck.h"
 #include "core/entity.h"
 #include "parser/parser.h"
-#include "playground.h"
 #include "player.h"
+#include "playground.h"
 
 #include <SFML/Graphics.hpp>
 #include <fstream>
@@ -19,7 +19,7 @@ namespace Mayhem {
 class Engine {
 
   private:
-    int time_;      // FIXME: just mock
+    int time_; // FIXME: just mock
     uint16_t turn_;
     std::vector<Entity *> entities_;
     Playground playground;
@@ -29,12 +29,12 @@ class Engine {
 
   public:
     Engine(const Engine &rhs) = delete;
-    Engine& operator=(Engine &&rhs) = delete;
+    Engine &operator=(Engine &&rhs) = delete;
 
     Engine(Engine &&rhs) = delete;
-    Engine& operator=(const Engine &rhs) = delete;
+    Engine &operator=(const Engine &rhs) = delete;
 
-    Engine() : turn_(0), time_(0), entities_(), playground(entities_), parser_() {};
+    Engine() : turn_(0), time_(0), entities_(), playground(entities_), parser_(){};
     Entity *get_by_id(uint16_t entity_id);
     ~Engine();
     void give_card(uint16_t player_id, uint16_t card_id);

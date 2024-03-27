@@ -1,9 +1,8 @@
+#include "core/base.h"
+#include "core/deck.h"
 #include "engine/engine.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
-#include "core/base.h"
-#include "core/deck.h"
-
 
 using namespace Mayhem;
 

@@ -8,6 +8,7 @@ namespace Mayhem {
 class Drawable {
   private:
     sf::Texture texture;
+
   public:
     sf::Sprite sprite;
 
