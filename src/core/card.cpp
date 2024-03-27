@@ -16,4 +16,13 @@ void Action::dump_state(std::ofstream &os) const {
     os << "\nDumping Action\n";
     os << "Not implemented\n";
 }
+
+void Minion::decrease_power(uint32_t power) {
+    if (power > power_) {
+        power_ = 0;
+        return;
+    }
+
+    power_ -= power;
+}
 } // namespace Mayhem

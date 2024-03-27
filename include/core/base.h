@@ -20,8 +20,6 @@ class Base : public Card {
     uint32_t current_power_ = 0;
 
   public:
-    void activate_abillity() override{};
-
     void gain_minion(Minion *card) {
         current_power_ += card->get_power();
 
@@ -59,9 +57,9 @@ class Base : public Card {
     }
 
   public: // graphic functions
-    Base(const std::string &base_file, int id, std::string ability, uint32_t power_to_win,
+    Base(const std::string &base_file, int id, uint32_t power_to_win,
          std::array<uint32_t, 3> points)
-        : Card(base_file, id, ability), power_to_win_(power_to_win), points_(points),
+        : Card(base_file, id), power_to_win_(power_to_win), points_(points),
           cards_("../assets/images/deck"){};
 
     void show_cards(Graphics::DrawingAttributes &attributes) const { cards_.show_cards(attributes); }
