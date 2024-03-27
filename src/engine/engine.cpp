@@ -40,6 +40,22 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
     return true;
 }
 
+bool Engine::play_action(uint16_t player_id, uint16_t card_id) {
+    if (player_id != turn_)
+        return false;
+
+    std::cout << "Player " << player_id << " played action " << card_id << std::endl;
+
+    if (auto *act = dynamic_cast<Action *>(get_by_id(card_id))) {
+        Player *player = static_cast<Player *>(get_by_id(player_id)); // FIXME: Change that
+        player->play_card(act);
+
+        return true;
+    }
+
+    return false;
+}
+
 uint16_t Engine::end_turn(uint16_t player_id) {
     if (player_id != turn_) {
         return turn_;
