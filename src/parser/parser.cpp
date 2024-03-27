@@ -14,9 +14,6 @@ namespace Mayhem { // Parser methods
 
 
 const size_t NUMBER_OF_CARDS = 2;
-const size_t ALL_THE_MINION_CARDS = 1;
-const size_t ALL_THE_ACTION_CARDS = 1;
-
 
 using Value = nlohmann::basic_json<>;
 
@@ -102,8 +99,7 @@ void Parser::parse_base(std::vector<Entity *> &entities, const Value &item_value
     entities.push_back(ent);
 }
 
-
-const std::string& Parser::json_for_player(const std::string &input_file, const std::string &output_file) {
+void Parser::json_for_player(const std::string &input_file, const std::string &output_file) {
     std::ifstream in(input_file);
     json jsonData = json::parse(in);
     std::ofstream out(output_file);
@@ -114,27 +110,29 @@ const std::string& Parser::json_for_player(const std::string &input_file, const 
     
     std::unordered_set<uint32_t> busy_minions;
     std::unordered_set<uint32_t> busy_actions;
-   
+    
+    size_t all_the_minion_cards = jsonData.at("Minion").size();
+    size_t all_the_action_cards = jsonData.at("Action").size();
+
     for (size_t i = 0; i != NUMBER_OF_CARDS;) {
         uint32_t position = static_cast<uint32_t>(rand());
         
-        if (position % 2 == 0 && busy_minions.find(position % ALL_THE_MINION_CARDS) == busy_minions.end()) {
+        if (position % 2 == 0 && busy_minions.find(position % all_the_minion_cards) == busy_minions.end()) {
             
-            j["Minion"] += jsonData.at("Minion")[position % ALL_THE_MINION_CARDS];
-            busy_minions.insert(position % ALL_THE_MINION_CARDS);
+            j["Minion"] += jsonData.at("Minion")[position % all_the_minion_cards];
+            busy_minions.insert(position % all_the_minion_cards);
             ++i;
         
-        } else if (position % 2 != 0 && busy_actions.find(position % ALL_THE_ACTION_CARDS) == busy_actions.end()) {
+        } else if (position % 2 != 0 && busy_actions.find(position % all_the_action_cards) == busy_actions.end()) {
 
-            j["Action"] += jsonData.at("Action")[position % ALL_THE_ACTION_CARDS];
-            busy_actions.insert(position % ALL_THE_ACTION_CARDS);
+            j["Action"] += jsonData.at("Action")[position % all_the_action_cards];
+            busy_actions.insert(position % all_the_action_cards);
             ++i;
         
         }
     }
 
     out << std::setw(4) << j << std::endl;
-    return output_file;
 }
 
 
