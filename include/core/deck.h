@@ -19,11 +19,14 @@ template <class T> class Deck : public Drawable {
     using container = std::list<T>;
     using iterator = typename container::iterator;
     using const_iterator = typename container::const_iterator;
+    using reverse_iterator = typename container::reverse_iterator;
 
     iterator begin() { return cards_.begin(); };
     iterator end() { return cards_.end(); };
     const_iterator begin() const { return cards_.begin(); };
     const_iterator end() const { return cards_.end(); };
+    reverse_iterator rbegin() { return cards_.rbegin(); };
+    reverse_iterator rend() { return cards_.rend(); };
 
   public: // Interface functions
     Deck() = default;
