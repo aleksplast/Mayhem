@@ -28,15 +28,30 @@ template <class T> class Deck : public Drawable {
   public: // Interface functions
     Deck() = default;
     Deck(const std::string &deck_file) : Drawable(deck_file){};
+
+    // Destroy all cards in deck
     void clear_deck();
+
+    // Add card to the deck
     void gain_card(const T &card);
+
+    // Remove card from deck
     void remove_card(const T &card);
+
+    // Dump state of the deck
     void dump_state(std::ofstream &os) const;
+
+    // Number of cards in the deck
     size_t size() const;
+
+    // Shuffle cards in the deck
     void shuffle();
+
+    // Get top card from the deck and remove it from deck
     T take_card();
 
   public: // graphics functions
+    // Show cards in deck
     void show_cards(Graphics::DrawingAttributes &attributes) const;
 
 }; // class Deck
