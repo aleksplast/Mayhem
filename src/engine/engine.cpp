@@ -8,7 +8,10 @@
 
 namespace Mayhem { // Engine methods
 
+// Player can only have 10 cards in hand
 const uint32_t MAX_CARDS_IN_HAND = 10;
+
+// At the end of the turn player draw 2 cards
 const uint32_t CARDS_TO_DRAW_END_TURN = 2;
 
 Entity *Engine::get_by_id(uint16_t entity_id) {
