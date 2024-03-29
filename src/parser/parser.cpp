@@ -13,7 +13,7 @@ namespace Mayhem { // Parser methods
 
 using Value = nlohmann::basic_json<>;
 
-const size_t NUMBER_OF_CARDS = 0;
+const size_t NUMBER_OF_CARDS = 40;
 
 void Parser::parse_json(std::vector<Entity *> &entities, std::string input_file) {
     std::ifstream in(input_file);
