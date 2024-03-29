@@ -4,10 +4,16 @@
 #include "core/entity.h"
 #include <nlohmann/json.hpp>
 #include <variant>
+#include <cstdint>
+#include <unordered_set>
+#include <ctime>
+
 
 namespace Mayhem { // Parser methods
 
 using Value = nlohmann::basic_json<>;
+
+const size_t NUMBER_OF_CARDS = 40;
 
 void Parser::parse_json(std::vector<Entity *> &entities, std::string input_file) {
     std::ifstream in(input_file);
@@ -83,5 +89,42 @@ void Parser::parse_base(std::vector<Entity *> &entities, const Value &item_value
     Entity *ent = new Base(minion_file, entities.size(), power, points);
     entities.push_back(ent);
 }
+
+void Parser::json_for_player(const std::string &input_file, const std::string &output_file) {
+    std::ifstream in(input_file);
+    json jsonData = json::parse(in);
+    std::ofstream out(output_file);
+
+    json j;
+
+    srand(static_cast<uint32_t>(time(nullptr)));
+
+    std::unordered_set<uint32_t> busy_minions;
+    std::unordered_set<uint32_t> busy_actions;
+
+    size_t all_the_minion_cards = jsonData.at("Minion").size();
+    size_t all_the_action_cards = jsonData.at("Action").size();
+
+    for (size_t i = 0; i != NUMBER_OF_CARDS;) {
+        uint32_t position = static_cast<uint32_t>(rand());
+
+        if (position % 2 == 0 && busy_minions.find(position % all_the_minion_cards) == busy_minions.end()) {
+
+            j["Minion"] += jsonData.at("Minion")[position % all_the_minion_cards];
+            busy_minions.insert(position % all_the_minion_cards);
+            ++i;
+
+        } else if (position % 2 != 0 && busy_actions.find(position % all_the_action_cards) == busy_actions.end()) {
+
+            j["Action"] += jsonData.at("Action")[position % all_the_action_cards];
+            busy_actions.insert(position % all_the_action_cards);
+            ++i;
+
+        }
+    }
+
+    out << std::setw(4) << j << std::endl;
+}
+
 
 }; // namespace Mayhem
