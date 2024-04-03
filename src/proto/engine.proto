@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package enginePackage;
+
+message idInfo {
+    uint32 playerId = 1;
+    uint32 cardId   = 2; 
+    uint32 baseId   = 3;
+}
+
+message answer {
+    bool answer = 1;
+}
+
+service Engine {
+
+    rpc placeCard(idInfo) returns (answer) {}
+}
+
