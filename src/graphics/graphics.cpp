@@ -50,27 +50,30 @@ void Graphics::launch_game(Engine &engine) {
 }
 
 PlayerCard *Graphics::pressed_card(const sf::Vector2f &pos) const {
-    for (auto it : attributes.current_player_cards) {
-        if (it->sprite.getGlobalBounds().contains(pos.x, pos.y)) {
-            return it;
+    auto end_it = attributes.current_player_cards.rend();
+    for (auto it = attributes.current_player_cards.rbegin(); it != end_it; ++it) {
+        if ((*it)->sprite.getGlobalBounds().contains(pos.x, pos.y)) {
+            return *it;
         }
     }
     return nullptr;
 }
 
 Base *Graphics::pressed_base(const sf::Vector2f &pos) const {
-    for (auto it : attributes.active_bases) {
-        if (it->sprite.getGlobalBounds().contains(pos.x, pos.y)) {
-            return it;
+    auto end_it = attributes.active_bases.rend();
+    for (auto it = attributes.active_bases.rbegin(); it != end_it; ++it) {
+        if ((*it)->sprite.getGlobalBounds().contains(pos.x, pos.y)) {
+            return *it;
         }
     }
     return nullptr;
 }
 
 Deck<PlayerCard *> *Graphics::pressed_deck(const sf::Vector2f &pos) const {
-    for (auto it : attributes.current_decks) {
-        if (it->sprite.getGlobalBounds().contains(pos.x, pos.y)) {
-            return it;
+    auto end_it = attributes.current_decks.rend();
+    for (auto it = attributes.current_decks.rbegin(); it != end_it; ++it) {
+        if ((*it)->sprite.getGlobalBounds().contains(pos.x, pos.y)) {
+            return *it;
         }
     }
     return nullptr;
