@@ -1,0 +1,28 @@
+name: Build test
+
+on:
+  push:
+    branches: [master, main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: oprypin/install-sfml@v1
+        id: install-sfml
+      - run: echo "::set-env name=SFML_INCLUDE_DIR::"${{ steps.install-sfml.outputs.path }}/include""
+      - run: echo $SFML_INCLUDE_DIR
+      - run: sudo apt install -y nlohmann-json3-dev
+      - run: sudo apt install -y fluxbox
+      - run: mkdir build && cd build && cmake .. && make 
+      - run: |
+          export DISPLAY=:99
+          echo $DISPLAY
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+          sleep 5
+          fluxbox > /dev/null 2>&1 &
+          sleep 5
+          ./game
+        working-directory: build
