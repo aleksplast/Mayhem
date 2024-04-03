@@ -30,11 +30,7 @@ class Player : public Entity {
     uint32_t points_;
 
   public:
-    Player(uint32_t id)
-        : Entity("../assets/images/player.png", id), hand_("../assets/images/deck"),
-          dump_deck_("../assets/images/deck"), deck_("../assets/images/deck"), points_(0) {
-        sprite.setColor(sf::Color(0, 0, 0, 100));
-    };
+    Player(uint32_t id);
     ~Player() = default;
 
   public:
@@ -52,7 +48,7 @@ class Player : public Entity {
 
     // Moves number_of_cards from deck to hand
     void take_card(uint32_t number_of_cards);
-    size_t get_number_of_cards() { return hand_.size(); };
+    size_t get_number_of_cards();
 
     // Dump state of the player
     void dump_state(std::ofstream &os) const;

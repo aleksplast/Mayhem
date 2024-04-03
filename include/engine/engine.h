@@ -45,7 +45,7 @@ class Engine {
     Engine &operator=(const Engine &rhs) = delete;
 
     // Default Constructor for Engine
-    Engine() : turn_(0), time_(0), entities_(), playground(entities_), parser_(){};
+    Engine();
 
     // Default Engine Destructor
     ~Engine();

@@ -10,6 +10,15 @@ namespace Mayhem { // Playground methods
 
 const uint32_t POINTS_TO_WIN = 15;
 
+Playground::Playground(std::vector<Entity *> &entities)
+    : Drawable("../assets/images/playground.jpg"), bases_(), active_bases_(), dump_(), end_turn_("") {
+    for (int i = 0; i < 4; i++) {
+        Player *player = new Player(i);
+        players_.push_back(player);
+        entities.push_back(player);
+    }
+}
+
 std::vector<Base *> Playground::check_bases() {
     std::vector<Base *> captured_bases{};
 
@@ -21,6 +30,8 @@ std::vector<Base *> Playground::check_bases() {
 
     return captured_bases;
 }
+
+uint16_t Playground::get_number_of_players() { return players_.size(); };
 
 LeaderBoard_t Playground::capture_base(Base *base) {
     auto cards = base->get_cards();

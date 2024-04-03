@@ -14,11 +14,11 @@ class Entity : public Drawable {
     int id_;
 
   public:
-    Entity(const std::string &name_file, const int id) : Drawable(name_file), id_(id){};
+    Entity(const std::string &name_file, const int id);
     virtual ~Entity(){};
 
     // Get ID of the entity
-    int get_id() const { return id_; };
+    int get_id() const;
 }; // class Entity
 
 } // namespace Mayhem

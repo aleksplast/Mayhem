@@ -20,6 +20,8 @@ const std::string CARDS_DATA_BASE_FILE = "../assets/cards_data_base.json";
 // Location of the data base with all bases
 const std::string BASE_DATA_BASE_FILE = "../assets/base_data_base.json";
 
+Engine::Engine() : turn_(0), time_(0), entities_(), playground(entities_), parser_(){};
+
 Entity *Engine::get_by_id(uint16_t entity_id) {
     if (entity_id >= entities_.size()) {
         std::cout << "HERE NEED TO BE LOG: entity id is bigger than vector size" << std::endl;
@@ -98,6 +100,7 @@ uint16_t Engine::end_turn(uint16_t player_id) {
 }
 
 bool Engine::is_over() const { return game_over_; }
+
 
 uint32_t Engine::get_winner() const { return winner_; }
 

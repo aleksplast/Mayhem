@@ -16,7 +16,7 @@ namespace Mayhem {
 // Card type
 class Card : public Entity {
   public:
-    Card(const std::string &name_file, int id) : Entity(name_file, id){};
+    Card(const std::string &name_file, int id);
 }; // class Card
 
 // Card that can belong to a player
@@ -26,10 +26,10 @@ class PlayerCard : public Card {
     uint32_t owner_id_;
 
   public:
-    PlayerCard(const std::string &name_file, int id) : Card(name_file, id){};
+    PlayerCard(const std::string &name_file, int id);
 
     // Get owner of the card
-    uint32_t get_owner() { return owner_id_; };
+    uint32_t get_owner();
 
     // Change owner of the card
     void change_owner(uint32_t owner);
@@ -45,16 +45,14 @@ class Minion : public PlayerCard {
     uint32_t power_;
 
   public:
-    Minion(const std::string &minion_file, int id, uint32_t power) : PlayerCard(minion_file, id), power_(power){};
+    Minion(const std::string &minion_file, int id, uint32_t power);
 
     // Dump state of the minion
     void dump_state(std::ofstream &os) const override;
 
-    // Get power of the minion
-    uint32_t get_power() const { return power_; }
+    uint32_t get_power() const;
 
-    // Increase power of the minion
-    void increase_power(uint32_t power) { power_ += power; }
+    void increase_power(uint32_t power);
 
     // Decrease power of the minion
     void decrease_power(uint32_t power);
@@ -64,7 +62,7 @@ class Minion : public PlayerCard {
 class Action : public PlayerCard {
     // FIXME: change it to abstract class
   public:
-    Action(const std::string &action_file, int id) : PlayerCard(action_file, id){};
+    Action(const std::string &action_file, int id);
 
     // Activate ability of the action
     virtual void activate_abillity(Minion *target, Base *src = NULL, Base *dest = NULL){};

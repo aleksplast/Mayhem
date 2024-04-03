@@ -28,57 +28,34 @@ class Base : public Card {
 
   public:
     // Add minion to cards on the base
-    void gain_minion(Minion *card) {
-        current_power_ += card->get_power();
-
-        cards_.gain_card(card);
-    }
+    void gain_minion(Minion *card);
 
     // Remove minion from minion on the base
-    void remove_minion(Minion *card) {
-        current_power_ -= card->get_power();
-
-        cards_.remove_card(card);
-    }
+    void remove_minion(Minion *card);
 
     // Is the base captured
-    bool is_captured() const {
-        if (current_power_ >= power_to_win_) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+    bool is_captured() const;
 
     // Get power to win on this base
-    uint32_t get_power_to_win() const { return power_to_win_; }
+    uint32_t get_power_to_win() const;
 
     // Get current power on this base
-    uint32_t get_current_power() const { return current_power_; }
+    uint32_t get_current_power() const;
 
     // Get winning points on this base
-    std::array<uint32_t, 3> get_points() const { return points_; }
+    std::array<uint32_t, 3> get_points() const;
 
     // Dump state of the base
-    void dump_state(std::ofstream &os) const {
-        os << "\nDumping base\n";
-        os << "---\n";
-        os << "points: " << points_.at(0) << " " << points_.at(1) << " " << points_.at(2) << "\n";
-        os << "current power: " << current_power_ << "\n";
-        os << "power to win: " << power_to_win_ << "\n";
-        cards_.dump_state(os);
-        os << "---\n";
-    }
+    void dump_state(std::ofstream &os) const;
 
   public: // graphic functions
-    Base(const std::string &base_file, int id, uint32_t power_to_win, std::array<uint32_t, 3> points)
-        : Card(base_file, id), power_to_win_(power_to_win), points_(points), cards_("../assets/images/deck"){};
+    Base(const std::string &base_file, int id, uint32_t power_to_win, std::array<uint32_t, 3> points);
 
     // Show cards on the base
-    void show_cards(Graphics::DrawingAttributes &attributes) const { cards_.show_cards(attributes); }
+    void show_cards(Graphics::DrawingAttributes &attributes) const;
 
     // Get cards on the base
-    const Deck<Minion *> &get_cards() { return cards_; }
+    const Deck<Minion *> &get_cards();
 }; // class Base
 
 } // namespace Mayhem

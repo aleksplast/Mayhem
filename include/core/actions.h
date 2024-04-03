@@ -12,13 +12,10 @@ class BuffAction : public Action {
     uint32_t buff_;
 
   public:
-    BuffAction(const std::string &action_file, int id, std::string ability, uint32_t buff)
-        : Action(action_file, id), buff_(buff){};
+    BuffAction(const std::string &action_file, int id, std::string ability, uint32_t buff);
 
     // Buffs minion
-    void activate_abillity(Minion *target, Base *src = NULL, Base *dest = NULL) override {
-        target->increase_power(buff_);
-    };
+    void activate_abillity(Minion *target, Base *src = NULL, Base *dest = NULL) override;
 
 }; // class BuffAction
 
@@ -27,26 +24,20 @@ class DebuffAction : public Action {
     uint32_t debuff_;
 
   public:
-    DebuffAction(const std::string &action_file, int id, std::string ability, uint32_t debuff)
-        : Action(action_file, id), debuff_(debuff){};
+    DebuffAction(const std::string &action_file, int id, std::string ability, uint32_t debuff);
 
     // Debuffs minion
-    void activate_abillity(Minion *target, Base *src = NULL, Base *dest = NULL) override {
-        target->decrease_power(debuff_);
-    };
+    void activate_abillity(Minion *target, Base *src = NULL, Base *dest = NULL) override;
 }; // class DebuffAction
 
 class DestroyAction : public Action {
     // Destroy minion
-    void activate_abillity(Minion *target, Base *src, Base *dest = NULL) override { src->remove_minion(target); };
+    void activate_abillity(Minion *target, Base *src, Base *dest = NULL) override;
 }; // class DestroyAction
 
 class MoveAction : public Action {
     // Move minion
-    void activate_abillity(Minion *target, Base *src, Base *dest) override {
-        src->remove_minion(target);
-        dest->gain_minion(target);
-    };
+    void activate_abillity(Minion *target, Base *src, Base *dest) override;
 }; // class MoveAction
 
 } // namespace Mayhem
