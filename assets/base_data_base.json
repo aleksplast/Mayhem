@@ -1,0 +1,66 @@
+[
+    {
+        "Base" : {
+            "name": "Jail",
+            "ability": "nate higgers",
+            "power" : 100,
+            "points" : [5, 2, 1]
+        }
+    },
+    {
+        "Base" : {
+            "name" : "graveyard",
+            "ability": "raise the dead",
+            "power" : 20,
+            "points" : [5, 2, 1]
+        }
+    },
+    {
+        "Base" : {
+            "name": "Jail",
+            "ability": "nate higgers",
+            "power" : 100,
+            "points" : [5, 2, 1]
+        }
+    },
+    {
+        "Base" : {
+            "name" : "graveyard",
+            "ability": "raise the dead",
+            "power" : 20,
+            "points" : [5, 2, 1]
+        }
+    },
+    {
+        "Base" : {
+            "name": "Jail",
+            "ability": "nate higgers",
+            "power" : 100,
+            "points" : [5, 2, 1]
+        }
+    },
+    {
+        "Base" : {
+            "name" : "graveyard",
+            "ability": "raise the dead",
+            "power" : 20,
+            "points" : [5, 2, 1]
+        }
+    },
+    {
+        "Base" : {
+            "name": "Jail",
+            "ability": "nate higgers",
+            "power" : 100,
+            "points" : [5, 2, 1]
+        }
+    },
+    {
+        "Base" : {
+            "name" : "graveyard",
+            "ability": "raise the dead",
+            "power" : 20,
+            "points" : [5, 2, 1]
+        }
+    }
+]

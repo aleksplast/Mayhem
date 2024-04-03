@@ -14,6 +14,12 @@ const uint32_t MAX_CARDS_IN_HAND = 10;
 // At the end of the turn player draw 2 cards
 const uint32_t CARDS_TO_DRAW_END_TURN = 2;
 
+// Location of the data base with all cards
+const std::string CARDS_DATA_BASE_FILE = "../assets/cards_data_base.json";
+
+// Location of the data base with all bases
+const std::string BASE_DATA_BASE_FILE = "../assets/base_data_base.json";
+
 Entity *Engine::get_by_id(uint16_t entity_id) {
     if (entity_id >= entities_.size()) {
         std::cout << "HERE NEED TO BE LOG: entity id is bigger than vector size" << std::endl;
@@ -100,7 +106,8 @@ void Engine::start_game(Graphics::DrawingAttributes &attributes) {
 
     size_t curr_id = playground.get_number_of_players();
 
-    parser_.parse_json(entities_, "base_deck.json"); // FIXME: automate it
+
+    parser_.parse_json(entities_, BASE_DATA_BASE_FILE);
     for (size_t id = curr_id; id < entities_.size(); id++) {
         playground.gain_base_on_start(static_cast<Base *>(get_by_id(id)));
     }
@@ -112,7 +119,10 @@ void Engine::start_game(Graphics::DrawingAttributes &attributes) {
     curr_id = entities_.size();
 
     for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
-        parser_.parse_json(entities_, "player1_deck.json"); // FIXME: need to somehow automate input file
+        std::string player_deck_file = "player_deck.json";
+        parser_.json_for_player(CARDS_DATA_BASE_FILE, player_deck_file);
+
+        parser_.parse_json(entities_, player_deck_file);
         Player *player = static_cast<Player *>(get_by_id(i));
 
         for (size_t id = curr_id; id < entities_.size(); id++) {
