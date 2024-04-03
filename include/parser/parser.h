@@ -27,11 +27,11 @@ class Parser {
     // Parse base from json
     void parse_base(std::vector<Entity *> &entities, const Value &value);
 
-    //Make json file for player
-    void json_for_player(const std::string &input_file, const std::string &output_file);
-
   public:
     Parser() = default;
+
+    //Make json file for player
+    void json_for_player(const std::string &input_file, const std::string &output_file);
 
     // Parse json file
     void parse_json(std::vector<Entity *> &entities, std::string input_file);

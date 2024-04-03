@@ -21,7 +21,7 @@ void Parser::parse_json(std::vector<Entity *> &entities, std::string input_file)
 
     for (const auto &block : jsonData.items()) {
         for (const auto &item : block.value().items()) {
-            if (item.key() == "Minion") {
+            if (block.key() == "Minion") {
                 parse_minion(entities, item.value());
             } else if (item.key() == "Action") {
                 parse_action(entities, item.value());
@@ -103,7 +103,7 @@ void Parser::json_for_player(const std::string &input_file, const std::string &o
     std::unordered_set<uint32_t> busy_actions;
 
     size_t all_the_minion_cards = jsonData.at("Minion").size();
-    size_t all_the_action_cards = jsonData.at("Action").size();
+    // size_t all_the_action_cards = jsonData.at("Action").size();
 
     for (size_t i = 0; i != NUMBER_OF_CARDS;) {
         uint32_t position = static_cast<uint32_t>(rand());
@@ -114,17 +114,17 @@ void Parser::json_for_player(const std::string &input_file, const std::string &o
             busy_minions.insert(position % all_the_minion_cards);
             ++i;
 
-        } else if (position % 2 != 0 && busy_actions.find(position % all_the_action_cards) == busy_actions.end()) {
-
-            j["Action"] += jsonData.at("Action")[position % all_the_action_cards];
-            busy_actions.insert(position % all_the_action_cards);
-            ++i;
-
         }
+//         else if (position % 2 != 0 && busy_actions.find(position % all_the_action_cards) == busy_actions.end()) {
+//
+//             j["Action"] += jsonData.at("Action")[position % all_the_action_cards];
+//             busy_actions.insert(position % all_the_action_cards);
+//             ++i;
+//
+//         }
     }
 
     out << std::setw(4) << j << std::endl;
 }
-
 
 }; // namespace Mayhem
