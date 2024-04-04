@@ -5,10 +5,10 @@
 #include "core/card.h"
 #include "core/deck.h"
 #include "core/entity.h"
+#include "graphics/button.hpp"
 #include "graphics/graphics.hpp"
 #include "parser/parser.h"
 #include "player.h"
-#include "graphics/button.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Rect.hpp>
@@ -53,8 +53,7 @@ class Playground : public Drawable {
 
     // Constructor for Playground
     Playground(std::vector<Entity *> &entities)
-        : Drawable("../assets/images/playground.jpg"), bases_(), active_bases_(), dump_(),
-        end_turn_("") {
+        : Drawable("../assets/images/playground.jpg"), bases_(), active_bases_(), dump_(), end_turn_("") {
         for (int i = 0; i < 4; i++) {
             Player *player = new Player(i);
             players_.push_back(player);
@@ -89,7 +88,6 @@ class Playground : public Drawable {
     ~Playground() = default;
 
   private: // graphics functions
-
     // Draws active bases
     void draw_active_bases(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect);
 
@@ -97,8 +95,7 @@ class Playground : public Drawable {
     void draw_button(sf::RenderWindow &window, const sf::FloatRect &rect);
 
   public: // graphics functions
-
-  // Draws playground
+          // Draws playground
     void draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect, const float angle);
 }; // class Playground
 

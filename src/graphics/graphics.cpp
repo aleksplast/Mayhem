@@ -78,7 +78,7 @@ Deck<PlayerCard *> *Graphics::pressed_deck(const sf::Vector2f &pos) const {
 
 Graphics::DrawingAttributes::ButtonType Graphics::pressed_button(const sf::Vector2f &pos) const {
     for (auto it : attributes.buttuns) {
-        if(it.second.contains(pos)) {
+        if (it.second.contains(pos)) {
             return it.first;
         }
     }

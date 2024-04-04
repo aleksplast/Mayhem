@@ -106,7 +106,6 @@ void Engine::start_game(Graphics::DrawingAttributes &attributes) {
 
     size_t curr_id = playground.get_number_of_players();
 
-
     parser_.parse_json(entities_, BASE_DATA_BASE_FILE);
     for (size_t id = curr_id; id < entities_.size(); id++) {
         playground.gain_base_on_start(static_cast<Base *>(get_by_id(id)));

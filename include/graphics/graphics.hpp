@@ -43,15 +43,15 @@ class Graphics {
 
       public:
         explicit GameEvent() = default;
-        explicit GameEvent(EventType Type, const PlayerCard *Card = nullptr,
-                           const Base *Displayed_base = nullptr, const Deck<PlayerCard *> *Displaed_deck = nullptr,
-                           const Base *Base = nullptr, const Deck<PlayerCard *> *Deck = nullptr)
+        explicit GameEvent(EventType Type, const PlayerCard *Card = nullptr, const Base *Displayed_base = nullptr,
+                           const Deck<PlayerCard *> *Displaed_deck = nullptr, const Base *Base = nullptr,
+                           const Deck<PlayerCard *> *Deck = nullptr)
             : type(Type), card(Card), displayed_base(Displayed_base), displayed_deck(Displaed_deck), base(Base),
               deck(Deck) {}
         explicit GameEvent(const GameEvent &) = delete;
         explicit GameEvent(GameEvent &&) = delete;
-        const GameEvent& operator=(const GameEvent &rhs);
-        const GameEvent& operator=(GameEvent &&rhs);
+        const GameEvent &operator=(const GameEvent &rhs);
+        const GameEvent &operator=(GameEvent &&rhs);
         ~GameEvent() = default;
     };
 
