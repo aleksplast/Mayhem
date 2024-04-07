@@ -16,7 +16,6 @@ using LeaderBoard_t = std::map<uint32_t, uint32_t>;
 // Class representing Player
 class Player : public Entity {
   private:
-
     // Card in hand
     Deck<PlayerCard *> hand_;
 
@@ -63,7 +62,6 @@ class Player : public Entity {
     uint32_t get_points() const;
 
   public: // graphics function
-
     // Draw player
     void draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect, const float angle);
 }; // class Player

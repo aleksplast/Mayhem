@@ -30,7 +30,7 @@ class Parser {
   public:
     Parser() = default;
 
-    //Make json file for player
+    // Make json file for player
     void json_for_player(const std::string &input_file, const std::string &output_file);
 
     // Parse json file
