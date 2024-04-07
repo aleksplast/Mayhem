@@ -20,7 +20,12 @@ jobs:
           sleep 5
           fluxbox > /dev/null 2>&1 &
           sleep 5
-          ./game
+          sh -c "timeout 10s ./game" || 
+          if [ $? -eq 124 ]; then
+            exit 0
+          else
+            exit 1
+          fi
         working-directory: build
     
   format:
