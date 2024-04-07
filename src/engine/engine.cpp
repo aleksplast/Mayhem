@@ -101,14 +101,12 @@ uint16_t Engine::end_turn(uint16_t player_id) {
 
 bool Engine::is_over() const { return game_over_; }
 
-
 uint32_t Engine::get_winner() const { return winner_; }
 
 void Engine::start_game(Graphics::DrawingAttributes &attributes) {
     std::srand(std::time(0));
 
     size_t curr_id = playground.get_number_of_players();
-
 
     parser_.parse_json(entities_, BASE_DATA_BASE_FILE);
     for (size_t id = curr_id; id < entities_.size(); id++) {

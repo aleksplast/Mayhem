@@ -131,10 +131,12 @@ void Playground::draw_active_bases(Graphics::DrawingAttributes &attributes, cons
 void Playground::draw_button(sf::RenderWindow &window, const sf::FloatRect &rect) {
     sf::Vector2f end_turn_size = sf::Vector2f(rect.width * Graphics::LocationSettings::end_turn_scale_to_playground_x,
                                               rect.height * Graphics::LocationSettings::end_turn_scale_to_playground_y);
-    end_turn_.set_possition(sf::IntRect(
-        static_cast<int>(rect.left + rect.width * Graphics::LocationSettings::end_turn_pos_to_playground_x - end_turn_size.x / 2),
-        static_cast<int>(rect.top + rect.height * Graphics::LocationSettings::end_turn_pos_to_playground_y - end_turn_size.y / 2),
-        static_cast<int>(end_turn_size.x), static_cast<int>(end_turn_size.y)));
+    end_turn_.set_possition(
+        sf::IntRect(static_cast<int>(rect.left + rect.width * Graphics::LocationSettings::end_turn_pos_to_playground_x -
+                                     end_turn_size.x / 2),
+                    static_cast<int>(rect.top + rect.height * Graphics::LocationSettings::end_turn_pos_to_playground_y -
+                                     end_turn_size.y / 2),
+                    static_cast<int>(end_turn_size.x), static_cast<int>(end_turn_size.y)));
 
     end_turn_.set_text_color(sf::Color::Red);
     end_turn_.set_background_color(0, 140, 140, 0);
@@ -200,7 +202,8 @@ void Playground::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRe
         attributes.active_bases.push_back(it);
     }
 
-    attributes.buttuns.push_back(std::make_pair(Graphics::DrawingAttributes::ButtonType::end_tern, end_turn_.get_global_bounds()));
+    attributes.buttuns.push_back(
+        std::make_pair(Graphics::DrawingAttributes::ButtonType::end_tern, end_turn_.get_global_bounds()));
 }
 
 void Engine::draw(Graphics::DrawingAttributes &attributes) // draw Playground

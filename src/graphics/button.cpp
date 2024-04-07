@@ -1,5 +1,4 @@
 #include "graphics/button.hpp"
-#include "graphics/button.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -19,7 +18,8 @@ Button::Button(const std::string &text, const sf::IntRect &rect) : Button() {
 
 void Button::set_text_possition() {
     sf::FloatRect rect_bounds = rect_.getGlobalBounds();
-    sf::Vector2u center_pos = sf::Vector2u(rect_bounds.left + rect_bounds.width / 2, rect_bounds.top + rect_bounds.height / 2);
+    sf::Vector2u center_pos =
+        sf::Vector2u(rect_bounds.left + rect_bounds.width / 2, rect_bounds.top + rect_bounds.height / 2);
     sf::FloatRect text_bounds = text_.getGlobalBounds();
     text_.setPosition(center_pos.x - text_bounds.width / 2, center_pos.y - text_bounds.height / 2);
 }
@@ -52,9 +52,7 @@ void Button::draw(sf::RenderWindow &window) {
     window.draw(text_);
 }
 
-sf::FloatRect Button::get_global_bounds() const {
-    return rect_.getGlobalBounds();
-}
+sf::FloatRect Button::get_global_bounds() const { return rect_.getGlobalBounds(); }
 
 Button::~Button() = default;
 } // namespace Mayhem

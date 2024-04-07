@@ -2,12 +2,11 @@
 #include "core/base.h"
 #include "core/card.h"
 #include "core/entity.h"
-#include <nlohmann/json.hpp>
-#include <variant>
 #include <cstdint>
-#include <unordered_set>
 #include <ctime>
-
+#include <nlohmann/json.hpp>
+#include <unordered_set>
+#include <variant>
 
 namespace Mayhem { // Parser methods
 
@@ -113,15 +112,15 @@ void Parser::json_for_player(const std::string &input_file, const std::string &o
             j["Minion"] += jsonData.at("Minion")[position % all_the_minion_cards];
             busy_minions.insert(position % all_the_minion_cards);
             ++i;
-
         }
-//         else if (position % 2 != 0 && busy_actions.find(position % all_the_action_cards) == busy_actions.end()) {
-//
-//             j["Action"] += jsonData.at("Action")[position % all_the_action_cards];
-//             busy_actions.insert(position % all_the_action_cards);
-//             ++i;
-//
-//         }
+        //         else if (position % 2 != 0 && busy_actions.find(position % all_the_action_cards) ==
+        //         busy_actions.end()) {
+        //
+        //             j["Action"] += jsonData.at("Action")[position % all_the_action_cards];
+        //             busy_actions.insert(position % all_the_action_cards);
+        //             ++i;
+        //
+        //         }
     }
 
     out << std::setw(4) << j << std::endl;
