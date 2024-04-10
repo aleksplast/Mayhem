@@ -3,7 +3,7 @@
 
 #include "card.h"
 #include "deck.h"
-#include "graphics/graphics.hpp"
+#include "graphics/graphics_model.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cstdint>
@@ -52,7 +52,7 @@ class Base : public Card {
     Base(const std::string &base_file, int id, uint32_t power_to_win, std::array<uint32_t, 3> points);
 
     // Show cards on the base
-    void show_cards(Graphics::DrawingAttributes &attributes) const;
+    void show_cards(GraphicsModel::Data::Attributes &attributes) const;
 
     // Get cards on the base
     const Deck<Minion *> &get_cards();

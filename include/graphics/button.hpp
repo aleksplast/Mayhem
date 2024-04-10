@@ -10,6 +10,13 @@
 namespace Mayhem {
 
 class Button {
+  public:
+    enum class Type {
+        no_type,
+        end_turn,
+        close_window,
+    }; // enum class Type
+
   private:
     sf::Font font_;
     sf::Text text_;

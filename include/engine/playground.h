@@ -82,14 +82,15 @@ class Playground : public Drawable {
 
   private: // graphics functions
     // Draws active bases
-    void draw_active_bases(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect);
+    void draw_active_bases(GraphicsModel::Data::Attributes &attributes, const sf::FloatRect &rect);
 
     // draw button of end turn
     void draw_button(sf::RenderWindow &window, const sf::FloatRect &rect);
 
   public: // graphics functions
-          // Draws playground
-    void draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect, const float angle);
+
+  // Draws playground
+    void draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRect &rect, const float angle);
 }; // class Playground
 
 } // namespace Mayhem

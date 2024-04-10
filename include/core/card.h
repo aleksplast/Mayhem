@@ -2,7 +2,6 @@
 #define CARD_H
 
 #include "entity.h"
-#include "graphics/graphics.hpp"
 #include <array>
 #include <deque>
 #include <fstream>

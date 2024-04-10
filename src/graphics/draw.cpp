@@ -1,23 +1,22 @@
-#include "SFML/Graphics.hpp"
 #include "core/card.h"
 #include "engine/engine.h"
 #include "engine/player.h"
 #include "engine/playground.h"
-#include "graphics/graphics.hpp"
+#include "graphics/graphics_model.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <iterator>
 
 namespace Mayhem {
 
-void Player::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect, const float angle) // draw cards
+void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRect &rect,
+                  const float angle) // draw cards
 {
     Drawable::draw(attributes.window, rect, angle);
 
-    sf::Vector2f place_size = sf::Vector2f(rect.width * Graphics::LocationSettings::cards_place_to_player_x,
-                                           rect.height * Graphics::LocationSettings::cards_place_to_player_y);
-    sf::Vector2f card_size = sf::Vector2f(rect.width * Graphics::LocationSettings::card_scale_to_player_x,
-                                          rect.height * Graphics::LocationSettings::card_scale_to_player_y);
+    using Scope = GraphicsModel::Settings::Rendering::Player::CardsPlace;
+
+    sf::Vector2f place_size = sf::Vector2f(rect.width * Scope::Scale::x, rect.height * Scope::Scale::y);
+    sf::Vector2f card_size = sf::Vector2f(place_size.x * Scope::Card::Scale::x, place_size.y * Scope::Card::Scale::y);
 
     float index_card = 1;
     float num_cards = static_cast<float>(hand_.size());
@@ -114,11 +113,12 @@ void Player::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &
     }
 }
 
-void Playground::draw_active_bases(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect) {
+void Playground::draw_active_bases(GraphicsModel::Data::Attributes &attributes, const sf::FloatRect &rect) {
     uint16_t num_base = 1;
     uint16_t num_active_bases = active_bases_.size();
-    sf::Vector2f base_size = sf::Vector2f(rect.width * Graphics::LocationSettings::bases_scale_to_place_x,
-                                          rect.height * Graphics::LocationSettings::bases_scale_to_place_y);
+
+    using Scope = GraphicsModel::Settings::Rendering::BasesPlace::Base;
+    sf::Vector2f base_size = sf::Vector2f(rect.width * Scope::Scale::x, rect.height * Scope::Scale::y);
     const float base_shift = rect.width / static_cast<float>(num_active_bases + 1);
     for (auto curr_base = active_bases_.begin(); curr_base != active_bases_.end(); ++curr_base, ++num_base) {
         Base &base = **curr_base;
@@ -129,13 +129,12 @@ void Playground::draw_active_bases(Graphics::DrawingAttributes &attributes, cons
 }
 
 void Playground::draw_button(sf::RenderWindow &window, const sf::FloatRect &rect) {
-    sf::Vector2f end_turn_size = sf::Vector2f(rect.width * Graphics::LocationSettings::end_turn_scale_to_playground_x,
-                                              rect.height * Graphics::LocationSettings::end_turn_scale_to_playground_y);
+    using Scope = GraphicsModel::Settings::Rendering::Button;
+    sf::Vector2f end_turn_size =
+        sf::Vector2f(rect.width * Scope::EndTurn::Scale::x, rect.height * Scope::EndTurn::Scale::y);
     end_turn_.set_possition(
-        sf::IntRect(static_cast<int>(rect.left + rect.width * Graphics::LocationSettings::end_turn_pos_to_playground_x -
-                                     end_turn_size.x / 2),
-                    static_cast<int>(rect.top + rect.height * Graphics::LocationSettings::end_turn_pos_to_playground_y -
-                                     end_turn_size.y / 2),
+        sf::IntRect(static_cast<int>(rect.left + rect.width * Scope::EndTurn::Position::x - end_turn_size.x / 2),
+                    static_cast<int>(rect.top + rect.height * Scope::EndTurn::Position::y - end_turn_size.y / 2),
                     static_cast<int>(end_turn_size.x), static_cast<int>(end_turn_size.y)));
 
     end_turn_.set_text_color(sf::Color::Red);
@@ -143,26 +142,25 @@ void Playground::draw_button(sf::RenderWindow &window, const sf::FloatRect &rect
     end_turn_.draw(window);
 }
 
-void Playground::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect,
+void Playground::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRect &rect,
                       const float angle) // draw bases, players
 {
     Drawable::draw(attributes.window, rect, angle);
 
+    using Scope = GraphicsModel::Settings::Rendering;
     uint16_t num_players = players_.size();
     uint16_t drawing_player = attributes.draw_player;
-    sf::Vector2f player_size = sf::Vector2f(rect.width * Graphics::LocationSettings::player_scale_to_playground_x,
-                                            rect.height * Graphics::LocationSettings::player_scale_to_playground_y);
+    sf::Vector2f player_size =
+        sf::Vector2f(rect.width * Scope::Player::Scale::x, rect.height * Scope::Player::Scale::y);
     do {
         uint16_t drawing_id = (num_players + drawing_player - attributes.draw_player) % num_players;
         switch (drawing_id) {
         case 0:
             players_[drawing_player]->draw(
                 attributes,
-                sf::FloatRect(rect.left + rect.width / 2 -
-                                  Graphics::LocationSettings::player_increase * player_size.x / 2,
-                              rect.top + rect.height - Graphics::LocationSettings::player_increase * player_size.y / 2,
-                              Graphics::LocationSettings::player_increase * player_size.x,
-                              Graphics::LocationSettings::player_increase * player_size.y),
+                sf::FloatRect(rect.left + rect.width / 2 - Scope::Player::increase * player_size.x / 2,
+                              rect.top + rect.height - Scope::Player::increase * player_size.y / 2,
+                              Scope::Player::increase * player_size.x, Scope::Player::increase * player_size.y),
                 0);
             break;
         case 1:
@@ -191,10 +189,9 @@ void Playground::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRe
 
     draw_active_bases(
         attributes,
-        sf::FloatRect(rect.left + rect.width * (1.0 - Graphics::LocationSettings::bases_place_to_playground_x) / 2,
-                      rect.top + rect.height * Graphics::LocationSettings::bases_pos_to_playground,
-                      rect.width * Graphics::LocationSettings::bases_place_to_playground_x,
-                      rect.height * Graphics::LocationSettings::bases_plase_to_playground_y));
+        sf::FloatRect(rect.left + rect.width * (Scope::BasesPlace::Position::x - Scope::BasesPlace::Scale::x / 2),
+                      rect.top + rect.height * (Scope::BasesPlace::Position::y - Scope::BasesPlace::Scale::y / 2),
+                      rect.width * Scope::BasesPlace::Scale::x, rect.height * Scope::BasesPlace::Scale::y));
 
     draw_button(attributes.window, rect);
 
@@ -202,11 +199,10 @@ void Playground::draw(Graphics::DrawingAttributes &attributes, const sf::FloatRe
         attributes.active_bases.push_back(it);
     }
 
-    attributes.buttuns.push_back(
-        std::make_pair(Graphics::DrawingAttributes::ButtonType::end_tern, end_turn_.get_global_bounds()));
+    attributes.buttuns.push_back(std::make_pair(Button::Type::end_turn, end_turn_.get_global_bounds()));
 }
 
-void Engine::draw(Graphics::DrawingAttributes &attributes) // draw Playground
+void Engine::draw(GraphicsModel::Data::Attributes &attributes) // draw Playground
 {
     attributes.active_bases.clear();
     attributes.current_player_cards.clear();

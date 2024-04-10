@@ -63,7 +63,7 @@ class Player : public Entity {
 
   public: // graphics function
     // Draw player
-    void draw(Graphics::DrawingAttributes &attributes, const sf::FloatRect &rect, const float angle);
+    void draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRect &rect, const float angle);
 }; // class Player
 
 } // namespace Mayhem

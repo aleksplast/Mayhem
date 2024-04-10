@@ -6,6 +6,7 @@
 #include "core/card.h"
 #include "core/deck.h"
 #include "core/entity.h"
+#include "graphics/graphics_view.hpp"
 #include "parser/parser.h"
 #include "player.h"
 #include "playground.h"
@@ -71,7 +72,7 @@ class Engine {
     void distribute_points(LeaderBoard_t &leaderboard);
 
     // Parse players' decks, create bases, distribute cards
-    void start_game(Graphics::DrawingAttributes &attributes);
+    void start_game(GraphicsModel::Data::Attributes &attributes);
 
     // Dumps state of Engine
     void dump_state(std::string file_name) const;
@@ -84,7 +85,7 @@ class Engine {
 
   public: // graphic functions
     // Draw Engine
-    void draw(Graphics::DrawingAttributes &attributes);
+    void draw(GraphicsModel::Data::Attributes &attributes);
 }; // class Engine
 
 } // namespace Mayhem
