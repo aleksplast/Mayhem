@@ -103,7 +103,7 @@ bool Engine::is_over() const { return game_over_; }
 
 uint32_t Engine::get_winner() const { return winner_; }
 
-void Engine::start_game(Graphics::DrawingAttributes &attributes) {
+void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     std::srand(std::time(0));
 
     size_t curr_id = playground.get_number_of_players();

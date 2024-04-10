@@ -2,7 +2,7 @@
 #define DECK_H
 
 #include "graphics/drawable.hpp"
-#include "graphics/graphics.hpp"
+#include "graphics/graphics_model.hpp"
 #include <algorithm>
 #include <cstdint>
 #include <cstdlib>
@@ -55,7 +55,7 @@ template <class T> class Deck : public Drawable {
 
   public: // graphics functions
     // Show cards in deck
-    void show_cards(Graphics::DrawingAttributes &attributes) const;
+    void show_cards(GraphicsModel::Data::Attributes &attributes) const;
 
 }; // class Deck
 

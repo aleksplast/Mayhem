@@ -38,25 +38,29 @@ template <class T> void Deck<T>::dump_state(std::ofstream &os) const {
     }
 }
 
-template <class T> void Deck<T>::show_cards(Graphics::DrawingAttributes &attributes) const {
-    sf::Vector2f place_settings =
-        sf::Vector2f(attributes.default_window_size.x * Graphics::LocationSettings::showen_place_size_to_playground_x,
-                     attributes.default_window_size.y *
-                         Graphics::LocationSettings::showen_place_pos_to_playground_y); // x_scale and y_pos
+template <class T> void Deck<T>::show_cards(GraphicsModel::Data::Attributes &attributes) const {
+    using Scope = GraphicsModel::Settings::Rendering::ShowenPlace;
+    sf::Vector2f place_size =
+        sf::Vector2f(attributes.default_window_size.x * Scope::Scale::x,
+                     attributes.default_window_size.y * Scope::Scale::y);
+
+    sf::Vector2f place_pos =
+        sf::Vector2f(attributes.default_window_size.x * Scope::Position::x,
+                     attributes.default_window_size.y * Scope::Position::y);
 
     sf::Vector2f card_size =
-        sf::Vector2f(attributes.default_window_size.x * Graphics::LocationSettings::showen_card_scale_to_playground_x,
-                     attributes.default_window_size.y * Graphics::LocationSettings::showen_card_scale_to_playground_y);
+        sf::Vector2f(attributes.default_window_size.x * Scope::Card::Scale::x,
+                     attributes.default_window_size.y * Scope::Card::Scale::y);
 
     float num_cards = cards_.size();
     float card_index = 1.0;
 
     for (auto it = cards_.begin(); it != cards_.end(); ++it, card_index += 1.0) {
         (*it)->draw(attributes.window,
-                    sf::FloatRect(attributes.default_window_size.x / 2 +
-                                      (card_index - (num_cards + 1.0) / 2) * place_settings.x / (num_cards + 1.0) -
+                    sf::FloatRect(place_pos.x +
+                                      (card_index - (num_cards + 1.0) / 2) * place_size.x / (num_cards + 1.0) -
                                       card_size.x / 2,
-                                  place_settings.y - card_size.y / 2, card_size.x, card_size.y),
+                                  place_pos.y - card_size.y / 2, card_size.x, card_size.y),
                     0);
     }
 }
