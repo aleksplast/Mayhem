@@ -1,0 +1,5 @@
+add_subdirectory(core)
+add_subdirectory(engine)
+add_subdirectory(graphics)
+add_subdirectory(parser)
+target_sources(game PRIVATE main.cpp)
