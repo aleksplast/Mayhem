@@ -164,5 +164,25 @@
     "name": "Zombie",
     "power" : 32
 }
+],
+"Action": [
+    {
+        "name": "Buff5",
+        "type": "buff",
+        "power": 5
+    },
+    {
+        "name": "DeBuff5",
+        "type": "debuff",
+        "power": 5
+    },
+    {
+        "name": "Destructor",
+        "type": "destroy"
+    },
+    {
+        "name": "Movator",
+        "type": "move"
+    }
 ]
 }
