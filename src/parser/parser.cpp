@@ -1,4 +1,5 @@
 #include "parser/parser.h"
+#include "core/actions.h"
 #include "core/base.h"
 #include "core/card.h"
 #include "core/entity.h"
@@ -22,7 +23,7 @@ void Parser::parse_json(std::vector<Entity *> &entities, std::string input_file)
         for (const auto &item : block.value().items()) {
             if (block.key() == "Minion") {
                 parse_minion(entities, item.value());
-            } else if (item.key() == "Action") {
+            } else if (block.key() == "Action") {
                 parse_action(entities, item.value());
             } else if (item.key() == "Base") {
                 parse_base(entities, item.value());
@@ -50,17 +51,23 @@ void Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_val
 }
 
 void Parser::parse_action(std::vector<Entity *> &entities, const Value &item_value) {
-    std::string name;
+    std::string name = item_value.at("name");
+    std::string type = item_value.at("type");
 
-    for (const auto &field : item_value.items()) {
-        if (field.key() == "name") {
-            name = field.value();
-        }
+    Entity *ent;
+    std::string action_file = "../assets/images/" + name;
+    if (type == "buff") {
+        uint32_t power = item_value.at("power");
+        ent = new BuffAction(action_file, entities.size(), type, power);
+    } else if (type == "buff") {
+        uint32_t power = item_value.at("power");
+        ent = new DebuffAction(action_file, entities.size(), type, power);
+    } else if (type == "destroy") {
+        ent = new DestroyAction(action_file, entities.size(), type);
+    } else {
+        ent = new MoveAction(action_file, entities.size(), type);
     }
 
-    std::string action_file = "../assets/images/" + name;
-
-    Entity *ent = new Action(action_file, entities.size());
     entities.push_back(ent);
 }
 
@@ -98,29 +105,34 @@ void Parser::json_for_player(const std::string &input_file, const std::string &o
 
     srand(static_cast<uint32_t>(time(nullptr)));
 
-    std::unordered_set<uint32_t> busy_minions;
-    std::unordered_set<uint32_t> busy_actions;
+    std::unordered_set<uint32_t> free_minions;
+    std::unordered_set<uint32_t> free_actions;
 
-    size_t all_the_minion_cards = jsonData.at("Minion").size();
-    // size_t all_the_action_cards = jsonData.at("Action").size();
+    for (size_t i = 0; i != jsonData.at("Minion").size(); ++i) {
+        free_minions.insert(i);
+    }
+    for (size_t i = 0; i != jsonData.at("Action").size(); ++i) {
+        free_actions.insert(i);
+    }
 
     for (size_t i = 0; i != NUMBER_OF_CARDS;) {
         uint32_t position = static_cast<uint32_t>(rand());
 
-        if (position % 2 == 0 && busy_minions.find(position % all_the_minion_cards) == busy_minions.end()) {
-
-            j["Minion"] += jsonData.at("Minion")[position % all_the_minion_cards];
-            busy_minions.insert(position % all_the_minion_cards);
+        if (position % 2 == 0 && free_minions.size() != 0) {
+            uint32_t index = position % free_minions.size();
+            j["Minion"] += jsonData.at("Minion")[index];
+            free_minions.erase(index);
             ++i;
+
+        } else if (position % 2 != 0 && free_actions.size() != 0) {
+            uint32_t index = position % free_actions.size();
+            j["Action"] += jsonData.at("Action")[index];
+            free_actions.erase(index);
+            ++i;
+
+        } else if (free_minions.size() == 0 && free_actions.size() == 0) {
+            break;
         }
-        //         else if (position % 2 != 0 && busy_actions.find(position % all_the_action_cards) ==
-        //         busy_actions.end()) {
-        //
-        //             j["Action"] += jsonData.at("Action")[position % all_the_action_cards];
-        //             busy_actions.insert(position % all_the_action_cards);
-        //             ++i;
-        //
-        //         }
     }
 
     out << std::setw(4) << j << std::endl;

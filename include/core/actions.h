@@ -31,11 +31,17 @@ class DebuffAction : public Action {
 }; // class DebuffAction
 
 class DestroyAction : public Action {
+  public:
+    DestroyAction(const std::string &action_file, int id, std::string &ability) : Action(action_file, id){};
+
     // Destroy minion
     void activate_abillity(Minion *target, Base *src, Base *dest = NULL) override;
 }; // class DestroyAction
 
 class MoveAction : public Action {
+  public:
+    MoveAction(const std::string &action_file, int id, std::string &type) : Action(action_file, id){};
+
     // Move minion
     void activate_abillity(Minion *target, Base *src, Base *dest) override;
 }; // class MoveAction
