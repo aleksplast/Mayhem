@@ -2,6 +2,13 @@
 
 namespace Mayhem {
 
+void Action::dump_state(std::ofstream &os) const {
+    os << "\nDumping Action\n";
+    os << "Not implemented\n";
+}
+
+Action::Action(const std::string &action_file, int id) : PlayerCard(action_file, id){};
+
 BuffAction::BuffAction(const std::string &action_file, int id, std::string ability, uint32_t buff)
     : Action(action_file, id), buff_(buff){};
 

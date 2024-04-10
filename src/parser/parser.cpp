@@ -1,4 +1,5 @@
 #include "parser/parser.h"
+#include "core/actions.h"
 #include "core/base.h"
 #include "core/card.h"
 #include "core/entity.h"

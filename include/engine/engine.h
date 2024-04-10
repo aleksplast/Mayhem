@@ -1,6 +1,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include "core/actions.h"
 #include "core/base.h"
 #include "core/card.h"
 #include "core/deck.h"

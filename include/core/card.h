@@ -58,19 +58,6 @@ class Minion : public PlayerCard {
     void decrease_power(uint32_t power);
 }; // class Minion
 
-// Action class
-class Action : public PlayerCard {
-    // FIXME: change it to abstract class
-  public:
-    Action(const std::string &action_file, int id);
-
-    // Activate ability of the action
-    virtual void activate_abillity(Minion *target, Base *src = NULL, Base *dest = NULL){};
-
-    // Dump state of the action
-    void dump_state(std::ofstream &os) const override;
-}; // class Action
-
 } // namespace Mayhem
 
 #endif // CARD_H
