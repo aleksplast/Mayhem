@@ -33,11 +33,4 @@ void Minion::decrease_power(uint32_t power) {
 
 Minion::Minion(const std::string &minion_file, int id, uint32_t power) : PlayerCard(minion_file, id), power_(power){};
 
-void Action::dump_state(std::ofstream &os) const {
-    os << "\nDumping Action\n";
-    os << "Not implemented\n";
-}
-
-Action::Action(const std::string &action_file, int id) : PlayerCard(action_file, id){};
-
 } // namespace Mayhem
