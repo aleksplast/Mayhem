@@ -8,10 +8,24 @@
 
 namespace Mayhem {
 
+void Player::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) {
+    sprite.setPosition(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    sf::Vector2f texture_size = sf::Vector2f(texture.getSize());
+    sprite.setScale(rect.width / texture_size.x, rect.height / texture_size.y);
+    sprite.setRotation(angle);
+
+    if (is_pressed)
+        sprite.setColor(sf::Color(50,200,50,100));
+    else
+        sprite.setColor(sf::Color(0, 0, 0, 100));
+
+    window.draw(sprite);
+}
+
 void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRect &rect,
                   const float angle) // draw cards
 {
-    Drawable::draw(attributes.window, rect, angle);
+    draw(attributes.window, rect, angle);
 
     using Scope = GraphicsModel::Settings::Rendering::Player::CardsPlace;
 
@@ -198,7 +212,7 @@ void Playground::draw(GraphicsModel::Data::Attributes &attributes, const sf::Flo
     for (auto it : active_bases_) {
         attributes.active_bases.push_back(it);
     }
-
+    if (attributes.showen_base) attributes.showen_base->show_cards(attributes);
     attributes.buttuns.push_back(std::make_pair(Button::Type::end_turn, end_turn_.get_global_bounds()));
 }
 

@@ -26,6 +26,7 @@ void Command::set_base(Base *base) {
         return;
     events.push_back(std::make_pair(Type::base, dynamic_cast<Drawable *>(base)));
     base->press();
+    model.attributes.showen_base = base;
     check_commands();
 }
 
@@ -40,11 +41,11 @@ void Command::set_deck(Deck<PlayerCard *> *deck) {
 void Command::set_button(Button::Type type) {
     switch (type) {
     case Button::Type::end_turn:
-        events.clear();
+        clear();
         events.push_back(std::make_pair(Type::end_turn, nullptr));
         break;
     case Button::Type::close_window:
-        events.clear();
+        clear();
         events.push_back(std::make_pair(Type::close_window, nullptr));
         break;
     }
@@ -95,15 +96,41 @@ void Command::check_commands() {
 
     switch (is_this_command<1>(end_turn)) {
     case Status::same:
-        events.clear();
+        clear();
         if (model.type == GraphicsModel::Settings::GameType::ofline)
             model.attributes.draw_player = model.engine.end_turn(model.attributes.draw_player);
-
-        model.engine.end_turn(model.attributes.draw_player);
+        else
+            model.engine.end_turn(model.attributes.draw_player);
         return;
     case Status::possible:
         status = Status::possible;
         break;
+    }
+
+    switch (is_this_command<2>(choose_minion)) {
+    case Status::same:
+        events[0].second->release();
+        events[0] = events[1];
+        events[0].second->press();
+        events.pop_back();
+        status = Status::same;
+        return;
+    case Status::possible:
+        status = Status::possible;
+        return;
+    }
+
+    switch (is_this_command<2>(choose_base)) {
+    case Status::same:
+        events[0].second->release();
+        events[0] = events[1];
+        events[0].second->press();
+        events.pop_back();
+        status = Status::same;
+        return;
+    case Status::possible:
+        status = Status::possible;
+        return;
     }
 
     switch (is_this_command<2>(minion_to_base)) {
@@ -142,9 +169,11 @@ void Command::check_commands() {
 
 void Command::clear() {
     for (auto it : events) {
-        if (it.first != Type::end_turn || it.first != Type::close_window)
+        if (it.first != Type::end_turn && it.first != Type::close_window) {
             it.second->release();
+        }
     }
+    model.attributes.showen_base = nullptr;
     events.clear();
 }
 

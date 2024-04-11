@@ -64,6 +64,7 @@ class Player : public Entity {
   public: // graphics function
     // Draw player
     void draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRect &rect, const float angle);
+    void draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) override;
 }; // class Player
 
 } // namespace Mayhem

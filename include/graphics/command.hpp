@@ -37,6 +37,8 @@ class Command {
     const std::array<Type, 2> minion_to_base{Type::minion, Type::base};
     const std::array<Type, 1> end_turn{Type::end_turn};
     const std::array<Type, 1> close_window{Type::close_window};
+    const std::array<Type, 2> choose_minion{Type::minion, Type::minion};
+    const std::array<Type, 2> choose_base{Type::base, Type::base};
 
     private:
     std::vector<std::pair<Type, Drawable*>> events;
