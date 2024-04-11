@@ -17,7 +17,16 @@ void Drawable::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const f
     sf::Vector2f texture_size = sf::Vector2f(texture.getSize());
     sprite.setScale(rect.width / texture_size.x, rect.height / texture_size.y);
     sprite.setRotation(angle);
+
+    if (is_pressed)
+        sprite.setColor(sf::Color(30,144,220));
+    else
+        sprite.setColor(sf::Color::White);
+
     window.draw(sprite);
 }
+
+void Drawable::press() { is_pressed = true; }
+void Drawable::release() { is_pressed = false; }
 
 } // namespace Mayhem
