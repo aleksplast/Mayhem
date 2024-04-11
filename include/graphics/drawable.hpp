@@ -6,7 +6,7 @@
 namespace Mayhem {
 
 class Drawable {
-  private:
+  protected:
     sf::Texture texture;
     bool is_pressed = false;
 

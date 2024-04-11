@@ -49,8 +49,8 @@ template <class T> void Deck<T>::show_cards(GraphicsModel::Data::Attributes &att
                      attributes.default_window_size.y * Scope::Position::y);
 
     sf::Vector2f card_size =
-        sf::Vector2f(attributes.default_window_size.x * Scope::Card::Scale::x,
-                     attributes.default_window_size.y * Scope::Card::Scale::y);
+        sf::Vector2f(place_size.x * Scope::Card::Scale::x,
+                     place_size.y * Scope::Card::Scale::y);
 
     float num_cards = cards_.size();
     float card_index = 1.0;
