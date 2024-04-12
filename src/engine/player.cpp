@@ -11,7 +11,7 @@ namespace Mayhem { // Player methods
 
 Player::Player(uint32_t id)
     : Entity("../assets/images/player.png", id), hand_("../assets/images/deck"), dump_deck_("../assets/images/deck"),
-      deck_("../assets/images/deck"), points_(0) {};
+      deck_("../assets/images/deck"), points_(0){};
 
 size_t Player::get_number_of_cards() { return hand_.size(); };
 

@@ -15,7 +15,7 @@ void Player::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const flo
     sprite.setRotation(angle);
 
     if (is_pressed)
-        sprite.setColor(sf::Color(50,200,50,100));
+        sprite.setColor(sf::Color(50, 200, 50, 100));
     else
         sprite.setColor(sf::Color(0, 0, 0, 100));
 
@@ -212,7 +212,8 @@ void Playground::draw(GraphicsModel::Data::Attributes &attributes, const sf::Flo
     for (auto it : active_bases_) {
         attributes.active_bases.push_back(it);
     }
-    if (attributes.showen_base) attributes.showen_base->show_cards(attributes);
+    if (attributes.showen_base)
+        attributes.showen_base->show_cards(attributes);
     attributes.buttuns.push_back(std::make_pair(Button::Type::end_turn, end_turn_.get_global_bounds()));
 }
 

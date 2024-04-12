@@ -1,6 +1,4 @@
 #include "graphics/graphics_model.hpp"
-#include <utility>
-
 
 namespace Mayhem {
 
