@@ -1,8 +1,8 @@
 #include "graphics/graphics.hpp"
-#include "graphics/graphics_model.hpp"
-#include "graphics/graphics_controller.hpp"
-#include "graphics/graphics_view.hpp"
 #include "engine/engine.h"
+#include "graphics/graphics_controller.hpp"
+#include "graphics/graphics_model.hpp"
+#include "graphics/graphics_view.hpp"
 
 namespace Mayhem {
 

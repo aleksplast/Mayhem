@@ -43,9 +43,9 @@ class GraphicsModel {
                             static constexpr float x = 0.25;
                             static constexpr float y = 1.0;
                         }; // struct Scale
-                    }; // struct Card
-                }; // struct CardsPlace
-            }; // struct Player
+                    };     // struct Card
+                };         // struct CardsPlace
+            };             // struct Player
 
             struct ShowenPlace {
                 struct Scale {
@@ -63,7 +63,7 @@ class GraphicsModel {
                         static constexpr float x = 0.12;
                         static constexpr float y = 1;
                     }; // struct Scale
-                }; // struct Card
+                };     // struct Card
 
             }; // struct ShowenPlace
 
@@ -117,9 +117,9 @@ class GraphicsModel {
             std::vector<Deck<PlayerCard *> *> current_decks;
             std::vector<Base *> active_bases;
             std::vector<std::pair<Button::Type, sf::FloatRect>> buttuns;
-            Base* showen_base = nullptr;
+            Base *showen_base = nullptr;
         }; // struct Attributes
-    }; // struct Data
+    };     // struct Data
 
   public:
     Data::Attributes attributes;

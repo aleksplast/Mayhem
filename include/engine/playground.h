@@ -88,8 +88,7 @@ class Playground : public Drawable {
     void draw_button(sf::RenderWindow &window, const sf::FloatRect &rect);
 
   public: // graphics functions
-
-  // Draws playground
+    // Draws playground
     void draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRect &rect, const float angle);
 }; // class Playground
 
