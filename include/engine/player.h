@@ -50,7 +50,7 @@ class Player : public Entity {
     size_t get_number_of_cards();
 
     // Dump state of the player
-    void dump_state(std::ofstream &os) const;
+    void dump_state(std::ostream &os) const;
 
     // Dump random card from hand
     void dump_random_card();

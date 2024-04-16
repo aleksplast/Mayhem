@@ -90,7 +90,7 @@ std::pair<bool, uint32_t> Playground::check_for_winner() {
     return {winner_exists, winner};
 }
 
-void Playground::dump_state(std::ofstream &os) const {
+void Playground::dump_state(std::ostream &os) const {
     os << "\nDumping playground\n";
     os << "-------------\n";
 

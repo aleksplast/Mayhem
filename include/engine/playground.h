@@ -73,7 +73,7 @@ class Playground : public Drawable {
     void gain_base_on_start(Base *base);
 
     // Dump state of Playground
-    void dump_state(std::ofstream &os) const;
+    void dump_state(std::ostream &os) const;
 
     // Check for winner of the game
     std::pair<bool, uint32_t> check_for_winner();

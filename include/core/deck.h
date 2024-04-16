@@ -42,7 +42,7 @@ template <class T> class Deck : public Drawable {
     void remove_card(const T &card);
 
     // Dump state of the deck
-    void dump_state(std::ofstream &os) const;
+    void dump_state(std::ostream &os) const;
 
     // Number of cards in the deck
     size_t size() const;

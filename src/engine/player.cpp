@@ -57,7 +57,7 @@ void Player::gain_points(uint32_t points) { points_ += points; }
 
 uint32_t Player::get_points() const { return points_; }
 
-void Player::dump_state(std::ofstream &os) const {
+void Player::dump_state(std::ostream &os) const {
     os << "\nDumping player\n";
     os << "-----\n";
     os << "points: " << points_;

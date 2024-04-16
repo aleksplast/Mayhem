@@ -9,7 +9,7 @@ namespace Mayhem {
 
 // Entity class
 class Entity : public Drawable {
-
+  protected:
     // Entity ID
     int id_;
 
