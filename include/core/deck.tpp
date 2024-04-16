@@ -14,15 +14,16 @@ template <class T> void Deck<T>::gain_card(const T &card) { cards_.push_back(car
 template <class T> void Deck<T>::remove_card(const T &card) {
     int card_id = card->get_id();
 
-    for (auto it_curr = cards_.begin(), it_end = cards_.end(); it_curr != it_end; ++it_curr) {
-        if (card_id == (*it_curr)->get_id()) {
-            cards_.erase(it_curr);
-            break;
-        }
+    auto erase_card = std::find_if(
+        cards_.begin(), cards_.end(),
+        [&card_id](const T &find_card) {return find_card->get_id() == card_id;});
+
+    if (erase_card != cards_.end()) {
+        cards_.erase(erase_card);
     }
 }
 
-template <class T> std::size_t Deck<T>::size() const { return cards_.size(); }
+template <class T> size_t Deck<T>::size() const { return cards_.size(); }
 
 // template <class T> void Deck<T>::shuffle() { std::random_shuffle(cards_.begin(), cards_.end()); }
 
@@ -32,7 +33,7 @@ template <class T> T Deck<T>::take_card() {
     return card;
 }
 
-template <class T> void Deck<T>::dump_state(std::ofstream &os) const {
+template <class T> void Deck<T>::dump_state(std::ostream &os) const {
     for (auto &item : cards_) {
         item->dump_state(os);
     }

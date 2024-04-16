@@ -17,7 +17,7 @@ uint32_t Minion::get_power() const { return power_; }
 
 void Minion::increase_power(uint32_t power) { power_ += power; }
 
-void Minion::dump_state(std::ofstream &os) const {
+void Minion::dump_state(std::ostream &os) const {
     os << "\nDumping Minion\n";
     os << "power: " << power_ << "\n";
 }
@@ -25,10 +25,9 @@ void Minion::dump_state(std::ofstream &os) const {
 void Minion::decrease_power(uint32_t power) {
     if (power > power_) {
         power_ = 0;
-        return;
+    } else {
+        power_ -= power;
     }
-
-    power_ -= power;
 }
 
 Minion::Minion(const std::string &minion_file, int id, uint32_t power) : PlayerCard(minion_file, id), power_(power){};

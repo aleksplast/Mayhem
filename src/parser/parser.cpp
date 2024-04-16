@@ -24,6 +24,7 @@ void Parser::parse_json(std::vector<Entity *> &entities, std::string input_file)
             if (block.key() == "Minion") {
                 parse_minion(entities, item.value());
             } else if (block.key() == "Action") {
+                std::cout << "parsing action\n";
                 parse_action(entities, item.value());
             } else if (item.key() == "Base") {
                 parse_base(entities, item.value());
@@ -58,14 +59,14 @@ void Parser::parse_action(std::vector<Entity *> &entities, const Value &item_val
     std::string action_file = "../assets/images/" + name;
     if (type == "buff") {
         uint32_t power = item_value.at("power");
-        ent = new BuffAction(action_file, entities.size(), type, power);
+        ent = new BuffAction(action_file, entities.size(), power);
     } else if (type == "buff") {
         uint32_t power = item_value.at("power");
-        ent = new DebuffAction(action_file, entities.size(), type, power);
+        ent = new DebuffAction(action_file, entities.size(), power);
     } else if (type == "destroy") {
-        ent = new DestroyAction(action_file, entities.size(), type);
+        ent = new DestroyAction(action_file, entities.size());
     } else {
-        ent = new MoveAction(action_file, entities.size(), type);
+        ent = new MoveAction(action_file, entities.size());
     }
 
     entities.push_back(ent);

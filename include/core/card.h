@@ -2,13 +2,9 @@
 #define CARD_H
 
 #include "entity.h"
-#include <array>
-#include <deque>
 #include <fstream>
-#include <list>
 #include <stdlib.h>
 #include <string>
-#include <vector>
 
 namespace Mayhem {
 
@@ -34,7 +30,7 @@ class PlayerCard : public Card {
     void change_owner(uint32_t owner);
 
     // Dump state of the card
-    virtual void dump_state(std::ofstream &os) const {};
+    virtual void dump_state(std::ostream &os) const {};
 }; // class PlayerCard
 
 // Minion class
@@ -47,7 +43,7 @@ class Minion : public PlayerCard {
     Minion(const std::string &minion_file, int id, uint32_t power);
 
     // Dump state of the minion
-    void dump_state(std::ofstream &os) const override;
+    void dump_state(std::ostream &os) const override;
 
     uint32_t get_power() const;
 

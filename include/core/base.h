@@ -46,7 +46,7 @@ class Base : public Card {
     std::array<uint32_t, 3> get_points() const;
 
     // Dump state of the base
-    void dump_state(std::ofstream &os) const;
+    void dump_state(std::ostream &os) const;
 
   public: // graphic functions
     Base(const std::string &base_file, int id, uint32_t power_to_win, std::array<uint32_t, 3> points);

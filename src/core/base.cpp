@@ -14,13 +14,7 @@ void Base::remove_minion(Minion *card) {
     cards_.remove_card(card);
 }
 
-bool Base::is_captured() const {
-    if (current_power_ >= power_to_win_) {
-        return true;
-    } else {
-        return false;
-    }
-}
+bool Base::is_captured() const { return current_power_ >= power_to_win_; }
 
 uint32_t Base::get_power_to_win() const { return power_to_win_; }
 
@@ -28,10 +22,10 @@ uint32_t Base::get_current_power() const { return current_power_; }
 
 std::array<uint32_t, 3> Base::get_points() const { return points_; }
 
-void Base::dump_state(std::ofstream &os) const {
+void Base::dump_state(std::ostream &os) const {
     os << "\nDumping base\n";
     os << "---\n";
-    os << "points: " << points_.at(0) << " " << points_.at(1) << " " << points_.at(2) << "\n";
+    os << "points: " << points_[0] << " " << points_[1] << " " << points_[2] << "\n";
     os << "current power: " << current_power_ << "\n";
     os << "power to win: " << power_to_win_ << "\n";
     cards_.dump_state(os);
