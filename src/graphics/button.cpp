@@ -13,10 +13,10 @@ Button::Button() {
 Button::Button(const std::string &text, const sf::IntRect &rect) : Button() {
     text_.setString(text);
     rect_.setTextureRect(rect);
-    set_text_possition();
+    set_text_position();
 }
 
-void Button::set_text_possition() {
+void Button::set_text_position() {
     sf::FloatRect rect_bounds = rect_.getGlobalBounds();
     sf::Vector2u center_pos =
         sf::Vector2u(rect_bounds.left + rect_bounds.width / 2, rect_bounds.top + rect_bounds.height / 2);
@@ -26,13 +26,13 @@ void Button::set_text_possition() {
 
 void Button::set_char_size(unsigned int size) {
     text_.setCharacterSize(size);
-    set_text_possition();
+    set_text_position();
 }
 
-void Button::set_possition(const sf::IntRect &rect) {
+void Button::set_position(const sf::IntRect &rect) {
     rect_.setSize(sf::Vector2f(rect.width, rect.height));
     rect_.setPosition(sf::Vector2f(rect.left, rect.top));
-    set_text_possition();
+    set_text_position();
 }
 
 void Button::set_background_color(sf::Uint8 red, sf::Uint8 green, sf::Uint8 blue, sf::Uint8 alpha) {

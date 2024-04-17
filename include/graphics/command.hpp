@@ -13,8 +13,10 @@ class PlayerCard;
 class Base;
 template <typename T> class Deck;
 
+// A class that handles game events
 class Command {
   private:
+    // enum class type of game event
     enum class Type {
         no_type,
         base,
@@ -25,6 +27,7 @@ class Command {
         close_window,
     }; // enum class Type
 
+    // Command status
     enum class Status {
         same,
         different,
@@ -45,19 +48,37 @@ class Command {
     GraphicsModel &model;
 
   private:
+    // determines the status of the command
     template <int N> Status is_this_command(const std::array<Type, N> &data) const;
+
+    // checks whether the command can be executed
     void check_commands();
+
+    // Play move action
     void activate_move_action();
+
+    // Play typical action
     void activate_typical_action();
 
   public:
     Command() = delete;
     Command(GraphicsModel &m);
+
+    // Adds the card to the command queue
     void set_card(PlayerCard *card);
+
+    // Adds the base to the command queue
     void set_base(Base *base);
+
+    // Adds the deck to the command queue
     void set_deck(Deck<PlayerCard *> *deck);
+
+    // Adds the button to the command queue
     void set_button(Button::Type type);
+
+    // Clears the command queue
     void clear();
+
     ~Command() = default;
 }; // class Command
 

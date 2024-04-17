@@ -5,6 +5,7 @@
 
 namespace Mayhem {
 
+// The graphics subclass responsible for drawing elements
 class GraphicsView {
   private:
     GraphicsModel &model;
@@ -14,7 +15,10 @@ class GraphicsView {
     GraphicsView(const GraphicsView &) = delete;
     GraphicsView(GraphicsView &&) = delete;
     GraphicsView(GraphicsModel &m);
+
+    // displays all items on the window
     void display();
+
     ~GraphicsView() = default;
 
 }; // class GraphicsView

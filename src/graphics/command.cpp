@@ -82,6 +82,7 @@ void Command::activate_typical_action() {
     Minion *minion = dynamic_cast<Minion *>(events[2].second);
 
     action->activate_abillity(minion, base);
+    model.engine.play_action(model.attributes.draw_player, action->get_id());
     clear();
 }
 
@@ -97,7 +98,7 @@ void Command::check_commands() {
     switch (is_this_command<1>(end_turn)) {
     case Status::same:
         clear();
-        if (model.type == GraphicsModel::Settings::GameType::ofline)
+        if (model.type == GraphicsModel::Settings::GameType::offline)
             model.attributes.draw_player = model.engine.end_turn(model.attributes.draw_player);
         else
             model.engine.end_turn(model.attributes.draw_player);
