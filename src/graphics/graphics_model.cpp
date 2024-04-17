@@ -3,7 +3,7 @@
 namespace Mayhem {
 
 GraphicsModel::GraphicsModel(Engine &e) : engine(e) {
-    type = Settings::GameType::ofline;
+    type = Settings::GameType::offline;
 
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;

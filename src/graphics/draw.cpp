@@ -146,7 +146,7 @@ void Playground::draw_button(sf::RenderWindow &window, const sf::FloatRect &rect
     using Scope = GraphicsModel::Settings::Rendering::Button;
     sf::Vector2f end_turn_size =
         sf::Vector2f(rect.width * Scope::EndTurn::Scale::x, rect.height * Scope::EndTurn::Scale::y);
-    end_turn_.set_possition(
+    end_turn_.set_position(
         sf::IntRect(static_cast<int>(rect.left + rect.width * Scope::EndTurn::Position::x - end_turn_size.x / 2),
                     static_cast<int>(rect.top + rect.height * Scope::EndTurn::Position::y - end_turn_size.y / 2),
                     static_cast<int>(end_turn_size.x), static_cast<int>(end_turn_size.y)));
