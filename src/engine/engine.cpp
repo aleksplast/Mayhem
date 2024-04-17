@@ -134,6 +134,7 @@ void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
 
         curr_id = entities_.size();
 
+        player->shuffle_deck();
         player->take_card(5);
     }
     attributes.draw_player = 0;

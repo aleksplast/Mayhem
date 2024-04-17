@@ -47,6 +47,8 @@ class Player : public Entity {
 
     // Moves number_of_cards from deck to hand
     void take_card(uint32_t number_of_cards);
+
+    // Returns number of cards in hand
     size_t get_number_of_cards();
 
     // Dump state of the player
@@ -60,6 +62,9 @@ class Player : public Entity {
 
     // Get number of winning points
     uint32_t get_points() const;
+
+    // Shuffle deck_, dump_deck_ and hand_ untouched
+    void shuffle_deck();
 
   public: // graphics function
     // Draw player
