@@ -24,7 +24,6 @@ void Parser::parse_json(std::vector<Entity *> &entities, std::string input_file)
             if (block.key() == "Minion") {
                 parse_minion(entities, item.value());
             } else if (block.key() == "Action") {
-                std::cout << "parsing action\n";
                 parse_action(entities, item.value());
             } else if (item.key() == "Base") {
                 parse_base(entities, item.value());
