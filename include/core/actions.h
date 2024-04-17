@@ -3,6 +3,7 @@
 
 #include "base.h"
 #include "card.h"
+#include "engine/player.h"
 
 namespace Mayhem {
 
@@ -58,6 +59,17 @@ class MoveAction : public Action {
     // Move minion
     void activate_abillity(Minion *target, Base *src, Base *dest) override;
 }; // class MoveAction
+
+class DrawAction : public Action {
+    // Number of cards to draw
+    uint32_t num_;
+
+  public:
+    DrawAction(const std::string &action_file, int id, int num) : Action(action_file, id), num_(num){};
+
+    // Draw cards
+    void activate_ability(Player *player);
+};
 
 } // namespace Mayhem
 

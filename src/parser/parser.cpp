@@ -25,7 +25,7 @@ std::vector<Entity *> Parser::parse_json(std::vector<Entity *> &entities, std::s
             if (block.key() == "Minion") {
                 entities.push_back(parse_minion(entities, item.value()));
             } else if (block.key() == "Action") {
-                parse_action(entities, item.value());
+                entities.push_back(parse_action(entities, item.value()));
             } else if (item.key() == "Base") {
                 entities.push_back(parse_base(entities, item.value()));
             }
@@ -62,13 +62,16 @@ Entity *Parser::parse_action(std::vector<Entity *> &entities, const Value &item_
     if (type == "buff") {
         uint32_t power = item_value.at("power");
         ent = new BuffAction(action_file, entities.size(), power);
-    } else if (type == "buff") {
+    } else if (type == "debuff") {
         uint32_t power = item_value.at("power");
         ent = new DebuffAction(action_file, entities.size(), power);
     } else if (type == "destroy") {
         ent = new DestroyAction(action_file, entities.size());
-    } else {
+    } else if (type == "move") {
         ent = new MoveAction(action_file, entities.size());
+    } else if (type == "draw") {
+        uint32_t num = item_value.at("num");
+        ent = new DrawAction(action_file, entities.size(), num);
     }
 
     return ent;

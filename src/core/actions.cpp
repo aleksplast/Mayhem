@@ -24,4 +24,6 @@ void MoveAction::activate_abillity(Minion *target, Base *src, Base *dest) {
     src->remove_minion(target);
     dest->gain_minion(target);
 };
+
+void DrawAction::activate_ability(Player *player) { player->take_card(num_); }
 } // namespace Mayhem
