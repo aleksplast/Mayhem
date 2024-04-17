@@ -5,8 +5,9 @@
 #include "core/entity.h"
 #include <cstdint>
 #include <ctime>
+#include <iterator>
+#include <list>
 #include <nlohmann/json.hpp>
-#include <unordered_set>
 #include <variant>
 
 namespace Mayhem { // Parser methods
@@ -15,24 +16,26 @@ using Value = nlohmann::basic_json<>;
 
 const size_t NUMBER_OF_CARDS = 40;
 
-void Parser::parse_json(std::vector<Entity *> &entities, std::string input_file) {
+std::vector<Entity *> Parser::parse_json(std::vector<Entity *> &entities, std::string input_file) {
     std::ifstream in(input_file);
     json jsonData = json::parse(in);
 
     for (const auto &block : jsonData.items()) {
         for (const auto &item : block.value().items()) {
             if (block.key() == "Minion") {
-                parse_minion(entities, item.value());
+                entities.push_back(parse_minion(entities, item.value()));
             } else if (block.key() == "Action") {
                 parse_action(entities, item.value());
             } else if (item.key() == "Base") {
-                parse_base(entities, item.value());
+                entities.push_back(parse_base(entities, item.value()));
             }
         }
     }
+
+    return entities;
 }
 
-void Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_value) {
+Entity *Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_value) {
     std::string name;
     uint32_t power;
 
@@ -47,10 +50,10 @@ void Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_val
     std::string minion_file = "../assets/images/" + name;
 
     Entity *ent = new Minion(minion_file, entities.size(), power);
-    entities.push_back(ent);
+    return ent;
 }
 
-void Parser::parse_action(std::vector<Entity *> &entities, const Value &item_value) {
+Entity *Parser::parse_action(std::vector<Entity *> &entities, const Value &item_value) {
     std::string name = item_value.at("name");
     std::string type = item_value.at("type");
 
@@ -68,10 +71,10 @@ void Parser::parse_action(std::vector<Entity *> &entities, const Value &item_val
         ent = new MoveAction(action_file, entities.size());
     }
 
-    entities.push_back(ent);
+    return ent;
 }
 
-void Parser::parse_base(std::vector<Entity *> &entities, const Value &item_value) {
+Entity *Parser::parse_base(std::vector<Entity *> &entities, const Value &item_value) {
     std::string name;
     uint32_t power;
     std::array<uint32_t, 3> points = {0, 0, 0};
@@ -93,7 +96,7 @@ void Parser::parse_base(std::vector<Entity *> &entities, const Value &item_value
     std::string minion_file = "../assets/images/" + name;
 
     Entity *ent = new Base(minion_file, entities.size(), power, points);
-    entities.push_back(ent);
+    return ent;
 }
 
 void Parser::json_for_player(const std::string &input_file, const std::string &output_file) {
@@ -105,32 +108,44 @@ void Parser::json_for_player(const std::string &input_file, const std::string &o
 
     srand(static_cast<uint32_t>(time(nullptr)));
 
-    std::unordered_set<uint32_t> free_minions;
-    std::unordered_set<uint32_t> free_actions;
+    std::list<uint32_t> free_minions;
+    std::list<uint32_t> free_actions;
 
     for (size_t i = 0; i != jsonData.at("Minion").size(); ++i) {
-        free_minions.insert(i);
+        free_minions.push_back(i);
     }
     for (size_t i = 0; i != jsonData.at("Action").size(); ++i) {
-        free_actions.insert(i);
+        free_actions.push_back(i);
     }
 
     for (size_t i = 0; i != NUMBER_OF_CARDS;) {
         uint32_t position = static_cast<uint32_t>(rand());
 
-        if (position % 2 == 0 && free_minions.size() != 0) {
-            uint32_t index = position % free_minions.size();
-            j["Minion"] += jsonData.at("Minion")[index];
-            free_minions.erase(index);
-            ++i;
+        if (position % 2 == 0) {
+            if (!free_minions.empty()) {
+                uint32_t index = position % free_minions.size();
+                auto iter = free_minions.begin();
+                std::advance(iter, index);
+                j["Minion"] += jsonData.at("Minion")[*iter];
+                free_minions.erase(iter);
+                ++i;
+            } else {
+                ++position;
+            }
+        }
 
-        } else if (position % 2 != 0 && free_actions.size() != 0) {
-            uint32_t index = position % free_actions.size();
-            j["Action"] += jsonData.at("Action")[index];
-            free_actions.erase(index);
-            ++i;
+        if (position % 2 != 0) {
+            if (!free_actions.empty()) {
+                uint32_t index = position % free_actions.size();
+                auto iter = free_actions.begin();
+                std::advance(iter, index);
+                j["Action"] += jsonData.at("Action")[*iter];
+                free_actions.erase(iter);
+                ++i;
+            }
+        }
 
-        } else if (free_minions.size() == 0 && free_actions.size() == 0) {
+        if (free_minions.empty() && free_actions.empty()) {
             break;
         }
     }

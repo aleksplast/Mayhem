@@ -19,13 +19,13 @@ class Parser {
     using Value = nlohmann::basic_json<>;
 
     // Parse minion from json
-    void parse_minion(std::vector<Entity *> &entities, const Value &value);
+    Entity *parse_minion(std::vector<Entity *> &entities, const Value &value);
 
     // Parse action from json
-    void parse_action(std::vector<Entity *> &entities, const Value &value);
+    Entity *parse_action(std::vector<Entity *> &entities, const Value &value);
 
     // Parse base from json
-    void parse_base(std::vector<Entity *> &entities, const Value &value);
+    Entity *parse_base(std::vector<Entity *> &entities, const Value &value);
 
   public:
     Parser() = default;
@@ -34,7 +34,7 @@ class Parser {
     void json_for_player(const std::string &input_file, const std::string &output_file);
 
     // Parse json file
-    void parse_json(std::vector<Entity *> &entities, std::string input_file);
+    std::vector<Entity *> parse_json(std::vector<Entity *> &entities, std::string input_file);
 };
 
 } // namespace Mayhem
