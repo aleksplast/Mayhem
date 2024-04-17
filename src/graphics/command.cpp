@@ -86,6 +86,16 @@ void Command::activate_typical_action() {
     clear();
 }
 
+void Command::activate_draw_action() {
+    DrawAction *action = dynamic_cast<DrawAction *>(events[0].second);
+    uint16_t player_id = model.attributes.draw_player;
+    Player *player = dynamic_cast<Player *>(model.engine.get_by_id(player_id));
+
+    action->activate_ability(player);
+    model.engine.play_action(player_id, action->get_id());
+    clear();
+}
+
 void Command::check_commands() {
     Status status = is_this_command<1>(close_window);
     switch (status) {
@@ -156,6 +166,17 @@ void Command::check_commands() {
     case Status::same:
         if (dynamic_cast<MoveAction *>(events[0].second) == nullptr) {
             activate_typical_action();
+            return;
+        }
+        break;
+    case Status::possible:
+        status = Status::possible;
+    }
+
+    switch (is_this_command<2>(draw_action)) {
+    case Status::same:
+        if (dynamic_cast<DrawAction *>(events[0].second)) {
+            activate_draw_action();
             return;
         }
         break;
