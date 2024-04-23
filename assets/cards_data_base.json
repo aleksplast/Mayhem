@@ -1,188 +1,91 @@
 {
 "Minion": [
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Haemonculi.jpg",
+    "power" : 3
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Helion.jpg",
+    "power" : 2
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Mandrake.jpg",
+    "power" : 1
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "River.jpg",
+    "power" : 3
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Scourge.jpg",
+    "power" : 3
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Talos.jpg",
+    "power" : 4
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Witch.jpg",
+    "power" : 1
+},
+
+{
+    "name": "Haemonculi.jpg",
+    "power" : 3
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Helion.jpg",
+    "power" : 2
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Mandrake.jpg",
+    "power" : 1
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "River.jpg",
+    "power" : 3
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Scourge.jpg",
+    "power" : 3
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Talos.jpg",
+    "power" : 4
 },
 {
-    "name": "Zombie",
-    "power" : 32
+    "name": "Witch.jpg",
+    "power" : 1
 },
 {
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
-},
-{
-    "name": "Zombie",
-    "power" : 32
+    "name": "Wrack.jpg",
+    "power" : 1
 }
 ],
 "Action": [
     {
-        "name": "Buff5",
+        "name": "Combat drugs.jpg",
+        "type": "draw",
+        "num": 3
+    },
+    {
+        "name": "Coven.jpg",
         "type": "buff",
-        "power": 5
+        "power": 2
     },
     {
-        "name": "DeBuff5",
-        "type": "debuff",
-        "power": 5
+        "name": "Make a deal.jpg",
+        "type": "draw",
+        "num": 2
     },
     {
-        "name": "Destructor",
+        "name": "Power from pain.jpg",
+        "type": "buff",
+        "power": 3
+    },
+    {
+        "name": "Soulstorm.jpg",
         "type": "destroy"
-    },
-    {
-        "name": "Movator",
-        "type": "move"
     }
 ]
 }

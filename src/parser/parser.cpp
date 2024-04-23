@@ -47,7 +47,7 @@ Entity *Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_
         }
     }
 
-    std::string minion_file = "../assets/images/" + name;
+    std::string minion_file = "../assets/images/drukhari/" + name;
 
     Entity *ent = new Minion(minion_file, entities.size(), power);
     return ent;
@@ -58,7 +58,7 @@ Entity *Parser::parse_action(std::vector<Entity *> &entities, const Value &item_
     std::string type = item_value.at("type");
 
     Entity *ent;
-    std::string action_file = "../assets/images/" + name;
+    std::string action_file = "../assets/images/drukhari/" + name;
     if (type == "buff") {
         uint32_t power = item_value.at("power");
         ent = new BuffAction(action_file, entities.size(), power);
@@ -93,7 +93,7 @@ Entity *Parser::parse_base(std::vector<Entity *> &entities, const Value &item_va
         }
     }
 
-    std::string minion_file = "../assets/images/" + name;
+    std::string minion_file = "../assets/images/bases/" + name;
 
     Entity *ent = new Base(minion_file, entities.size(), power, points);
     return ent;
