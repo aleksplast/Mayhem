@@ -25,6 +25,9 @@ class GraphicsController {
     // searches for the selected button
     Button::Type pressed_button(const sf::Vector2f &pos);
 
+    // searches for the selected shown cards
+    PlayerCard *pressed_shown_card(const sf::Vector2f &pos);
+
     // parse mouse events
     void process_mouse_events(const sf::Event &event);
 

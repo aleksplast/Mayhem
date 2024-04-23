@@ -36,6 +36,7 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
     float num_cards = static_cast<float>(hand_.size());
 
     if (angle == 0.0) {
+        attributes.current_decks.push_back(&hand_);
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
             (*curr_card)
                 ->draw(attributes.window,
@@ -209,11 +210,12 @@ void Playground::draw(GraphicsModel::Data::Attributes &attributes, const sf::Flo
 
     draw_button(attributes.window, rect);
 
-    for (auto it : active_bases_) {
+    for (auto it : active_bases_)
         attributes.active_bases.push_back(it);
-    }
-    if (attributes.showen_base)
-        attributes.showen_base->show_cards(attributes);
+
+    if (attributes.shown_place.first)
+        attributes.shown_place.first->show_cards(attributes);
+
     attributes.buttuns.push_back(std::make_pair(Button::Type::end_turn, end_turn_.get_global_bounds()));
 }
 
@@ -223,6 +225,7 @@ void Engine::draw(GraphicsModel::Data::Attributes &attributes) // draw Playgroun
     attributes.current_player_cards.clear();
     attributes.current_decks.clear();
     attributes.buttuns.clear();
+    attributes.shown_place.second.clear();
 
     sf::Vector2f window_size = sf::Vector2f(attributes.default_window_size);
     playground.draw(attributes, sf::FloatRect(0.0, 0.0, window_size.x, window_size.y), 0);

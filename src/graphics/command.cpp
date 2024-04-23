@@ -12,10 +12,23 @@ void Command::set_card(PlayerCard *card) {
     if (!card)
         return;
     if (Action *action = dynamic_cast<Action *>(card); action) {
-        events.push_back(std::make_pair(Type::action, action));
+        events.push_back(std::make_pair(Type::action_on_hand, action));
         action->press();
     } else if (Minion *minion = dynamic_cast<Minion *>(card); minion) {
-        events.push_back(std::make_pair(Type::minion, minion));
+        events.push_back(std::make_pair(Type::minion_on_hand, minion));
+        minion->press();
+    }
+    check_commands();
+}
+
+void Command::set_shown_card(PlayerCard *card) {
+    if (!card)
+        return;
+    if (Action *action = dynamic_cast<Action *>(card); action) {
+        events.push_back(std::make_pair(Type::action_on_base, action));
+        action->press();
+    } else if (Minion *minion = dynamic_cast<Minion *>(card); minion) {
+        events.push_back(std::make_pair(Type::minion_on_base, minion));
         minion->press();
     }
     check_commands();
@@ -26,7 +39,7 @@ void Command::set_base(Base *base) {
         return;
     events.push_back(std::make_pair(Type::base, dynamic_cast<Drawable *>(base)));
     base->press();
-    model.attributes.showen_base = base;
+    model.attributes.shown_place.first = base;
     check_commands();
 }
 
@@ -195,7 +208,8 @@ void Command::clear() {
             it.second->release();
         }
     }
-    model.attributes.showen_base = nullptr;
+    model.attributes.shown_place.first = nullptr;
+    model.attributes.shown_place.second.clear();
     events.clear();
 }
 

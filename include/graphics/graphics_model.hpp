@@ -157,7 +157,7 @@ class GraphicsModel {
             std::vector<Deck<PlayerCard *> *> current_decks;
             std::vector<Base *> active_bases;
             std::vector<std::pair<Button::Type, sf::FloatRect>> buttuns;
-            Base *showen_base = nullptr;
+            std::pair<Base *, std::vector<PlayerCard *>> shown_place;
         }; // struct Attributes
     };     // struct Data
 
