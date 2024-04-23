@@ -38,7 +38,7 @@ LeaderBoard_t Playground::capture_base(Base *base) {
     LeaderBoard_t leader_board;
 
     for (auto curr = cards.begin(), end = cards.end(); curr != end; ++curr) {
-        players_[(*curr)->get_owner()]->dump_card(*curr); //
+        players_[(*curr)->get_owner()]->dump_card(*curr);
         leader_board[(*curr)->get_owner()] += (*curr)->get_power();
         base->remove_minion(*curr);
     }

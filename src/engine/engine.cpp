@@ -5,6 +5,8 @@
 #include <SFML/Graphics.hpp>
 #include <fstream>
 #include <iostream>
+#include <regex>
+#include <string>
 
 namespace Mayhem { // Engine methods
 
@@ -13,9 +15,6 @@ const uint32_t MAX_CARDS_IN_HAND = 10;
 
 // At the end of the turn player draw 2 cards
 const uint32_t CARDS_TO_DRAW_END_TURN = 2;
-
-// Location of the data base with all cards
-const std::string CARDS_DATA_BASE_FILE = "../assets/cards_data_base.json";
 
 // Location of the data base with all bases
 const std::string BASE_DATA_BASE_FILE = "../assets/base_data_base.json";
@@ -35,10 +34,7 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
     if (player_id != turn_)
         return false;
 
-    std::cout << "Player " << player_id << " played card " << card_id << " on base " << base_id
-              << std::endl; // Change to more readable
-
-    Player *player = static_cast<Player *>(get_by_id(player_id)); // FIXME: Change that
+    Player *player = static_cast<Player *>(get_by_id(player_id));
     Minion *card = static_cast<Minion *>(get_by_id(card_id));
     Base *base = static_cast<Base *>(get_by_id(base_id));
 
@@ -120,8 +116,8 @@ void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     curr_id = entities_.size();
 
     for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
-        std::string player_deck_file = "player_deck.json";
-        parser_.json_for_player(CARDS_DATA_BASE_FILE, player_deck_file);
+        std::string player_deck_file = "player" + std::to_string(i) + "_deck.json";
+        parser_.json_for_player(player_deck_file);
 
         parser_.parse_json(entities_, player_deck_file);
         Player *player = static_cast<Player *>(get_by_id(i));
