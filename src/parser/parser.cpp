@@ -8,6 +8,7 @@
 #include <iterator>
 #include <list>
 #include <nlohmann/json.hpp>
+#include <random>
 #include <variant>
 
 namespace Mayhem { // Parser methods
@@ -16,26 +17,35 @@ using Value = nlohmann::basic_json<>;
 
 const size_t NUMBER_OF_CARDS = 40;
 
-std::vector<Entity *> Parser::parse_json(std::vector<Entity *> &entities, std::string input_file) {
+const std::string BASES_PATH = "../assets/images/bases/";
+const std::string FACTIONS_PATH = "../assets/images/";
+
+void Parser::parse_json(std::vector<Entity *> &entities, const std::string &input_file) {
     std::ifstream in(input_file);
     json jsonData = json::parse(in);
+    std::string faction;
+
+    for (const auto &block : jsonData.items()) {
+        if (block.key() == "Faction") {
+            faction = block.value();
+            faction += "/";
+        }
+    }
 
     for (const auto &block : jsonData.items()) {
         for (const auto &item : block.value().items()) {
             if (block.key() == "Minion") {
-                entities.push_back(parse_minion(entities, item.value()));
+                entities.push_back(parse_minion(entities, item.value(), faction));
             } else if (block.key() == "Action") {
-                entities.push_back(parse_action(entities, item.value()));
+                entities.push_back(parse_action(entities, item.value(), faction));
             } else if (item.key() == "Base") {
                 entities.push_back(parse_base(entities, item.value()));
             }
         }
     }
-
-    return entities;
 }
 
-Entity *Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_value) {
+Entity *Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_value, const std::string &faction) {
     std::string name;
     uint32_t power;
 
@@ -47,18 +57,18 @@ Entity *Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_
         }
     }
 
-    std::string minion_file = "../assets/images/drukhari/" + name;
+    std::string minion_file = FACTIONS_PATH + faction + name;
 
     Entity *ent = new Minion(minion_file, entities.size(), power);
     return ent;
 }
 
-Entity *Parser::parse_action(std::vector<Entity *> &entities, const Value &item_value) {
+Entity *Parser::parse_action(std::vector<Entity *> &entities, const Value &item_value, const std::string &faction) {
     std::string name = item_value.at("name");
     std::string type = item_value.at("type");
 
     Entity *ent;
-    std::string action_file = "../assets/images/drukhari/" + name;
+    const std::string action_file = FACTIONS_PATH + faction + name;
     if (type == "buff") {
         uint32_t power = item_value.at("power");
         ent = new BuffAction(action_file, entities.size(), power);
@@ -96,18 +106,21 @@ Entity *Parser::parse_base(std::vector<Entity *> &entities, const Value &item_va
         }
     }
 
-    std::string minion_file = "../assets/images/bases/" + name;
+    std::string minion_file = BASES_PATH + name;
 
     Entity *ent = new Base(minion_file, entities.size(), power, points);
     return ent;
 }
 
-void Parser::json_for_player(const std::string &input_file, const std::string &output_file) {
-    std::ifstream in(input_file);
+void Parser::json_for_player(const std::string &output_file) {
+    const std::string &faction_name = get_faction_name();
+    std::string cards_file = FACTIONS_PATH + faction_name + "/cards.json";
+    std::ifstream in(cards_file);
     json jsonData = json::parse(in);
     std::ofstream out(output_file);
 
     json j;
+    j["Faction"] = faction_name;
 
     srand(static_cast<uint32_t>(time(nullptr)));
 
@@ -154,6 +167,14 @@ void Parser::json_for_player(const std::string &input_file, const std::string &o
     }
 
     out << std::setw(4) << j << std::endl;
+}
+
+const std::string &Parser::get_faction_name() const {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(0, factions_.size() - 1);
+
+    return factions_[dist(rng)];
 }
 
 }; // namespace Mayhem

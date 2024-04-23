@@ -36,7 +36,7 @@ class Player : public Entity {
     // Destroyrs card in hand, no interaction with the base
     void play_card(PlayerCard *card);
 
-    // Move card from deck to dump deck
+    // Add card to dump deck
     void dump_card(PlayerCard *card);
 
     // Gain card to deck on the start of the game

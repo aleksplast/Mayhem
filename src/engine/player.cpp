@@ -15,10 +15,7 @@ Player::Player(uint32_t id)
 
 size_t Player::get_number_of_cards() { return hand_.size(); };
 
-void Player::dump_card(PlayerCard *card) {
-    deck_.remove_card(card);
-    dump_deck_.gain_card(card);
-}
+void Player::dump_card(PlayerCard *card) { dump_deck_.gain_card(card); }
 
 void Player::take_card(uint32_t number_of_cards) {
     for (uint32_t i = 0; i < number_of_cards; ++i) {
