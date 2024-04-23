@@ -68,6 +68,7 @@ template <class T> void Deck<T>::show_cards(GraphicsModel::Data::Attributes &att
                                       card_size.x / 2,
                                   place_pos.y - card_size.y / 2, card_size.x, card_size.y),
                     0);
+        attributes.shown_place.second.push_back(*it);
     }
 }
 

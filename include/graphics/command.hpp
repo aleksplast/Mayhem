@@ -21,8 +21,10 @@ class Command {
         no_type,
         base,
         deck,
-        action,
-        minion,
+        action_on_base,
+        minion_on_base,
+        action_on_hand,
+        minion_on_hand,
         end_turn,
         close_window,
     }; // enum class Type
@@ -35,13 +37,13 @@ class Command {
     }; // enum class Status
 
   private: // all possible commands
-    const std::array<Type, 3> action{Type::action, Type::base, Type::minion};
-    const std::array<Type, 4> move_action{Type::action, Type::base, Type::minion, Type::base};
-    const std::array<Type, 2> draw_action{Type::action, Type::deck};
-    const std::array<Type, 2> minion_to_base{Type::minion, Type::base};
+    const std::array<Type, 3> action{Type::action_on_hand, Type::base, Type::minion_on_base};
+    const std::array<Type, 4> move_action{Type::action_on_hand, Type::base, Type::minion_on_base, Type::base};
+    const std::array<Type, 2> draw_action{Type::action_on_hand, Type::deck};
+    const std::array<Type, 2> minion_to_base{Type::minion_on_hand, Type::base};
     const std::array<Type, 1> end_turn{Type::end_turn};
     const std::array<Type, 1> close_window{Type::close_window};
-    const std::array<Type, 2> choose_minion{Type::minion, Type::minion};
+    const std::array<Type, 2> choose_minion{Type::minion_on_hand, Type::minion_on_hand};
     const std::array<Type, 2> choose_base{Type::base, Type::base};
 
   private:
@@ -70,6 +72,9 @@ class Command {
 
     // Adds the card to the command queue
     void set_card(PlayerCard *card);
+
+    // Adds the shown card to the command queue
+    void set_shown_card(PlayerCard *card);
 
     // Adds the base to the command queue
     void set_base(Base *base);
