@@ -19,7 +19,7 @@ void Drawable::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const f
     sprite.setRotation(angle);
 
     if (is_pressed)
-        sprite.setColor(sf::Color(30, 144, 220));
+        sprite.setColor(sf::Color(8, 173, 199));
     else
         sprite.setColor(sf::Color::White);
 
