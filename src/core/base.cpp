@@ -33,7 +33,7 @@ void Base::dump_state(std::ostream &os) const {
 }
 
 Base::Base(const std::string &base_file, int id, uint32_t power_to_win, std::array<uint32_t, 3> points)
-    : Card(base_file, id), power_to_win_(power_to_win), points_(points), cards_("../assets/images/deck"){};
+    : Card(base_file, id), power_to_win_(power_to_win), points_(points), cards_("../assets/images/shirt"){};
 
 void Base::show_cards(GraphicsModel::Data::Attributes &attributes) const { cards_.show_cards(attributes); }
 

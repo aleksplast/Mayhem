@@ -14,7 +14,7 @@ class Entity : public Drawable {
     int id_;
 
   public:
-    Entity(const std::string &name_file, const int id);
+    Entity(const std::string &name_main_file, const int id, const std::string &name_extra_file = "");
     virtual ~Entity(){};
 
     // Get ID of the entity

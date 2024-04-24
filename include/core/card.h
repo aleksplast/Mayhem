@@ -12,7 +12,7 @@ namespace Mayhem {
 // Card type
 class Card : public Entity {
   public:
-    Card(const std::string &name_file, int id);
+    Card(const std::string &name_main_file, int id, const std::string &name_extra_file = "");
 }; // class Card
 
 // Card that can belong to a player
@@ -22,7 +22,7 @@ class PlayerCard : public Card {
     uint32_t owner_id_;
 
   public:
-    PlayerCard(const std::string &name_file, int id);
+    PlayerCard(const std::string &name_main_file, int id, const std::string &name_extra_file = "");
 
     // Get owner of the card
     uint32_t get_owner();
@@ -42,7 +42,7 @@ class Minion : public PlayerCard {
     Button power_picture_;
 
   public:
-    Minion(const std::string &minion_file, int id, uint32_t power);
+    Minion(const std::string &minion_main_file, const std::string &minion_extra_file, int id, uint32_t power);
 
     // Dump state of the minion
     void dump_state(std::ostream &os) const override;
