@@ -59,7 +59,7 @@ Entity *Parser::parse_minion(std::vector<Entity *> &entities, const Value &item_
 
     std::string minion_file = FACTIONS_PATH + faction + name;
 
-    Entity *ent = new Minion(minion_file, entities.size(), power);
+    Entity *ent = new Minion(minion_file, FACTIONS_PATH + "shirt", entities.size(), power);
     return ent;
 }
 
@@ -71,17 +71,17 @@ Entity *Parser::parse_action(std::vector<Entity *> &entities, const Value &item_
     const std::string action_file = FACTIONS_PATH + faction + name;
     if (type == "buff") {
         uint32_t power = item_value.at("power");
-        ent = new BuffAction(action_file, entities.size(), power);
+        ent = new BuffAction(action_file, FACTIONS_PATH + "shirt", entities.size(), power);
     } else if (type == "debuff") {
         uint32_t power = item_value.at("power");
-        ent = new DebuffAction(action_file, entities.size(), power);
+        ent = new DebuffAction(action_file, FACTIONS_PATH + "shirt", entities.size(), power);
     } else if (type == "destroy") {
-        ent = new DestroyAction(action_file, entities.size());
+        ent = new DestroyAction(action_file, FACTIONS_PATH + "shirt", entities.size());
     } else if (type == "move") {
-        ent = new MoveAction(action_file, entities.size());
+        ent = new MoveAction(action_file, FACTIONS_PATH + "shirt", entities.size());
     } else if (type == "draw") {
         uint32_t num = item_value.at("num");
-        ent = new DrawAction(action_file, entities.size(), num);
+        ent = new DrawAction(action_file, FACTIONS_PATH + "shirt", entities.size(), num);
     }
 
     return ent;

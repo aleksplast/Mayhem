@@ -5,22 +5,13 @@
 #include "graphics/graphics_model.hpp"
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 
 namespace Mayhem {
 
 void Minion::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) {
-    sprite.setPosition(rect.left + rect.width / 2, rect.top + rect.height / 2);
-    sf::Vector2f texture_size = sf::Vector2f(texture.getSize());
-    sprite.setScale(rect.width / texture_size.x, rect.height / texture_size.y);
-    sprite.setRotation(angle);
-
-    if (is_pressed)
-        sprite.setColor(sf::Color(8, 173, 199));
-    else
-        sprite.setColor(sf::Color::White);
-
-    window.draw(sprite);
+    Drawable::draw(window, rect, angle);
 
     if (angle == 0.0) {
         using Scope = GraphicsModel::Settings::Rendering::Button::Power::Scale;
@@ -33,7 +24,8 @@ void Minion::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const flo
 
 void Player::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) {
     sprite.setPosition(rect.left + rect.width / 2, rect.top + rect.height / 2);
-    sf::Vector2f texture_size = sf::Vector2f(texture.getSize());
+    const sf::Texture *texture = sprite.getTexture();
+    sf::Vector2f texture_size = sf::Vector2f(texture->getSize());
     sprite.setScale(rect.width / texture_size.x, rect.height / texture_size.y);
     sprite.setRotation(angle);
 
@@ -61,6 +53,7 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
     if (angle == 0.0) {
         attributes.current_decks.push_back(&hand_);
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
+            (*curr_card)->set_main_texture();
             (*curr_card)
                 ->draw(attributes.window,
                        sf::FloatRect(rect.left + rect.width / 2 +
@@ -80,6 +73,7 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
 
     } else if (angle == 90.0) {
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
+            (*curr_card)->set_extra_texture();
             (*curr_card)
                 ->draw(attributes.window,
                        sf::FloatRect(rect.left + rect.width / 2 - card_size.x / 2,
@@ -102,6 +96,7 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
 
     } else if (angle == 180.0) {
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
+            (*curr_card)->set_extra_texture();
             (*curr_card)
                 ->draw(attributes.window,
                        sf::FloatRect(rect.left + rect.width / 2 -
@@ -121,6 +116,7 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
 
     } else { // angle == 270.0
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
+            (*curr_card)->set_extra_texture();
             (*curr_card)
                 ->draw(attributes.window,
                        sf::FloatRect(rect.left + rect.width / 2 - card_size.x / 2,

@@ -11,7 +11,7 @@ namespace Mayhem {
 class Action : public PlayerCard {
     // FIXME: change it to abstract class
   public:
-    Action(const std::string &action_file, int id);
+    Action(const std::string &action_main_file, const std::string &action_extra_file, int id);
 
     // Activate ability of the action
     virtual void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr){};
@@ -26,7 +26,7 @@ class BuffAction : public Action {
     uint32_t buff_;
 
   public:
-    BuffAction(const std::string &action_file, int id, uint32_t buff);
+    BuffAction(const std::string &action_main_file, const std::string &action_extra_file, int id, uint32_t buff);
 
     // Buffs minion
     void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr) override;
@@ -38,7 +38,7 @@ class DebuffAction : public Action {
     uint32_t debuff_;
 
   public:
-    DebuffAction(const std::string &action_file, int id, uint32_t debuff);
+    DebuffAction(const std::string &action_main_file, const std::string &action_extra_file, int id, uint32_t debuff);
 
     // Debuffs minion
     void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr) override;
@@ -46,7 +46,8 @@ class DebuffAction : public Action {
 
 class DestroyAction : public Action {
   public:
-    DestroyAction(const std::string &action_file, int id) : Action(action_file, id){};
+    DestroyAction(const std::string &action_main_file, const std::string &action_extra_file, int id)
+        : Action(action_main_file, action_extra_file, id){};
 
     // Destroy minion
     void activate_abillity(Minion *target, Base *src, Base *dest = nullptr) override;
@@ -54,7 +55,8 @@ class DestroyAction : public Action {
 
 class MoveAction : public Action {
   public:
-    MoveAction(const std::string &action_file, int id) : Action(action_file, id){};
+    MoveAction(const std::string &action_main_file, const std::string &action_extra_file, int id)
+        : Action(action_main_file, action_extra_file, id){};
 
     // Move minion
     void activate_abillity(Minion *target, Base *src, Base *dest) override;
@@ -65,7 +67,8 @@ class DrawAction : public Action {
     uint32_t num_;
 
   public:
-    DrawAction(const std::string &action_file, int id, int num) : Action(action_file, id), num_(num){};
+    DrawAction(const std::string &action_main_file, const std::string &action_extra_file, int id, int num)
+        : Action(action_main_file, action_extra_file, id), num_(num){};
 
     // Draw cards
     void activate_ability(Player *player);
