@@ -19,6 +19,10 @@ const uint32_t CARDS_TO_DRAW_END_TURN = 2;
 // Location of the data base with all bases
 const std::string BASE_DATA_BASE_FILE = "../assets/base_data_base.json";
 
+const std::string PLAYER = "player";
+
+const std::string DECK_JSON_FILE = "_deck.json";
+
 Engine::Engine() : turn_(0), time_(0), entities_(), playground(entities_), parser_(){};
 
 Entity *Engine::get_by_id(uint16_t entity_id) {
@@ -128,7 +132,7 @@ void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     curr_id = entities_.size();
 
     for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
-        std::string player_deck_file = "player" + std::to_string(i) + "_deck.json";
+        std::string player_deck_file = PLAYER + std::to_string(i) + DECK_JSON_FILE;
         parser_.json_for_player(player_deck_file);
 
         parser_.parse_json(entities_, player_deck_file);
