@@ -16,7 +16,7 @@ namespace Mayhem {
 // Parser class
 class Parser {
 
-    const std::vector<std::string> factions_ = {"Drukhari", "Holy host", "Rogues"};
+    const std::vector<std::string> factions_ = {"Drukhari", "Holy host", "Rogues", "Snowmen"};
 
     using Value = nlohmann::basic_json<>;
 

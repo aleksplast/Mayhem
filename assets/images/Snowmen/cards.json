@@ -1,0 +1,49 @@
+{
+"Minion": [
+{
+    "name": "Anarchic tree.jpg",
+    "power" : 3
+},
+{
+    "name": "Bait snowman.jpg",
+    "power" : 2
+},
+{
+    "name": "Dark Snowman.jpg",
+    "power" : 3
+},
+{
+    "name": "Old snowman.jpg",
+    "power" : 6
+},
+{
+    "name": "Snowman with scarf.jpg",
+    "power" : 1
+}
+],
+"Action": [
+    {
+        "name": "Frozen.jpg",
+        "type": "destroy"
+    },
+    {
+        "name": "Ice wall.jpg",
+        "type": "buff",
+        "power": 3
+    },
+    {
+        "name": "Not enough at all.jpg",
+        "type": "draw",
+        "num": 2
+    },
+    {
+        "name": "Other holiday.jpg",
+        "type": "draw",
+        "num": 2
+    },
+    {
+        "name": "Stolen gifts.jpg",
+        "type": "move"
+    }
+]
+}
