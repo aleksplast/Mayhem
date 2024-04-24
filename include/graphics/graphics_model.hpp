@@ -139,6 +139,16 @@ class GraphicsModel {
 
                 }; // struct EndTurn
 
+                // Drawing power icon
+                struct Power {
+
+                    // Scale
+                    struct Scale {
+                        static constexpr float x = 0.18;
+                        static constexpr float y = 0.1;
+                    }; // struct Scale
+                };     // struct Power
+
             }; // struct Button
 
         }; // struct Rendering

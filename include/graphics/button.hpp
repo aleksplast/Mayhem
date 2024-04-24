@@ -45,6 +45,9 @@ class Button {
     // Set background color
     void set_background_color(const sf::Color &color);
 
+    // Set string
+    void set_string(const std::string &text);
+
     // Set text color
     void set_text_color(sf::Uint8 red, sf::Uint8 green, sf::Uint8 blue, sf::Uint8 alpha);
 

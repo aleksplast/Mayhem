@@ -3,10 +3,33 @@
 #include "engine/player.h"
 #include "engine/playground.h"
 #include "graphics/graphics_model.hpp"
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 
 namespace Mayhem {
+
+void Minion::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) {
+    sprite.setPosition(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    sf::Vector2f texture_size = sf::Vector2f(texture.getSize());
+    sprite.setScale(rect.width / texture_size.x, rect.height / texture_size.y);
+    sprite.setRotation(angle);
+
+    if (is_pressed)
+        sprite.setColor(sf::Color(8, 173, 199));
+    else
+        sprite.setColor(sf::Color::White);
+
+    window.draw(sprite);
+
+    if (angle == 0.0) {
+        using Scope = GraphicsModel::Settings::Rendering::Button::Power::Scale;
+        power_picture_.set_position(sf::IntRect(rect.left, rect.top, rect.width * Scope::x, rect.height * Scope::y));
+        power_picture_.set_string(std::to_string(power_));
+        power_picture_.set_char_size(25);
+        power_picture_.draw(window);
+    }
+}
 
 void Player::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) {
     sprite.setPosition(rect.left + rect.width / 2, rect.top + rect.height / 2);

@@ -30,6 +30,10 @@ void Minion::decrease_power(uint32_t power) {
     }
 }
 
-Minion::Minion(const std::string &minion_file, int id, uint32_t power) : PlayerCard(minion_file, id), power_(power){};
+Minion::Minion(const std::string &minion_file, int id, uint32_t power)
+    : PlayerCard(minion_file, id), power_(power), power_picture_(std::to_string(power_)) {
+    power_picture_.set_background_color(sf::Color(0, 0, 0, 0));
+    power_picture_.set_text_color(sf::Color::Black);
+};
 
 } // namespace Mayhem

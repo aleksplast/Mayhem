@@ -13,7 +13,6 @@ Button::Button() {
 Button::Button(const std::string &text, const sf::IntRect &rect) : Button() {
     text_.setString(text);
     rect_.setTextureRect(rect);
-    set_text_position();
 }
 
 void Button::set_text_position() {
@@ -24,15 +23,11 @@ void Button::set_text_position() {
     text_.setPosition(center_pos.x - text_bounds.width / 2, center_pos.y - text_bounds.height / 2);
 }
 
-void Button::set_char_size(unsigned int size) {
-    text_.setCharacterSize(size);
-    set_text_position();
-}
+void Button::set_char_size(unsigned int size) { text_.setCharacterSize(size); }
 
 void Button::set_position(const sf::IntRect &rect) {
     rect_.setSize(sf::Vector2f(rect.width, rect.height));
     rect_.setPosition(sf::Vector2f(rect.left, rect.top));
-    set_text_position();
 }
 
 void Button::set_background_color(sf::Uint8 red, sf::Uint8 green, sf::Uint8 blue, sf::Uint8 alpha) {
@@ -41,6 +36,8 @@ void Button::set_background_color(sf::Uint8 red, sf::Uint8 green, sf::Uint8 blue
 
 void Button::set_background_color(const sf::Color &color) { rect_.setFillColor(color); }
 
+void Button::set_string(const std::string &text) { text_.setString(text); }
+
 void Button::set_text_color(sf::Uint8 red, sf::Uint8 green, sf::Uint8 blue, sf::Uint8 alpha) {
     text_.setFillColor(sf::Color(red, green, blue, alpha));
 }
@@ -48,6 +45,7 @@ void Button::set_text_color(sf::Uint8 red, sf::Uint8 green, sf::Uint8 blue, sf::
 void Button::set_text_color(const sf::Color &color) { text_.setFillColor(color); }
 
 void Button::draw(sf::RenderWindow &window) {
+    set_text_position();
     window.draw(rect_);
     window.draw(text_);
 }
