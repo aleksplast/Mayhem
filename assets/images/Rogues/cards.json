@@ -1,0 +1,52 @@
+{
+"Minion": [
+{
+    "name": "Agile thief.jpg",
+    "power" : 2
+},
+{
+    "name": "Petty thief.jpg",
+    "power" : 1
+},
+{
+    "name": "Cruel thief.jpg",
+    "power" : 3
+},
+{
+    "name": "Identity thief.jpg",
+    "power" : 4
+},
+{
+    "name": "Villain thief.jpg",
+    "power" : 2
+},
+{
+    "name": "Thief of time.jpg",
+    "power" : 5
+}
+],
+"Action": [
+    {
+        "name": "Amnesty.jpg",
+        "type": "debuff",
+        "power": 3
+    },
+    {
+        "name": "Burglary.jpg",
+        "type": "move"
+    },
+    {
+        "name": "Contract.jpg",
+        "type": "destroy"
+    },
+    {
+        "name": "Quick escape.jpg",
+        "type": "move"
+    },
+    {
+        "name": "Universe key.jpg",
+        "type": "draw",
+        "num": 5
+    }
+]
+}
