@@ -10,8 +10,10 @@ namespace Mayhem { // Playground methods
 
 const uint32_t POINTS_TO_WIN = 15;
 
+const std::string PLAYGROUND_IMAGES = "../assets/images/playground.jpg";
+
 Playground::Playground(std::vector<Entity *> &entities)
-    : Drawable("../assets/images/playground.jpg"), bases_(), active_bases_(), dump_(), end_turn_("") {
+    : Drawable(PLAYGROUND_IMAGES), bases_(), active_bases_(), dump_(), end_turn_("") {
     for (int i = 0; i < 4; i++) {
         Player *player = new Player(i);
         players_.push_back(player);
@@ -55,7 +57,7 @@ void Playground::set_new_base() {
     if (bases_.size() == 0) {
         bases_ = dump_;
         dump_.clear_deck();
-        // bases_.shuffle();
+        bases_.shuffle();
     }
     if (bases_.size() == 0) {
         return;
