@@ -112,6 +112,11 @@ Entity *Parser::parse_base(std::vector<Entity *> &entities, const Value &item_va
     return ent;
 }
 
+struct CardInfo {
+    uint32_t index;
+    uint32_t number;
+};
+
 void Parser::json_for_player(const std::string &output_file) {
     const std::string &faction_name = get_faction_name();
     std::string cards_file = FACTIONS_PATH + faction_name + "/cards.json";
@@ -124,14 +129,16 @@ void Parser::json_for_player(const std::string &output_file) {
 
     srand(static_cast<uint32_t>(time(nullptr)));
 
-    std::list<uint32_t> free_minions;
-    std::list<uint32_t> free_actions;
+    std::list<CardInfo> free_minions;
+    std::list<CardInfo> free_actions;
 
-    for (size_t i = 0; i != jsonData.at("Minion").size(); ++i) {
-        free_minions.push_back(i);
+    uint32_t index = 0;
+    for (auto iter = jsonData.at("Minion").begin(); iter != jsonData.at("Minion").end(); ++iter, ++index) {
+        free_minions.push_back({index, (*iter).at("number")});
     }
-    for (size_t i = 0; i != jsonData.at("Action").size(); ++i) {
-        free_actions.push_back(i);
+    index = 0;
+    for (auto iter = jsonData.at("Action").begin(); iter != jsonData.at("Action").end(); ++iter, ++index) {
+        free_actions.push_back({index, (*iter).at("number")});
     }
 
     for (size_t i = 0; i != NUMBER_OF_CARDS;) {
@@ -142,8 +149,11 @@ void Parser::json_for_player(const std::string &output_file) {
                 uint32_t index = position % free_minions.size();
                 auto iter = free_minions.begin();
                 std::advance(iter, index);
-                j["Minion"] += jsonData.at("Minion")[*iter];
-                free_minions.erase(iter);
+                j["Minion"] += jsonData.at("Minion")[iter->index];
+                --iter->number;
+                if (iter->number == 0) {
+                    free_minions.erase(iter);
+                }
                 ++i;
             } else {
                 ++position;
@@ -155,8 +165,11 @@ void Parser::json_for_player(const std::string &output_file) {
                 uint32_t index = position % free_actions.size();
                 auto iter = free_actions.begin();
                 std::advance(iter, index);
-                j["Action"] += jsonData.at("Action")[*iter];
-                free_actions.erase(iter);
+                j["Action"] += jsonData.at("Action")[iter->index];
+                --iter->number;
+                if (iter->number == 0) {
+                    free_actions.erase(iter);
+                }
                 ++i;
             }
         }
