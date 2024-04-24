@@ -35,6 +35,18 @@ void Player::take_card(uint32_t number_of_cards) {
 
 void Player::play_card(PlayerCard *card) { hand_.remove_card(card); }
 
+int Player::get_minions_limit() const { return minions_limit_; }
+
+int Player::get_actions_limit() const { return actions_limit_; }
+
+void Player::change_minions_limit(int num) { minions_limit_ += num; }
+
+void Player::change_actions_limit(int num) { actions_limit_ += num; }
+
+void Player::set_actions_limit(int num) { actions_limit_ = num; }
+
+void Player::set_minions_limit(int num) { minions_limit_ = num; }
+
 void Player::gain_card_on_start(PlayerCard *card) { deck_.gain_card(card); }
 
 void Player::dump_random_card() {

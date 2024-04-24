@@ -4,6 +4,7 @@
 #include "core/base.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -28,6 +29,12 @@ class Player : public Entity {
     // Current points player have
     uint32_t points_;
 
+    // How many actions player can play per turn
+    int actions_limit_ = 1;
+
+    // How many minions player can play per turn
+    int minions_limit_ = 1;
+
   public:
     Player(uint32_t id);
     ~Player() = default;
@@ -50,6 +57,24 @@ class Player : public Entity {
 
     // Returns number of cards in hand
     size_t get_number_of_cards();
+
+    // Returns minions_limit_
+    int get_minions_limit() const;
+
+    // Return actions_limit_
+    int get_actions_limit() const;
+
+    // Change actions limit by num
+    void change_minions_limit(int num);
+
+    // Change actions limit by num
+    void change_actions_limit(int num);
+
+    // Set minions limit to num
+    void set_minions_limit(int num);
+
+    // Set minions limit to num
+    void set_actions_limit(int num);
 
     // Dump state of the player
     void dump_state(std::ostream &os) const;

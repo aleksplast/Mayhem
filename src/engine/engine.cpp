@@ -35,6 +35,11 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
         return false;
 
     Player *player = static_cast<Player *>(get_by_id(player_id));
+
+    if (player->get_minions_limit() == 0) {
+        return false;
+    }
+
     Minion *card = static_cast<Minion *>(get_by_id(card_id));
     Base *base = static_cast<Base *>(get_by_id(base_id));
 
@@ -43,6 +48,7 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
 
     player->play_card(card); // FIXME: add error handling
     base->gain_minion(card);
+    player->change_minions_limit(-1);
 
     return true;
 }
@@ -51,11 +57,15 @@ bool Engine::play_action(uint16_t player_id, uint16_t card_id) {
     if (player_id != turn_)
         return false;
 
-    std::cout << "Player " << player_id << " played action " << card_id << std::endl;
-
     if (auto *act = dynamic_cast<Action *>(get_by_id(card_id))) {
-        Player *player = static_cast<Player *>(get_by_id(player_id)); // FIXME: Change that
+        Player *player = static_cast<Player *>(get_by_id(player_id));
+
+        if (player->get_actions_limit() == 0) {
+            return false;
+        }
+
         player->play_card(act);
+        player->change_actions_limit(-1);
 
         return true;
     }
@@ -79,6 +89,8 @@ uint16_t Engine::end_turn(uint16_t player_id) {
     }
 
     player->take_card(CARDS_TO_DRAW_END_TURN);
+    player->set_actions_limit(1);
+    player->set_minions_limit(1);
 
     while (player->get_number_of_cards() > MAX_CARDS_IN_HAND) {
         player->dump_random_card();
