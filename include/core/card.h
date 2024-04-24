@@ -2,6 +2,7 @@
 #define CARD_H
 
 #include "entity.h"
+#include "graphics/button.hpp"
 #include <fstream>
 #include <stdlib.h>
 #include <string>
@@ -38,6 +39,7 @@ class Minion : public PlayerCard {
   private:
     // Power of the minion
     uint32_t power_;
+    Button power_picture_;
 
   public:
     Minion(const std::string &minion_file, int id, uint32_t power);
@@ -51,6 +53,10 @@ class Minion : public PlayerCard {
 
     // Decrease power of the minion
     void decrease_power(uint32_t power);
+
+  public: // graphics functions
+    // Draw minion on the window
+    void draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) override;
 }; // class Minion
 
 } // namespace Mayhem
