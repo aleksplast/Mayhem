@@ -1,3 +1,4 @@
+#include "core/actions.h"
 #include "core/card.h"
 #include "engine/engine.h"
 #include "engine/player.h"
@@ -228,6 +229,29 @@ void Playground::draw(GraphicsModel::Data::Attributes &attributes, const sf::Flo
                       rect.width * Scope::BasesPlace::Scale::x, rect.height * Scope::BasesPlace::Scale::y));
 
     draw_button(attributes.window, rect);
+
+    if (attributes.popping_up_card) {
+        using Scope = GraphicsModel::Settings::Rendering::PopUpCard;
+        sf::Vector2f size = sf::Vector2f(rect.width * Scope::Scale::x, rect.height * Scope::Scale::y);
+        sf::FloatRect card_rect =
+            sf::FloatRect(rect.left + rect.width * Scope::Position::x - size.x / 2,
+                          rect.top + rect.height * Scope::Position::y - size.y / 2, size.x, size.y);
+
+        if (popping_up_card)
+            delete popping_up_card;
+
+        if (Minion *minion = dynamic_cast<Minion *>(attributes.popping_up_card); minion)
+            popping_up_card = dynamic_cast<PlayerCard *>(new Minion(*minion));
+        else if (Action *action = dynamic_cast<Action *>(attributes.popping_up_card); action)
+            popping_up_card = dynamic_cast<Action *>(new Action(*action));
+
+        popping_up_card->release();
+        popping_up_card->draw(attributes.window, card_rect, 0.0);
+    } else {
+        if (popping_up_card)
+            delete popping_up_card;
+        popping_up_card = nullptr;
+    }
 
     for (auto it : active_bases_)
         attributes.active_bases.push_back(it);

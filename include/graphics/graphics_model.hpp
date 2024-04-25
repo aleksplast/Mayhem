@@ -151,7 +151,22 @@ class GraphicsModel {
 
             }; // struct Button
 
-        }; // struct Rendering
+            // Drawing poppong up card
+            struct PopUpCard {
+
+                // Scale
+                struct Scale {
+                    static constexpr float x = 0.13;
+                    static constexpr float y = 0.35;
+                }; // struct Scale
+
+                // Position
+                struct Position {
+                    static constexpr float x = 0.13;
+                    static constexpr float y = 0.5;
+                }; // struct Position
+            };     // struct PopUpCard
+        };         // struct Rendering
 
     }; // struct Settings
 
@@ -168,6 +183,7 @@ class GraphicsModel {
             std::vector<Base *> active_bases;
             std::vector<std::pair<Button::Type, sf::FloatRect>> buttuns;
             std::pair<Base *, std::vector<PlayerCard *>> shown_place;
+            PlayerCard *popping_up_card = nullptr;
         }; // struct Attributes
     };     // struct Data
 

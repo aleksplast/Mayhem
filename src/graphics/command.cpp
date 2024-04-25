@@ -208,6 +208,7 @@ void Command::clear() {
             it.second->release();
         }
     }
+    model.attributes.popping_up_card = nullptr;
     model.attributes.shown_place.first = nullptr;
     model.attributes.shown_place.second.clear();
     events.clear();
