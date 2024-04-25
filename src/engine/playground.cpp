@@ -110,4 +110,9 @@ void Playground::dump_state(std::ostream &os) const {
     os << "-------------\n";
 }
 
+Playground::~Playground() {
+    if (popping_up_card)
+        delete popping_up_card;
+}
+
 } // namespace Mayhem

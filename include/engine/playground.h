@@ -1,6 +1,7 @@
 #ifndef PLAYGROUND_H
 #define PLAYGROUND_H
 
+#include "core/actions.h"
 #include "core/base.h"
 #include "core/card.h"
 #include "core/deck.h"
@@ -38,6 +39,9 @@ class Playground : public Drawable {
 
     // Button to end turn
     Button end_turn_;
+
+    // The card that displays the information
+    PlayerCard *popping_up_card = nullptr;
 
   public:
     // Playground cannot be constructed without parameters
@@ -78,7 +82,7 @@ class Playground : public Drawable {
     // Check for winner of the game
     std::pair<bool, uint32_t> check_for_winner();
 
-    ~Playground() = default;
+    ~Playground();
 
   private: // graphics functions
     // Draws active bases

@@ -58,12 +58,11 @@ PlayerCard *GraphicsController::pressed_shown_card(const sf::Vector2f &pos) {
 }
 
 void GraphicsController::process_mouse_events(const sf::Event &event) {
-    if (event.mouseButton.button == sf::Mouse::Left) {
-        sf::Vector2u window_size = model.attributes.window.getSize();
-        sf::Vector2f mouse_pos =
-            sf::Vector2f(event.mouseButton.x * model.attributes.default_window_size.x / window_size.x,
-                         event.mouseButton.y * model.attributes.default_window_size.y / window_size.y);
+    sf::Vector2u window_size = model.attributes.window.getSize();
+    sf::Vector2f mouse_pos = sf::Vector2f(event.mouseButton.x * model.attributes.default_window_size.x / window_size.x,
+                                          event.mouseButton.y * model.attributes.default_window_size.y / window_size.y);
 
+    if (event.mouseButton.button == sf::Mouse::Left) {
         PlayerCard *card = pressed_card(mouse_pos);
         Base *base = pressed_base(mouse_pos);
         Deck<PlayerCard *> *deck = pressed_deck(mouse_pos);
@@ -80,8 +79,13 @@ void GraphicsController::process_mouse_events(const sf::Event &event) {
             command.set_deck(deck);
         else if (button_type != Button::Type::no_type)
             command.set_button(button_type);
-        else
+        else {
             command.clear();
+            model.attributes.popping_up_card = nullptr;
+        }
+
+    } else if (event.mouseButton.button == sf::Mouse::Right) {
+        model.attributes.popping_up_card = pressed_card(mouse_pos);
     }
 }
 

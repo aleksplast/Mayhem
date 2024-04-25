@@ -32,6 +32,9 @@ class PlayerCard : public Card {
 
     // Dump state of the card
     virtual void dump_state(std::ostream &os) const {};
+
+  public:
+    virtual void copy(const PlayerCard &card) {}
 }; // class PlayerCard
 
 // Minion class
