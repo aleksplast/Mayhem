@@ -23,6 +23,9 @@ class Base : public Card {
     // Minions on the base
     Deck<Minion *> cards_;
 
+    // Units power as a widget
+    Button units_power_;
+
     // Current power on the base
     uint32_t current_power_ = 0;
 
@@ -56,6 +59,8 @@ class Base : public Card {
 
     // Get cards on the base
     const Deck<Minion *> &get_cards();
+
+    void draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) override;
 }; // class Base
 
 } // namespace Mayhem
