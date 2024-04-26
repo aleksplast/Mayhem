@@ -23,6 +23,18 @@ void Minion::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const flo
     }
 }
 
+void Base::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) {
+    Drawable::draw(window, rect, angle);
+
+    using Scope = GraphicsModel::Settings::Rendering::Button::UnitsPower;
+    units_power_.set_string("POWER: " + std::to_string(current_power_));
+    sf::Vector2f power_size = sf::Vector2f(rect.width * Scope::Scale::x, rect.height * Scope::Scale::y);
+    units_power_.set_position(sf::IntRect(rect.left + rect.width * Scope::Position::x - power_size.x / 2,
+                                          rect.top + rect.height * Scope::Position::y - power_size.y / 2, power_size.x,
+                                          power_size.y));
+    units_power_.draw(window);
+}
+
 void Player::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float angle) {
     sprite.setPosition(rect.left + rect.width / 2, rect.top + rect.height / 2);
     const sf::Texture *texture = sprite.getTexture();
@@ -44,6 +56,7 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
     draw(attributes.window, rect, angle);
 
     using Scope = GraphicsModel::Settings::Rendering::Player::CardsPlace;
+    using PointsScope = GraphicsModel::Settings::Rendering::Button::Points;
 
     sf::Vector2f place_size = sf::Vector2f(rect.width * Scope::Scale::x, rect.height * Scope::Scale::y);
     sf::Vector2f card_size = sf::Vector2f(place_size.x * Scope::Card::Scale::x, place_size.y * Scope::Card::Scale::y);
@@ -51,8 +64,15 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
     float index_card = 1;
     float num_cards = static_cast<float>(hand_.size());
 
+    points_widget_.set_string("POINTS: " + std::to_string(points_));
+    sf::Vector2f points_size;
+
     if (angle == 0.0) {
         attributes.current_decks.push_back(&hand_);
+        points_size = sf::Vector2f(rect.width * PointsScope::Scale::x, rect.height * PointsScope::Scale::y);
+        points_widget_.set_position(sf::IntRect(rect.left, rect.top - points_size.y / 6, points_size.x, points_size.y));
+        points_widget_.set_char_size(25);
+
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
             (*curr_card)->set_main_texture();
             (*curr_card)
@@ -73,6 +93,12 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
                         angle);
 
     } else if (angle == 90.0) {
+        points_size = sf::Vector2f(rect.width * PointsScope::Scale::x, rect.height * PointsScope::Scale::y);
+        points_widget_.set_position(sf::IntRect(rect.left + rect.width / 2 + rect.height / 2,
+                                                rect.top + rect.height / 2 - rect.width / 2, points_size.x,
+                                                points_size.y));
+        points_widget_.set_char_size(20);
+
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
             (*curr_card)->set_extra_texture();
             (*curr_card)
@@ -96,6 +122,11 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
                         angle);
 
     } else if (angle == 180.0) {
+        points_size = sf::Vector2f(rect.width * PointsScope::Scale::x, rect.height * PointsScope::Scale::y);
+        points_widget_.set_position(sf::IntRect(rect.left + rect.width - points_size.x,
+                                                rect.top + rect.height - points_size.y, points_size.x, points_size.y));
+        points_widget_.set_char_size(20);
+
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
             (*curr_card)->set_extra_texture();
             (*curr_card)
@@ -116,6 +147,12 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
                         angle);
 
     } else { // angle == 270.0
+        points_size = sf::Vector2f(rect.width * PointsScope::Scale::x, rect.height * PointsScope::Scale::y);
+        points_widget_.set_position(sf::IntRect(rect.left + rect.width / 2 - rect.height / 2 - points_size.x,
+                                                rect.top + rect.height / 2 - rect.width / 2, points_size.x,
+                                                points_size.y));
+        points_widget_.set_char_size(20);
+
         for (auto curr_card = hand_.begin(); curr_card != hand_.end(); ++curr_card, ++index_card) {
             (*curr_card)->set_extra_texture();
             (*curr_card)
@@ -138,6 +175,8 @@ void Player::draw(GraphicsModel::Data::Attributes &attributes, const sf::FloatRe
                                       card_size.y),
                         angle);
     }
+
+    points_widget_.draw(attributes.window);
 
     if (angle == 0.0) {
         for (auto it : hand_) {

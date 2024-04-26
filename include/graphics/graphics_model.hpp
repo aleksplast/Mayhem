@@ -103,7 +103,7 @@ class GraphicsModel {
                 // Position
                 struct Position {
                     static constexpr float x = 0.5;
-                    static constexpr float y = 0.25;
+                    static constexpr float y = 0.3;
                 }; // struct Position
 
                 // Drawing Bases
@@ -149,7 +149,32 @@ class GraphicsModel {
                     }; // struct Scale
                 };     // struct Power
 
-            }; // struct Button
+                // Player points
+                struct Points {
+
+                    // Scale
+                    struct Scale {
+                        static constexpr float x = 0.15;
+                        static constexpr float y = 0.15;
+                    }; // struct Scale
+                };     // struct Points
+
+                // Drawing summary units power on base
+                struct UnitsPower {
+
+                    // Scale
+                    struct Scale {
+                        static constexpr float x = 0.7;
+                        static constexpr float y = 0.2;
+                    }; // struct Scale
+
+                    // Position
+                    struct Position {
+                        static constexpr float x = 0.5;
+                        static constexpr float y = -0.1;
+                    }; // struct Position
+                };     // struct UnitsPower
+            };         // struct Button
 
             // Drawing poppong up card
             struct PopUpCard {

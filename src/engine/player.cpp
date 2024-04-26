@@ -2,6 +2,7 @@
 #include "core/base.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
@@ -10,10 +11,14 @@
 namespace Mayhem { // Player methods
 
 const std::string PLAYER_IMAGE = "../assets/images/player.png";
-const std::string DECK_IMAGE = "../assets/images/deck";
+const std::string DECK_IMAGE = "../assets/images/shirt";
 
 Player::Player(uint32_t id)
-    : Entity(PLAYER_IMAGE, id), hand_(DECK_IMAGE), dump_deck_(DECK_IMAGE), deck_(DECK_IMAGE), points_(0){};
+    : Entity(PLAYER_IMAGE, id), hand_(DECK_IMAGE), dump_deck_(DECK_IMAGE), deck_(DECK_IMAGE), points_(0) {
+    points_widget_.set_background_color(sf::Color(0, 0, 0, 0));
+    points_widget_.set_char_size(15);
+    points_widget_.set_text_color(sf::Color::Green);
+};;
 
 size_t Player::get_number_of_cards() { return hand_.size(); };
 

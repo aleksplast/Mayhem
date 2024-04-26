@@ -26,6 +26,9 @@ class Player : public Entity {
     // Cards in deck
     Deck<PlayerCard *> deck_;
 
+    // Victory points as a widget
+    Button points_widget_;
+
     // Current points player have
     uint32_t points_;
 
