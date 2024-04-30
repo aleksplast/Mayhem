@@ -2,49 +2,59 @@
 "Minion": [
 {
     "name": "Angel of the Lord.jpg",
-    "power" : 4
+    "power" : 4,
+    "number": 1
 },
 {
     "name": "Inquisitor.jpg",
-    "power" : 5
+    "power" : 5,
+    "number": 1
 },
 {
     "name": "Paladin.jpg",
-    "power" : 2
+    "power" : 2,
+    "number": 1
 },
 {
     "name": "Templar.jpg",
-    "power" : 3
+    "power" : 3,
+    "number": 1
 }
 ],
 "Action": [
     {
         "name": "Bonfire.jpg",
-        "type": "destroy"
+        "type": "destroy",
+        "number": 1
     },
     {
         "name": "Holy place.jpg",
         "type": "buff",
-        "power": 3
+        "power": 3,
+        "number": 1
     },
     {
         "name": "Holy protection.jpg",
-        "type": "move"
+        "type": "move",
+        "number": 1
     },
     {
         "name": "Infusion.jpg",
         "type": "debuff",
-        "power": 3
+        "power": 3,
+        "number": 1
     },
     {
         "name": "Prayer.jpg",
         "type": "draw",
-        "num": 3
+        "num": 3,
+        "number": 1
     },
     {
         "name": "Ressurection.jpg",
         "type": "buff",
-        "power": 4
+        "power": 4,
+        "number": 1
     }
 ]
 }
