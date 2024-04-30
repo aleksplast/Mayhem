@@ -27,7 +27,7 @@ void Base::draw(sf::RenderWindow &window, const sf::FloatRect &rect, const float
     Drawable::draw(window, rect, angle);
 
     using Scope = GraphicsModel::Settings::Rendering::Button::UnitsPower;
-    units_power_.set_string("POWER: " + std::to_string(current_power_));
+    units_power_.set_string("POWER: " + std::to_string(get_current_power()));
     sf::Vector2f power_size = sf::Vector2f(rect.width * Scope::Scale::x, rect.height * Scope::Scale::y);
     units_power_.set_position(sf::IntRect(rect.left + rect.width * Scope::Position::x - power_size.x / 2,
                                           rect.top + rect.height * Scope::Position::y - power_size.y / 2, power_size.x,

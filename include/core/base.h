@@ -26,9 +26,6 @@ class Base : public Card {
     // Units power as a widget
     Button units_power_;
 
-    // Current power on the base
-    uint32_t current_power_ = 0;
-
   public:
     // Add minion to cards on the base
     void gain_minion(Minion *card);
