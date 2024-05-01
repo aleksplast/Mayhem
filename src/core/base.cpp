@@ -2,13 +2,9 @@
 
 namespace Mayhem {
 
-void Base::gain_minion(Minion *card) {
-    cards_.gain_card(card);
-}
+void Base::gain_minion(Minion *card) { cards_.gain_card(card); }
 
-void Base::remove_minion(Minion *card) {
-    cards_.remove_card(card);
-}
+void Base::remove_minion(Minion *card) { cards_.remove_card(card); }
 
 bool Base::is_captured() const { return get_current_power() >= power_to_win_; }
 

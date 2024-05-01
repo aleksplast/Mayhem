@@ -1,11 +1,17 @@
 #include "engine/playground.h"
 #include "core/base.h"
+#include "engine/player.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
+#include <algorithm>
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <limits>
 #include <sstream>
+#include <unordered_map>
+#include <utility>
+
 namespace Mayhem { // Playground methods
 
 const uint32_t POINTS_TO_WIN = 15;
@@ -38,11 +44,29 @@ uint16_t Playground::get_number_of_players() { return players_.size(); };
 LeaderBoard_t Playground::capture_base(Base *base) {
     auto cards = base->get_cards();
     LeaderBoard_t leader_board;
+    std::unordered_map<uint32_t, uint32_t> players_to_points;
+
+    for (uint16_t i = 0; i < get_number_of_players(); i++) {
+        leader_board.emplace_back(i, 0);
+    }
 
     for (auto curr = cards.begin(), end = cards.end(); curr != end; ++curr) {
-        players_[(*curr)->get_owner()]->dump_card(*curr);
-        leader_board[(*curr)->get_owner()] += (*curr)->get_power();
-        base->remove_minion(*curr);
+        uint32_t player_id = (*curr)->get_owner();
+        players_to_points[player_id] += (*curr)->get_power();
+        uint32_t player_power = players_to_points[player_id];
+
+        auto player_it =
+            std::find_if(leader_board.begin(), leader_board.end(),
+                         [&player_id](Player_points_t player_points) { return player_id == player_points.first; });
+
+        (*player_it).second = player_power;
+
+        auto less_player_it = std::find_if(leader_board.begin(), leader_board.end(),
+                                           [&player_power, &players_to_points](Player_points_t player_points) {
+                                               return players_to_points[player_points.first] <= player_power;
+                                           });
+
+        leader_board.splice(less_player_it, leader_board, player_it);
     }
 
     return leader_board;

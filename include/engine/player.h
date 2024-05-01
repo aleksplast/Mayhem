@@ -11,8 +11,10 @@
 
 namespace Mayhem {
 
-// Structure with leading players IDs from the base and their points
-using LeaderBoard_t = std::map<uint32_t, uint32_t>;
+// Struct with player id and his points
+using Player_points_t = std::pair<uint32_t, uint32_t>;
+// Struct with top players and their points
+using LeaderBoard_t = std::list<Player_points_t>;
 
 // Class representing Player
 class Player : public Entity {

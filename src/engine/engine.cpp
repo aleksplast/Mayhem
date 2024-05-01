@@ -23,6 +23,8 @@ const std::string PLAYER = "player";
 
 const std::string DECK_JSON_FILE = "_deck.json";
 
+const uint32_t NUMBER_OF_WINNERS = 3;
+
 Engine::Engine() : turn_(0), time_(0), entities_(), playground(entities_), parser_(){};
 
 Entity *Engine::get_by_id(uint16_t entity_id) {
@@ -83,13 +85,13 @@ uint16_t Engine::end_turn(uint16_t player_id) {
     }
     Player *player = dynamic_cast<Player *>(get_by_id(player_id));
 
-    auto captured_bases = playground.check_bases();
+    std::vector<Base *> captured_bases = playground.check_bases();
     for (auto base : captured_bases) {
-        auto leader_board = playground.capture_base(base);
+        LeaderBoard_t leader_board = playground.capture_base(base);
         playground.destroy_base(base);
         playground.set_new_base();
 
-        distribute_points(leader_board);
+        distribute_points(base, leader_board);
     }
 
     player->take_card(CARDS_TO_DRAW_END_TURN);
@@ -152,10 +154,30 @@ void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     attributes.draw_player = 0;
 }
 
-void Engine::distribute_points(LeaderBoard_t &leader_board) {
-    for (auto pair : leader_board) {
-        Player *player = static_cast<Player *>(get_by_id(pair.first));
-        player->gain_points(pair.second);
+void Engine::distribute_points(Base *base, LeaderBoard_t &leader_board) {
+    uint32_t winner_num = 0;
+    uint32_t prev_points = leader_board.front().second;
+    uint32_t same_score = 1;
+
+    for (auto &player_winner : leader_board) {
+        Player *player = static_cast<Player *>(get_by_id(player_winner.first));
+
+        if (player_winner.first == leader_board.front().first) {
+            player->gain_points(base->get_points().at(winner_num));
+            prev_points = player_winner.second;
+            continue;
+        } else if (prev_points == player_winner.second) {
+            same_score += 1;
+        } else {
+            winner_num += same_score;
+            same_score = 1;
+        }
+
+        if (winner_num >= NUMBER_OF_WINNERS) {
+            break;
+        }
+
+        player->gain_points(base->get_points().at(winner_num));
     }
 }
 

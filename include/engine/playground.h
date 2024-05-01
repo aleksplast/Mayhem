@@ -19,8 +19,10 @@
 
 namespace Mayhem {
 
+// Struct with player id and his points
+using Player_points_t = std::pair<uint32_t, uint32_t>;
 // Struct with top players and their points
-using LeaderBoard_t = std::map<uint32_t, uint32_t>;
+using LeaderBoard_t = std::list<Player_points_t>;
 
 // Class, containing all players and bases
 class Playground : public Drawable {

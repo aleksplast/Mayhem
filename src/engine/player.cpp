@@ -18,7 +18,8 @@ Player::Player(uint32_t id)
     points_widget_.set_background_color(sf::Color(0, 0, 0, 0));
     points_widget_.set_char_size(15);
     points_widget_.set_text_color(sf::Color::Green);
-};;
+};
+;
 
 size_t Player::get_number_of_cards() { return hand_.size(); };
 
