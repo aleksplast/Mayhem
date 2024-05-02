@@ -2,18 +2,37 @@ syntax = "proto3";
 
 package enginePackage;
 
-message idInfo {
+message placeCardArgs {
     uint32 playerId = 1;
-    uint32 cardId   = 2; 
+    uint32 cardId   = 2;
     uint32 baseId   = 3;
 }
 
-message answer {
-    bool answer = 1;
+message playActionArgs {
+    uint32 playerId = 1;
+    uint32 cardId   = 2;
 }
 
-service Engine {
-
-    rpc placeCard(idInfo) returns (answer) {}
+message endTurnArgs {
+    uint32 playerId = 1;
 }
 
+message ServerResponse {
+    int32 Status = 1;
+}
+message ClientNetInfo {
+    uint32 port = 1;
+}
+
+service MainServerEngine {
+    rpc placeCard(placeCardArgs) returns (ServerResponse);
+    rpc playAction(playActionArgs) returns (ServerResponse);
+    rpc endTurn(endTurnArgs) returns (ServerResponse);
+    rpc initClient(ClientNetInfo) returns (ServerResponse);
+}
+
+service SlaveServerEngine {
+    rpc placeCard(placeCardArgs) returns (ServerResponse);
+    rpc playAction(playActionArgs) returns (ServerResponse);
+    rpc endTurn(endTurnArgs) returns (ServerResponse);
+}
