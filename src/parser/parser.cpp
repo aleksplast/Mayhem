@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <ctime>
 #include <iterator>
+#include <iomanip>
 #include <list>
 #include <nlohmann/json.hpp>
 #include <random>

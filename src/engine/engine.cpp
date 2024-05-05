@@ -38,6 +38,7 @@ Entity *Engine::get_by_id(uint16_t entity_id) {
 }
 
 bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) {
+    // Проверка на мастера и на слейва
     if (player_id != turn_)
         return false;
 
