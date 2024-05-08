@@ -1,5 +1,6 @@
 #ifndef GRAFICS_H
 #define GRAFICS_H
+#include <string>
 
 namespace Mayhem {
 
@@ -10,7 +11,7 @@ class Graphics {
     Graphics() = default;
 
     // initializes the main components of the game
-    void launch_game(bool isOffline);
+    void launch_game(std::string mode, std::string port);
 
     ~Graphics() = default;
 }; // class Grafics
