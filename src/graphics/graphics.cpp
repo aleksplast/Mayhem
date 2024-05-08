@@ -6,8 +6,8 @@
 
 namespace Mayhem {
 
-void Graphics::launch_game() {
-    if (ifOffline) {
+void Graphics::launch_game(bool isOffline) {
+    if (isOffline) {
     Engine engine;
     GraphicsModel model(engine);
     GraphicsController controller(model);

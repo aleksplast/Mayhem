@@ -10,5 +10,5 @@ find_package(nlohmann_json REQUIRED)
 
 add_executable(game)
 add_subdirectory(src)
-target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${SFML_INCLUDE_DIR})
+target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src ${SFML_INCLUDE_DIR})
 target_link_libraries(game sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json)
