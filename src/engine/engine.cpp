@@ -117,9 +117,14 @@ bool Engine::is_over() const { return game_over_; }
 
 uint32_t Engine::get_winner() const { return winner_; }
 
-void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
-    std::srand(std::time(0));
+void Engine::prepare_game() {
+    for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
+        std::string player_deck_file = PLAYER + std::to_string(i) + DECK_JSON_FILE;
+        parser_.json_for_player(player_deck_file);
+    }
+}
 
+void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     size_t curr_id = playground.get_number_of_players();
 
     parser_.parse_json(entities_, BASE_DATA_BASE_FILE);
@@ -135,7 +140,6 @@ void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
 
     for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
         std::string player_deck_file = PLAYER + std::to_string(i) + DECK_JSON_FILE;
-        parser_.json_for_player(player_deck_file);
 
         parser_.parse_json(entities_, player_deck_file);
         Player *player = static_cast<Player *>(get_by_id(i));

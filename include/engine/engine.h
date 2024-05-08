@@ -71,6 +71,8 @@ class Engine final {
     // After base capture distribute points between top players
     void distribute_points(Base *base, LeaderBoard_t &leaderboard);
 
+    void prepare_game();
+
     // Parse players' decks, create bases, distribute cards
     void start_game(GraphicsModel::Data::Attributes &attributes);
 

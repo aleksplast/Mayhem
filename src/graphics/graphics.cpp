@@ -11,6 +11,7 @@ void Graphics::launch_game() {
     GraphicsModel model(engine);
     GraphicsController controller(model);
     GraphicsView view(model);
+    engine.prepare_game();
     engine.start_game(model.attributes);
     engine.dump_state("dump_file");
 
