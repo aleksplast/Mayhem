@@ -1,6 +1,12 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include <grpcpp/grpcpp.h>
+#include <grpcpp/channel.h>
+#include <grpcpp/client_context.h>
+#include <grpcpp/create_channel.h>
+#include <grpcpp/security/credentials.h>
+
 #include "core/actions.h"
 #include "core/base.h"
 #include "core/card.h"
@@ -10,18 +16,60 @@
 #include "parser/parser.h"
 #include "player.h"
 #include "playground.h"
+#include "proto/engine.pb.h"
+#include "proto/engine.grpc.pb.h"
 
 #include <SFML/Graphics.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
+using grpc::Channel;
+using grpc::ClientContext;
+using grpc::ClientReader;
+using grpc::ClientReaderWriter;
+using grpc::ClientWriter;
+using grpc::Status;
+using grpc::Server;
+using grpc::ServerBuilder;
+using grpc::ServerContext;
+using grpc::Status;
+
 namespace Mayhem {
 
+class MainServerEngineClient {
+    public:
+    MainServerEngineClient() {};
+    MainServerEngineClient(std::shared_ptr<Channel> channel);
+
+    void place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
+
+    void initClient(uint32_t port);
+
+    private:
+        std::unique_ptr<enginePackage::MainServerEngine::Stub> stub_;
+        std::string GetFile(const std::string& filename);
+};
+
+class SlaveServerEngineClient {
+    public:
+    SlaveServerEngineClient() {};
+    SlaveServerEngineClient(std::shared_ptr<Channel> channel);
+
+    void place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
+
+    private:
+      std::unique_ptr<enginePackage::SlaveServerEngine::Stub> stub_;
+};
+
 // Main controlling structure
-class Engine final {
+class Engine final: public enginePackage::MainServerEngine::Service, public enginePackage::SlaveServerEngine::Service {
 
   private:
+    // Indicates if engine is slave
+    bool isSlave;
+    // Indicates if current game is online 
+    bool isOnline;
     // Time for one turn
     int time_; // FIXME: just mock
     // Indicates, which player's turn is now
@@ -38,6 +86,10 @@ class Engine final {
     bool game_over_ = false;
     // Vector of names of players decks
     std::vector<std::string> players_decks_names_;
+
+    // vector of online players
+    std::vector<SlaveServerEngineClient> players_;
+    MainServerEngineClient client_;
 
   public:
     //!--------------------------------
@@ -78,6 +130,8 @@ class Engine final {
     //! @return true if success, false if not
     //!--------------------------------
     bool place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
+    Status placeCard(::grpc::ServerContext* context, const ::enginePackage::placeCardArgs* request, ::enginePackage::ServerResponse* response) override;
+    Status placeCardSlave(::grpc::ServerContext*, const ::enginePackage::placeCardArgs*, ::enginePackage::ServerResponse*) override;
 
     //!--------------------------------
     //! @brief Function for playing Action. Takes player's, action's id and all id's for action ability, removes action
@@ -140,6 +194,14 @@ class Engine final {
     //! @brief Set players decks names
     //!--------------------------------
     void set_players_decks_names(std::vector<std::string> &names);
+    // Inits online player
+    Status initClient(::grpc::ServerContext* context, const ::enginePackage::ClientNetInfo* request, ::enginePackage::ServerResponse* response) override;
+    Status GetFile(grpc::ServerContext* context, const enginePackage::FileRequest* request,
+                       enginePackage::FileResponse* response) override;
+  
+  private:
+    // Add player in players structure
+    void add_player(uint32_t port);
 
   public: // graphic functions
     // Draw Engine

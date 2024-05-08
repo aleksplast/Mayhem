@@ -10,7 +10,7 @@ class Graphics {
     Graphics() = default;
 
     // initializes the main components of the game
-    void launch_game();
+    void launch_game(bool isOffline);
 
     ~Graphics() = default;
 }; // class Grafics

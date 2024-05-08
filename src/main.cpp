@@ -2,8 +2,8 @@
 
 using namespace Mayhem;
 
-int main() {
+int main(int argc, char* argv[]) {
     Graphics graphics;
-    graphics.launch_game();
+    graphics.launch_game(argv[1]);
     return 0;
 }

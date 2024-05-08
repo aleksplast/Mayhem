@@ -1,4 +1,6 @@
 #include "engine/engine.h"
+#include "../proto/engine.grpc.pb.h"
+#include "../proto/engine.pb.h"
 #include "core/actions.h"
 #include "core/base.h"
 #include "engine/player.h"
@@ -10,6 +12,82 @@
 #include <string>
 
 namespace Mayhem { // Engine methods
+
+MainServerEngineClient::MainServerEngineClient(std::shared_ptr<Channel> channel) : stub_(enginePackage::MainServerEngine::NewStub(channel)) {};
+
+void MainServerEngineClient::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) {
+    ClientContext context;
+    enginePackage::placeCardArgs args;
+    args.set_playerid(player_id);
+    args.set_cardid(card_id);
+    args.set_baseid(base_id);
+    enginePackage::ServerResponse engineResponse;
+    engineResponse.set_status(false);
+
+    Status status = stub_->placeCard(&context, args, &engineResponse);
+    if (!status.ok()) {
+        std::cout << "GetFeature rpc failed." << std::endl;
+        std::cout << "Cur status " << status.error_code() << std::endl;
+        return;
+    }
+
+    std::cout << "Get response: " << engineResponse.status() << std::endl;
+
+};
+
+void MainServerEngineClient::initClient(uint32_t port) {
+    std::cout << GetFile("base_data_base.json");
+    ClientContext context;
+    enginePackage::ClientNetInfo net_info;
+    net_info.set_port(port);
+    enginePackage::ServerResponse engine_response;
+    Status status = stub_->initClient(&context, net_info, &engine_response);
+
+    if (!status.ok()) {
+        std::cout << "GetFeature rpc failed." << std::endl;
+        return;
+    }
+
+};
+
+std::string MainServerEngineClient::GetFile(const std::string& filename) {
+    enginePackage::FileRequest request;
+    request.set_file_name(filename);
+
+    enginePackage::FileResponse response;
+
+    ClientContext context;
+    Status status = stub_->GetFile(&context, request, &response);
+
+    if (status.ok()) {
+        return response.file_content();
+    } else {
+        std::cerr << "RPC failed: " << status.error_message() << std::endl;
+        return "";
+    }
+};
+
+// FIXME TIAZH: I don't know where to put it, maybe in diff file
+SlaveServerEngineClient::SlaveServerEngineClient(std::shared_ptr<Channel> channel) : stub_(enginePackage::SlaveServerEngine::NewStub(channel)) {};
+
+void SlaveServerEngineClient::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) {
+    ClientContext context;
+    enginePackage::placeCardArgs args;
+    args.set_playerid(player_id);
+    args.set_cardid(card_id);
+    args.set_baseid(base_id);
+    enginePackage::ServerResponse engineResponse;
+    engineResponse.set_status(false);
+
+    Status status = stub_->placeCardSlave(&context, args, &engineResponse);
+    if (!status.ok()) {
+        std::cout << "SlaveServer placeCard failed." << std::endl;
+        std::cout << "Cur status " << status.error_code() << std::endl;
+        return;
+    }
+
+    std::cout << "Get response: " << engineResponse.status() << std::endl;
+};
 
 // Player can only have 10 cards in hand
 const uint32_t MAX_CARDS_IN_HAND = 10;
@@ -35,7 +113,41 @@ Entity *Engine::get_by_id(uint16_t entity_id) {
     }
 
     return entities_[entity_id];
-}
+};
+
+Status Engine::placeCard(::grpc::ServerContext* context, const ::enginePackage::placeCardArgs* request, ::enginePackage::ServerResponse* response) {
+    std::cout << "Received placeCard request" << std::endl;
+
+    uint16_t player_id = request->playerid();
+    uint16_t card_id = request->cardid();
+    uint16_t base_id = request->baseid();
+
+    if (place_card(player_id, card_id, base_id))
+    {
+        response->set_status(1);
+        for (auto &player : players_) { 
+            player.place_card(player_id, card_id, base_id);
+        }
+    }
+    else
+        response->set_status(0);
+
+    std::cout << "Sending to all servers" << std::endl;
+
+    return Status::OK;
+};
+
+// FIXME TIAZH: add some check if place card is executed
+Status Engine::placeCardSlave(::grpc::ServerContext* context, const ::enginePackage::placeCardArgs* request, ::enginePackage::ServerResponse* response) {
+    uint16_t player_id = request->playerid();
+    uint16_t card_id = request->cardid();
+    uint16_t base_id = request->baseid();
+
+    place_card(player_id, card_id, base_id);
+
+    response->set_status(1);
+    return Status::OK;
+};
 
 bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) {
     // Проверка на мастера и на слейва
@@ -141,6 +253,37 @@ void Engine::prepare_game() {
 
     set_players_decks_names(names);
 }
+
+Status Engine::initClient(::grpc::ServerContext* context, const ::enginePackage::ClientNetInfo* request, ::enginePackage::ServerResponse* response) {
+    std::cout << "New player with port: " << request->port() << " and Ip: " << context->peer() << std::endl;
+    add_player(request->port());
+    return Status::OK;
+}
+
+Status Engine::GetFile(grpc::ServerContext* context, const enginePackage::FileRequest* request,
+                    enginePackage::FileResponse* response) {
+    std::string filename = request->file_name();
+    std::ifstream file(filename, std::ios::binary);
+    if (!file) {
+        return Status(grpc::StatusCode::NOT_FOUND, "File not found");
+    }
+
+    std::string file_content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    file.close();
+
+    response->set_file_content(file_content);
+
+    return Status::OK;
+
+}
+
+void Engine::add_player(uint32_t port) {
+    std::string server_address("localhost:" + std::to_string(port));
+    std::cout << "adding player with address " << server_address << std::endl;
+    players_.push_back(SlaveServerEngineClient(grpc::CreateChannel(server_address,
+                        grpc::InsecureChannelCredentials())));
+};
+
 
 void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     size_t curr_id = playground.get_number_of_players();
