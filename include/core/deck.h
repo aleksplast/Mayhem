@@ -11,7 +11,7 @@
 
 namespace Mayhem {
 
-template <class T> class Deck : public Drawable {
+template <class T> class Deck final : public Drawable {
   private:
     std::list<T> cards_;
 

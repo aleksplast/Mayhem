@@ -39,7 +39,7 @@ std::vector<Base *> Playground::check_bases() {
     return captured_bases;
 }
 
-uint16_t Playground::get_number_of_players() { return players_.size(); };
+uint16_t Playground::get_number_of_players() const { return players_.size(); };
 
 LeaderBoard_t Playground::capture_base(Base *base) {
     auto cards = base->get_cards();
@@ -59,7 +59,7 @@ LeaderBoard_t Playground::capture_base(Base *base) {
             std::find_if(leader_board.begin(), leader_board.end(),
                          [&player_id](Player_points_t player_points) { return player_id == player_points.first; });
 
-        (*player_it).second = player_power;
+        player_it->second = player_power;
 
         auto less_player_it = std::find_if(leader_board.begin(), leader_board.end(),
                                            [&player_power, &players_to_points](Player_points_t player_points) {
@@ -82,8 +82,6 @@ void Playground::set_new_base() {
         bases_ = dump_;
         dump_.clear_deck();
         bases_.shuffle();
-    }
-    if (bases_.size() == 0) {
         return;
     }
 
@@ -134,9 +132,6 @@ void Playground::dump_state(std::ostream &os) const {
     os << "-------------\n";
 }
 
-Playground::~Playground() {
-    if (popping_up_card)
-        delete popping_up_card;
-}
+Playground::~Playground() { delete popping_up_card; }
 
 } // namespace Mayhem

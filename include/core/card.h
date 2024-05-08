@@ -38,7 +38,7 @@ class PlayerCard : public Card {
 }; // class PlayerCard
 
 // Minion class
-class Minion : public PlayerCard {
+class Minion final : public PlayerCard {
   private:
     // Power of the minion
     uint32_t power_;

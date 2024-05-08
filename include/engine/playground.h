@@ -46,9 +46,6 @@ class Playground : public Drawable {
     PlayerCard *popping_up_card = nullptr;
 
   public:
-    // Playground cannot be constructed without parameters
-    Playground() = delete;
-
     // Playground can't be copied
     Playground(const Playground &rhs) = delete;
     Playground &operator=(const Playground &rhs) = delete;
@@ -73,7 +70,7 @@ class Playground : public Drawable {
     void set_new_base();
 
     // Get number of players in the game
-    uint16_t get_number_of_players();
+    uint16_t get_number_of_players() const;
 
     // Base deck gain card on the game start
     void gain_base_on_start(Base *base);

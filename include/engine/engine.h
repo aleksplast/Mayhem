@@ -19,7 +19,7 @@
 namespace Mayhem {
 
 // Main controlling structure
-class Engine {
+class Engine final {
 
   private:
     // Time for one turn

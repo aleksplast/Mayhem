@@ -12,7 +12,7 @@
 
 namespace Mayhem {
 
-class Base : public Card {
+class Base final : public Card {
   private:
     // Power player need to get to win here
     uint32_t power_to_win_ = 0;

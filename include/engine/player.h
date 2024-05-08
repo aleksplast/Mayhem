@@ -17,7 +17,7 @@ using Player_points_t = std::pair<uint32_t, uint32_t>;
 using LeaderBoard_t = std::list<Player_points_t>;
 
 // Class representing Player
-class Player : public Entity {
+class Player final : public Entity {
   private:
     // Card in hand
     Deck<PlayerCard *> hand_;

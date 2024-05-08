@@ -21,7 +21,7 @@ class Action : public PlayerCard {
 }; // class Action
 
 // Action, that buffs other minion
-class BuffAction : public Action {
+class BuffAction final : public Action {
     // Buff size
     uint32_t buff_;
 
@@ -33,7 +33,7 @@ class BuffAction : public Action {
 
 }; // class BuffAction
 
-class DebuffAction : public Action {
+class DebuffAction final : public Action {
     // Debuff size
     uint32_t debuff_;
 
@@ -44,7 +44,7 @@ class DebuffAction : public Action {
     void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr) override;
 }; // class DebuffAction
 
-class DestroyAction : public Action {
+class DestroyAction final : public Action {
   public:
     DestroyAction(const std::string &action_main_file, const std::string &action_extra_file, int id)
         : Action(action_main_file, action_extra_file, id){};
@@ -53,7 +53,7 @@ class DestroyAction : public Action {
     void activate_abillity(Minion *target, Base *src, Base *dest = nullptr) override;
 }; // class DestroyAction
 
-class MoveAction : public Action {
+class MoveAction final : public Action {
   public:
     MoveAction(const std::string &action_main_file, const std::string &action_extra_file, int id)
         : Action(action_main_file, action_extra_file, id){};
@@ -62,7 +62,7 @@ class MoveAction : public Action {
     void activate_abillity(Minion *target, Base *src, Base *dest) override;
 }; // class MoveAction
 
-class DrawAction : public Action {
+class DrawAction final : public Action {
     // Number of cards to draw
     uint32_t num_;
 
