@@ -127,10 +127,10 @@ void Command::check_commands() {
     switch (is_this_command<1>(end_turn)) {
     case Status::same:
         clear();
-        if (model.type == GraphicsModel::Settings::GameType::offline)
-            model.attributes.draw_player = model.engine.end_turn(model.attributes.draw_player);
+        if (model.engine.isOnline())
+            model.engine.end_turn_online(model.attributes.draw_player);
         else
-            model.engine.end_turn(model.attributes.draw_player);
+            model.attributes.draw_player = model.engine.end_turn(model.attributes.draw_player);
         return;
     case Status::possible:
         status = Status::possible;
@@ -165,8 +165,14 @@ void Command::check_commands() {
 
     switch (is_this_command<2>(minion_to_base)) {
     case Status::same:
-        model.engine.place_card(model.attributes.draw_player, dynamic_cast<Entity *>(events[0].second)->get_id(),
-                                dynamic_cast<Entity *>(events[1].second)->get_id());
+        if (model.engine.isOnline()){
+            model.engine.place_card_online(model.attributes.draw_player, dynamic_cast<Entity *>(events[0].second)->get_id(),
+                                    dynamic_cast<Entity *>(events[1].second)->get_id());
+        } else {
+            model.engine.place_card(model.attributes.draw_player, dynamic_cast<Entity *>(events[0].second)->get_id(),
+                                    dynamic_cast<Entity *>(events[1].second)->get_id());
+        }
+
         clear();
         return;
     case Status::possible:

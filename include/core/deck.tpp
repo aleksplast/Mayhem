@@ -30,7 +30,7 @@ template <class T> size_t Deck<T>::size() const { return cards_.size(); }
 template <class T> void Deck<T>::shuffle() {
     std::mt19937 gen(std::chrono::system_clock::now().time_since_epoch().count());
 
-    std::vector<Card> vec(cards_.begin(), cards_.end());
+    std::vector<T> vec(cards_.begin(), cards_.end());
     cards_.clear();
     std::shuffle(vec.begin(), vec.end(), gen);
     std::copy(vec.begin(), vec.end(), std::back_inserter(cards_));

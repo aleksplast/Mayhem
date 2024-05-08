@@ -41,8 +41,11 @@ class MainServerEngineClient {
     public:
     MainServerEngineClient() {};
     MainServerEngineClient(std::shared_ptr<Channel> channel);
+    MainServerEngineClient(MainServerEngineClient&& client);
 
     void place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
+    void play_action(uint16_t player_id, uint16_t card_id);
+    void end_turn(uint16_t player_id);
 
     void initClient(uint32_t port);
 
@@ -57,6 +60,8 @@ class SlaveServerEngineClient {
     SlaveServerEngineClient(std::shared_ptr<Channel> channel);
 
     void place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
+    void play_action(uint16_t player_id, uint16_t card_id);
+    void end_turn(uint16_t player_id);
 
     private:
       std::unique_ptr<enginePackage::SlaveServerEngine::Stub> stub_;
@@ -66,10 +71,11 @@ class SlaveServerEngineClient {
 class Engine final: public enginePackage::MainServerEngine::Service, public enginePackage::SlaveServerEngine::Service {
 
   private:
+    std::unique_ptr<Server> server_;
     // Indicates if engine is slave
-    bool isSlave;
+    bool isSlave_;
     // Indicates if current game is online 
-    bool isOnline;
+    bool isOnline_;
     // Time for one turn
     int time_; // FIXME: just mock
     // Indicates, which player's turn is now
@@ -108,6 +114,7 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //! @brief Default Constructor for Engine
     //!--------------------------------
     Engine();
+    Engine(std::shared_ptr<Channel> channel, std::string port); 
 
     //!--------------------------------
     //! @brief Default Engine Destructor
@@ -130,6 +137,7 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //! @return true if success, false if not
     //!--------------------------------
     bool place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
+    void place_card_online(uint16_t player_id, uint16_t card_id, uint16_t base_id);
     Status placeCard(::grpc::ServerContext* context, const ::enginePackage::placeCardArgs* request, ::enginePackage::ServerResponse* response) override;
     Status placeCardSlave(::grpc::ServerContext*, const ::enginePackage::placeCardArgs*, ::enginePackage::ServerResponse*) override;
 
@@ -144,6 +152,9 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //! @return true if success, false if not
     //!--------------------------------
     bool play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
+    void play_action_online(uint16_t player_id, uint16_t card_id);
+    Status playAction(::grpc::ServerContext* context, const ::enginePackage::playActionArgs* request, ::enginePackage::ServerResponse* response) override;
+    Status playActionSlave(::grpc::ServerContext* context, const ::enginePackage::playActionArgs* request, ::enginePackage::ServerResponse* response) override;
 
     //!--------------------------------
     //! @brief End turn logic
@@ -151,6 +162,10 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //! @return Number of next turn
     //!--------------------------------
     uint16_t end_turn(uint16_t player_id);
+    void end_turn_online(uint16_t player_id);
+    Status endTurn(::grpc::ServerContext* context, const ::enginePackage::endTurnArgs* request, ::enginePackage::ServerResponse* response) override;
+    Status endTurnSlave(::grpc::ServerContext* context, const ::enginePackage::endTurnArgs* request, ::enginePackage::ServerResponse* response) override;
+    bool isOnline() {return isOnline_;};
 
     //!--------------------------------
     //! @brief After base capture distribute points between top players
@@ -163,6 +178,7 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //! @brief Choose factions for players and generate their decks
     //!--------------------------------
     void prepare_game();
+    void engine_wait() {server_->Wait();};
 
     // Parse players' decks, create bases, distribute cards
     void start_game(GraphicsModel::Data::Attributes &attributes);

@@ -4,6 +4,6 @@ using namespace Mayhem;
 
 int main(int argc, char* argv[]) {
     Graphics graphics;
-    graphics.launch_game(argv[1]);
+    graphics.launch_game(argv[1], argv[2]);
     return 0;
 }

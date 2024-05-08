@@ -14,6 +14,7 @@
 namespace Mayhem { // Engine methods
 
 MainServerEngineClient::MainServerEngineClient(std::shared_ptr<Channel> channel) : stub_(enginePackage::MainServerEngine::NewStub(channel)) {};
+MainServerEngineClient::MainServerEngineClient(MainServerEngineClient&& client): stub_(std::move(client.stub_)) {};
 
 void MainServerEngineClient::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) {
     ClientContext context;
@@ -28,6 +29,8 @@ void MainServerEngineClient::place_card(uint16_t player_id, uint16_t card_id, ui
     if (!status.ok()) {
         std::cout << "GetFeature rpc failed." << std::endl;
         std::cout << "Cur status " << status.error_code() << std::endl;
+        std::cout << "Cur status " << status.error_details() << std::endl;
+        std::cout << "Cur status " << status.error_message() << std::endl;
         return;
     }
 
@@ -35,8 +38,59 @@ void MainServerEngineClient::place_card(uint16_t player_id, uint16_t card_id, ui
 
 };
 
+void MainServerEngineClient::play_action(uint16_t player_id, uint16_t card_id) {
+    ClientContext context;
+    enginePackage::playActionArgs args;
+    args.set_playerid(player_id);
+    args.set_cardid(card_id);
+    enginePackage::ServerResponse engineResponse;
+    engineResponse.set_status(false);
+
+    Status status = stub_->playAction(&context, args, &engineResponse);
+    if (!status.ok()) {
+        std::cout << "GetFeature rpc failed." << std::endl;
+        std::cout << "Cur status " << status.error_code() << std::endl;
+        std::cout << "Cur status " << status.error_details() << std::endl;
+        std::cout << "Cur status " << status.error_message() << std::endl;
+        return;
+    }
+
+    std::cout << "Get response: " << engineResponse.status() << std::endl;
+
+};
+
+void MainServerEngineClient::end_turn(uint16_t player_id) {
+    ClientContext context;
+    enginePackage::endTurnArgs args;
+    args.set_playerid(player_id);
+    enginePackage::ServerResponse engineResponse;
+    engineResponse.set_status(false);
+
+    Status status = stub_->endTurn(&context, args, &engineResponse);
+    if (!status.ok()) {
+        std::cout << "GetFeature rpc failed." << std::endl;
+        std::cout << "Cur status " << status.error_code() << std::endl;
+        std::cout << "Cur status " << status.error_details() << std::endl;
+        std::cout << "Cur status " << status.error_message() << std::endl;
+        return;
+    }
+
+    std::cout << "Get response: " << engineResponse.status() << std::endl;
+};
+
 void MainServerEngineClient::initClient(uint32_t port) {
-    std::cout << GetFile("base_data_base.json");
+    std::ofstream outputFile("player0_deck.json"); // FIXME TIAZH: error handling
+    outputFile << GetFile("player0_deck.json");
+    outputFile.close();
+    outputFile.open("player1_deck.json"); // FIXME TIAZH: error handling
+    outputFile << GetFile("player1_deck.json");
+    outputFile.close();
+    outputFile.open("player2_deck.json"); // FIXME TIAZH: error handling
+    outputFile << GetFile("player2_deck.json");
+    outputFile.close();
+    outputFile.open("player3_deck.json"); // FIXME TIAZH: error handling
+    outputFile << GetFile("player3_deck.json");
+    outputFile.close();
     ClientContext context;
     enginePackage::ClientNetInfo net_info;
     net_info.set_port(port);
@@ -83,12 +137,52 @@ void SlaveServerEngineClient::place_card(uint16_t player_id, uint16_t card_id, u
     if (!status.ok()) {
         std::cout << "SlaveServer placeCard failed." << std::endl;
         std::cout << "Cur status " << status.error_code() << std::endl;
+        std::cout << "Cur status " << status.error_details() << std::endl;
+        std::cout << "Cur status " << status.error_message() << std::endl;
         return;
     }
 
     std::cout << "Get response: " << engineResponse.status() << std::endl;
 };
 
+void SlaveServerEngineClient::play_action(uint16_t player_id, uint16_t card_id) {
+    ClientContext context;
+    enginePackage::playActionArgs args;
+    args.set_playerid(player_id);
+    args.set_cardid(card_id);
+    enginePackage::ServerResponse engineResponse;
+    engineResponse.set_status(false);
+
+    Status status = stub_->playActionSlave(&context, args, &engineResponse);
+    if (!status.ok()) {
+        std::cout << "SlaveServer placeCard failed." << std::endl;
+        std::cout << "Cur status " << status.error_code() << std::endl;
+        std::cout << "Cur status " << status.error_details() << std::endl;
+        std::cout << "Cur status " << status.error_message() << std::endl;
+        return;
+    }
+
+    std::cout << "Get response: " << engineResponse.status() << std::endl;
+};
+
+void SlaveServerEngineClient::end_turn(uint16_t player_id) {
+    ClientContext context;
+    enginePackage::endTurnArgs args;
+    args.set_playerid(player_id);
+    enginePackage::ServerResponse engineResponse;
+    engineResponse.set_status(false);
+
+    Status status = stub_->endTurnSlave(&context, args, &engineResponse);
+    if (!status.ok()) {
+        std::cout << "SlaveServer placeCard failed." << std::endl;
+        std::cout << "Cur status " << status.error_code() << std::endl;
+        std::cout << "Cur status " << status.error_details() << std::endl;
+        std::cout << "Cur status " << status.error_message() << std::endl;
+        return;
+    }
+
+    std::cout << "Get response: " << engineResponse.status() << std::endl;
+};
 // Player can only have 10 cards in hand
 const uint32_t MAX_CARDS_IN_HAND = 10;
 
@@ -105,6 +199,16 @@ const std::string DECK_JSON_FILE = "_deck.json";
 const uint32_t NUMBER_OF_WINNERS = 3;
 
 Engine::Engine() : turn_(0), time_(0), entities_(), playground(entities_), parser_(){};
+Engine::Engine(std::shared_ptr<Channel> Channel, std::string port) : isOnline_(true), isSlave_(true), turn_(0), time_(0), entities_(), playground(entities_), parser_(), client_(Channel){ 
+    std::string server_address("localhost:" + port);
+    ServerBuilder builder;
+    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+    builder.RegisterService(static_cast<enginePackage::SlaveServerEngine::Service*>(this));
+    std::unique_ptr<Server> server(builder.BuildAndStart());
+    std::cout << "Server listening on " << server_address << std::endl;
+    client_.initClient(stoi(port));
+    server_ = std::move(server);
+};
 
 Entity *Engine::get_by_id(uint16_t entity_id) {
     if (entity_id >= entities_.size()) {
@@ -149,6 +253,10 @@ Status Engine::placeCardSlave(::grpc::ServerContext* context, const ::enginePack
     return Status::OK;
 };
 
+void Engine::place_card_online(uint16_t player_id, uint16_t card_id, uint16_t base_id) {
+    this->client_.place_card(player_id, card_id, base_id);
+}
+
 bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) {
     // Проверка на мастера и на слейва
     if (player_id != turn_)
@@ -173,8 +281,44 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
     return true;
 }
 
+Status Engine::playAction(::grpc::ServerContext* context, const ::enginePackage::playActionArgs* request, ::enginePackage::ServerResponse* response) {
+    std::cout << "Received playAction request" << std::endl;
+
+    uint16_t player_id = request->playerid();
+    uint16_t card_id = request->cardid();
+
+    if (play_action(player_id, card_id))
+    {
+        response->set_status(1);
+        for (auto &player : players_) { 
+            player.play_action(player_id, card_id);
+        }
+    }
+    else
+        response->set_status(0);
+
+    std::cout << "Sending to all servers" << std::endl;
+
+    return Status::OK;
+};
+
+Status Engine::playActionSlave(::grpc::ServerContext* context, const ::enginePackage::playActionArgs* request, ::enginePackage::ServerResponse* response) {
+    uint16_t player_id = request->playerid();
+    uint16_t card_id = request->cardid();
+    play_action(player_id, card_id);
+
+    response->set_status(1);
+    return Status::OK;
+};
+
+void Engine::play_action_online(uint16_t player_id, uint16_t card_id) {
+    this->client_.play_action(player_id, card_id);
+}
+
 bool Engine::play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id,
                          uint16_t dest_id) {
+    std::cout << "Current Turn" << turn_ << std::endl;
+
     if (player_id != turn_)
         return false;
 
@@ -202,6 +346,36 @@ bool Engine::play_action(uint16_t player_id, uint16_t action_id, uint16_t target
     }
 
     return false;
+}
+
+Status Engine::endTurn(::grpc::ServerContext* context, const ::enginePackage::endTurnArgs* request, ::enginePackage::ServerResponse* response) {
+    uint16_t player_id = request->playerid();
+
+    if (end_turn(player_id) + 6)
+    {
+        response->set_status(1);
+        for (auto &player : players_) { 
+            player.end_turn(player_id);
+        }
+    }
+    else
+        response->set_status(0);
+
+    std::cout << "Sending to all servers" << std::endl;
+
+    return Status::OK;
+}
+
+Status Engine::endTurnSlave(::grpc::ServerContext* context, const ::enginePackage::endTurnArgs* request, ::enginePackage::ServerResponse* response) {
+    uint16_t player_id = request->playerid();
+    end_turn(player_id);
+
+    response->set_status(1);
+    return Status::OK;
+}
+
+void Engine::end_turn_online(uint16_t player_id) {
+    this->client_.end_turn(player_id);
 }
 
 uint16_t Engine::end_turn(uint16_t player_id) {
@@ -280,10 +454,19 @@ Status Engine::GetFile(grpc::ServerContext* context, const enginePackage::FileRe
 void Engine::add_player(uint32_t port) {
     std::string server_address("localhost:" + std::to_string(port));
     std::cout << "adding player with address " << server_address << std::endl;
-    players_.push_back(SlaveServerEngineClient(grpc::CreateChannel(server_address,
-                        grpc::InsecureChannelCredentials())));
+    std::shared_ptr<Channel> channel = grpc::CreateChannel(server_address,
+                        grpc::InsecureChannelCredentials());
+    std::cout << channel->GetState(true) << std::endl;
+
+    players_.push_back(SlaveServerEngineClient(channel));
 };
 
+void Engine::prepare_game() {
+    for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
+        std::string player_deck_file = PLAYER + std::to_string(i) + DECK_JSON_FILE;
+        parser_.json_for_player(player_deck_file);
+    }
+}
 
 void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     size_t curr_id = playground.get_number_of_players();
@@ -313,7 +496,6 @@ void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
 
         curr_id = entities_.size();
 
-        player->shuffle_deck();
         player->take_card(5);
     }
     attributes.draw_player = 0;
