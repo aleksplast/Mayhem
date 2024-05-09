@@ -195,6 +195,26 @@ class GraphicsModel {
                 }; // struct ScreenButtons
             };     // struct Button
 
+                // Drawing buttons on Screen
+                struct ScreenButtons {
+
+                    // Offset
+                    struct Offset {
+                        static constexpr float x = 0.5;
+                        static constexpr float y = 0.15;
+                        static constexpr float start = 0.2; // initial y-axis offset
+                    };                                      // struct Offset
+
+                    // Scale
+                    struct Scale {
+                        static constexpr float x = 0.28;
+                        static constexpr float y = 0.12;
+                    }; // struct Scale
+
+                    static constexpr unsigned int char_size = 36;
+                }; // struct ScreenButtons
+            };     // struct Button
+
             // Drawing poppong up card
             struct PopUpCard {
 
