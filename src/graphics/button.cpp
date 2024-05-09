@@ -2,7 +2,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <iostream>
+
 namespace Mayhem {
 
 Button::Button() {
@@ -12,13 +12,39 @@ Button::Button() {
 
 Button::Button(const std::string &text, const sf::IntRect &rect) : Button() {
     text_.setString(text);
+    sf::FloatRect text_bounds = text_.getGlobalBounds();
     rect_.setTextureRect(rect);
+}
+
+Button::Button(const Button &rhs) : font_(rhs.font_), text_(rhs.text_) {
+    rect_.setTextureRect(rhs.rect_.getTextureRect());
+    rect_.setPosition(rhs.rect_.getPosition());
+}
+
+Button::Button(Button &&rhs) : font_(std::move(rhs.font_)), text_(std::move(rhs.text_)) {
+    rect_ = sf::RectangleShape(std::move(rhs.rect_));
+}
+
+Button &Button::operator=(const Button &rhs) {
+    font_ = rhs.font_;
+    text_ = rhs.text_;
+    rect_.setTextureRect(rhs.rect_.getTextureRect());
+    rect_.setPosition(rhs.rect_.getPosition());
+    return *this;
+}
+
+Button &Button::operator=(Button &&rhs) {
+    font_ = std::move(rhs.font_);
+    text_ = std::move(rhs.text_);
+    rect_ = std::move(rhs.rect_);
+    return *this;
 }
 
 void Button::set_text_position() {
     sf::FloatRect rect_bounds = rect_.getGlobalBounds();
     sf::Vector2u center_pos =
         sf::Vector2u(rect_bounds.left + rect_bounds.width / 2, rect_bounds.top + rect_bounds.height / 2);
+    sf::String str = text_.getString();
     sf::FloatRect text_bounds = text_.getGlobalBounds();
     text_.setPosition(center_pos.x - text_bounds.width / 2, center_pos.y - text_bounds.height / 2);
 }

@@ -16,7 +16,7 @@ const std::string TEST_BASES = "test_bases.json";
 
 class TestEngine : public ::testing::Test {
     void SetUp() {
-        engine = new Engine;
+        engine = new Engine(PLAYERS_NUM);
         std::vector<std::string> names;
         for (uint16_t i = 0; i < PLAYERS_NUM; i++) {
             std::string test_deck_file = TEST_DECK + std::to_string(i) + JSON;
@@ -123,7 +123,7 @@ TEST_F(TestEngine, test_end_third_turn) {
 }
 
 TEST(Start_game, test_start_game) {
-    Engine *engine = new Engine;
+    Engine *engine = new Engine(PLAYERS_NUM);
     std::vector<std::string> names;
     for (uint16_t i = 0; i < PLAYERS_NUM; i++) {
         std::string test_deck_file = TEST_DECK + std::to_string(i) + JSON;

@@ -30,7 +30,12 @@ class Button {
 
   public:
     Button();
+    Button(const Button &rhs);
+    Button(Button &&rhs);
     Button(const std::string &text, const sf::IntRect &rect = sf::IntRect());
+    Button &operator=(const Button &rhs);
+    Button &operator=(Button &&rhs);
+
     ~Button();
 
     // Set button position
