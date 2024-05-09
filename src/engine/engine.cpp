@@ -4,6 +4,7 @@
 #include "core/actions.h"
 #include "core/base.h"
 #include "engine/player.h"
+#include "engine/playground.h"
 #include "graphics/graphics.hpp"
 #include <SFML/Graphics.hpp>
 #include <fstream>
@@ -202,9 +203,10 @@ const std::string DECK_JSON_FILE = "_deck.json";
 
 const uint32_t NUMBER_OF_WINNERS = 3;
 
-Engine::Engine() : isSlave_(false), isOnline_(false), turn_(0), entities_(), playground(entities_), parser_(){};
-Engine::Engine(std::shared_ptr<Channel> Channel, std::string player_address)
-    : isSlave_(true), isOnline_(true), turn_(0), entities_(), playground(entities_), parser_(), client_(Channel) {
+Engine::Engine(uint16_t num_players)
+    : isSlave_(false), isOnline_(false), turn_(0), entities_(), playground(num_players, entities_), parser_(){};
+Engine::Engine(std::shared_ptr<Channel> Channel, std::string player_address, uint16_t num_players)
+    : isSlave_(true), isOnline_(true), turn_(0), entities_(), playground(0, entities_), parser_(), client_(Channel) {
     ServerBuilder builder;
     builder.AddListeningPort(player_address, grpc::InsecureServerCredentials());
     builder.RegisterService(static_cast<enginePackage::SlaveServerEngine::Service *>(this));

@@ -62,7 +62,7 @@ class Playground : public Drawable {
     //! @brief Constructor for Playground
     //! @param[out] entities Vector of the entities in the game
     //!--------------------------------
-    Playground(std::vector<Entity *> &entities);
+    Playground(uint16_t num_players, std::vector<Entity *> &entities);
 
     //!--------------------------------
     //! @brief Shrink number of players to players num

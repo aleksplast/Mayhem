@@ -3,7 +3,8 @@
 using namespace Mayhem;
 
 int main(int argc, char* argv[]) { // FIXME: Add some checks
+    if (argc != 3) return 0;
     Graphics graphics;
-    graphics.launch_game(argv[1], argv[2], argv[3], argv[4], argv[5]);
+    graphics.run(argv[1], argv[2]);
     return 0;
 }

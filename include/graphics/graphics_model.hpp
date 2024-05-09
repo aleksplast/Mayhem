@@ -174,7 +174,26 @@ class GraphicsModel {
                         static constexpr float y = -0.1;
                     }; // struct Position
                 };     // struct UnitsPower
-            };         // struct Button
+
+                // Drawing buttons on Screen
+                struct ScreenButtons {
+
+                    // Offset
+                    struct Offset {
+                        static constexpr float x = 0.5;
+                        static constexpr float y = 0.15;
+                        static constexpr float start = 0.2; // initial y-axis offset
+                    };                                      // struct Offset
+
+                    // Scale
+                    struct Scale {
+                        static constexpr float x = 0.28;
+                        static constexpr float y = 0.12;
+                    }; // struct Scale
+
+                    static constexpr unsigned int char_size = 36;
+                }; // struct ScreenButtons
+            };     // struct Button
 
             // Drawing poppong up card
             struct PopUpCard {
@@ -201,7 +220,7 @@ class GraphicsModel {
         // Attibutes for drawing entities
         struct Attributes {
             uint16_t draw_player; // num player who graphics draw
-            sf::RenderWindow window;
+            sf::RenderWindow &window;
             sf::Vector2u default_window_size;
             std::vector<PlayerCard *> current_player_cards;
             std::vector<Deck<PlayerCard *> *> current_decks;
@@ -209,7 +228,25 @@ class GraphicsModel {
             std::vector<std::pair<Button::Type, sf::FloatRect>> buttuns;
             std::pair<Base *, std::vector<PlayerCard *>> shown_place;
             PlayerCard *popping_up_card = nullptr;
+
+          public:
+            Attributes(sf::RenderWindow &window) : window(window){};
         }; // struct Attributes
+
+        // Attributes for menu
+        struct MenuAttributes {
+            // Game actions
+            enum class GameAction {
+                play,
+                exit,
+            }; // enum class GameAction
+
+            sf::Vector2u default_window_size;
+            Settings::GameType type;
+            GameAction action;
+            uint16_t num_players = 2;
+            uint16_t number_of_player;
+        }; // struct MenuAttributes
     };     // struct Data
 
   public:
@@ -219,7 +256,7 @@ class GraphicsModel {
 
   public:
     GraphicsModel() = delete;
-    GraphicsModel(Engine &e);
+    GraphicsModel(Engine &e, sf::RenderWindow &window, const Data::MenuAttributes &menu_attributes);
     ~GraphicsModel() = default;
 
 }; // class GraphicsModel
