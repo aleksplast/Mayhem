@@ -8,18 +8,19 @@ namespace Mayhem {
 
 void Graphics::launch_game(std::string mode, std::string port, std::string player) {
     if (mode.compare("offline") == 0) {
-    Engine engine;
-    GraphicsModel model(engine);
-    GraphicsController controller(model);
-    GraphicsView view(model);
-    engine.prepare_game();
-    engine.start_game(model.attributes);
-    engine.dump_state("dump_file");
+        Engine engine;
+        GraphicsModel model(engine);
+        GraphicsController controller(model);
+        GraphicsView view(model);
+        model.attributes.draw_player = 0;
+        engine.prepare_game();
+        engine.start_game(model.attributes);
+        engine.dump_state("dump_file");
 
-    while (model.attributes.window.isOpen()) {
-        controller.process_events();
-        view.display();
-    }
+        while (model.attributes.window.isOpen()) {
+            controller.process_events();
+            view.display();
+        }
 
     } 
     else {
@@ -29,6 +30,7 @@ void Graphics::launch_game(std::string mode, std::string port, std::string playe
             GraphicsModel model(engine);
             GraphicsController controller(model);
             GraphicsView view(model);
+            model.attributes.draw_player = 0;
             engine.prepare_game();
             engine.start_game(model.attributes);
             engine.dump_state("dump_file");

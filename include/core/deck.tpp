@@ -62,6 +62,7 @@ template <class T> void Deck<T>::show_cards(GraphicsModel::Data::Attributes &att
     float card_index = 1.0;
 
     for (auto it = cards_.begin(); it != cards_.end(); ++it, card_index += 1.0) {
+        (*it)->set_main_texture();
         (*it)->draw(attributes.window,
                     sf::FloatRect(place_pos.x +
                                       (card_index - (num_cards + 1.0) / 2) * place_size.x / (num_cards + 1.0) -

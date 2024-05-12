@@ -198,7 +198,7 @@ const std::string DECK_JSON_FILE = "_deck.json";
 
 const uint32_t NUMBER_OF_WINNERS = 3;
 
-Engine::Engine() : turn_(0), time_(0), entities_(), playground(entities_), parser_(){};
+Engine::Engine() : turn_(0), isOnline_(false), isSlave_(false), time_(0), entities_(), playground(entities_), parser_(){};
 Engine::Engine(std::shared_ptr<Channel> Channel, std::string port) : isOnline_(true), isSlave_(true), turn_(0), time_(0), entities_(), playground(entities_), parser_(), client_(Channel){ 
     std::string server_address("localhost:" + port);
     ServerBuilder builder;
@@ -241,7 +241,7 @@ Status Engine::placeCard(::grpc::ServerContext* context, const ::enginePackage::
     return Status::OK;
 };
 
-// FIXME TIAZH: add some check if place card is executed
+// FIXME notimortant: add some check if place card is executed
 Status Engine::placeCardSlave(::grpc::ServerContext* context, const ::enginePackage::placeCardArgs* request, ::enginePackage::ServerResponse* response) {
     uint16_t player_id = request->playerid();
     uint16_t card_id = request->cardid();
