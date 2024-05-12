@@ -86,8 +86,8 @@ void Command::activate_move_action() {
     Player *player = dynamic_cast<Player *>(model.engine.get_by_id(model.attributes.draw_player));
 
     if (player->get_actions_limit()) {
-        action->activate_abillity(minion, base_from, base_to);
-        model.engine.play_action(model.attributes.draw_player, action->get_id());
+        model.engine.play_action(model.attributes.draw_player, action->get_id(), minion->get_id(), base_from->get_id(),
+                                 base_to->get_id());
     }
     clear();
 }
@@ -99,8 +99,7 @@ void Command::activate_typical_action() {
     Player *player = dynamic_cast<Player *>(model.engine.get_by_id(model.attributes.draw_player));
 
     if (player->get_actions_limit()) {
-        action->activate_abillity(minion, base);
-        model.engine.play_action(model.attributes.draw_player, action->get_id());
+        model.engine.play_action(model.attributes.draw_player, action->get_id(), minion->get_id(), base->get_id(), 0);
     }
     clear();
 }
@@ -111,8 +110,7 @@ void Command::activate_draw_action() {
     Player *player = dynamic_cast<Player *>(model.engine.get_by_id(player_id));
 
     if (player->get_actions_limit()) {
-        action->activate_ability(player);
-        model.engine.play_action(player_id, action->get_id());
+        model.engine.play_action(player_id, action->get_id(), 0, 0, 0);
     }
     clear();
 }

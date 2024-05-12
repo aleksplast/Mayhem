@@ -1,4 +1,5 @@
 #include "engine/engine.h"
+#include "core/actions.h"
 #include "core/base.h"
 #include "engine/player.h"
 #include "graphics/graphics.hpp"
@@ -59,11 +60,12 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
     return true;
 }
 
-bool Engine::play_action(uint16_t player_id, uint16_t card_id) {
+bool Engine::play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id,
+                         uint16_t dest_id) {
     if (player_id != turn_)
         return false;
 
-    if (auto *act = dynamic_cast<Action *>(get_by_id(card_id))) {
+    if (auto *act = dynamic_cast<Action *>(get_by_id(action_id))) {
         Player *player = static_cast<Player *>(get_by_id(player_id));
 
         if (player->get_actions_limit() == 0) {
@@ -71,6 +73,16 @@ bool Engine::play_action(uint16_t player_id, uint16_t card_id) {
         }
 
         player->play_card(act);
+
+        if (auto draw_act = dynamic_cast<DrawAction *>(act)) {
+            draw_act->activate_ability(player);
+        } else {
+            Minion *target = dynamic_cast<Minion *>(get_by_id(target_id));
+            Base *src = dynamic_cast<Base *>(get_by_id(src_id));
+            Base *dest = dynamic_cast<Base *>(get_by_id(dest_id));
+            act->activate_abillity(target, src, dest);
+        }
+
         player->change_actions_limit(-1);
 
         return true;

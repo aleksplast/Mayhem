@@ -63,7 +63,7 @@ class Engine final {
     // Function for playing Action.
     // Takes player's, action's id.
     // Removes action from player hand.
-    bool play_action(uint16_t player_id, uint16_t card_id);
+    bool play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
 
     // End turn logic.
     uint16_t end_turn(uint16_t player_id);
