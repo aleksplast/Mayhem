@@ -6,7 +6,7 @@
 
 namespace Mayhem {
 
-void Graphics::launch_game(std::string mode, std::string port) {
+void Graphics::launch_game(std::string mode, std::string port, std::string player) {
     if (mode.compare("offline") == 0) {
     Engine engine;
     GraphicsModel model(engine);
@@ -49,6 +49,8 @@ void Graphics::launch_game(std::string mode, std::string port) {
             Engine engine(grpc::CreateChannel("localhost:50051",
                           grpc::InsecureChannelCredentials()), port);
             GraphicsModel model(engine);
+            std::cout << "Current player " << player << std::endl;
+            model.attributes.draw_player = stoi(player); // FIXME: ADD CHECKS
             GraphicsController controller(model);
             GraphicsView view(model);
             engine.start_game(model.attributes);
