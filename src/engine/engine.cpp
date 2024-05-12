@@ -379,6 +379,8 @@ void Engine::end_turn_online(uint16_t player_id) {
 }
 
 uint16_t Engine::end_turn(uint16_t player_id) {
+    std::cout << "Current turn is " << turn_ << std::endl;
+    std::cout << "Your turn is " << player_id << std::endl;
     if (player_id != turn_) {
         return turn_;
     }
@@ -498,7 +500,7 @@ void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
 
         player->take_card(5);
     }
-    attributes.draw_player = 0;
+    //attributes.draw_player = 0;
 }
 
 void Engine::distribute_points(Base *base, LeaderBoard_t &leader_board) {

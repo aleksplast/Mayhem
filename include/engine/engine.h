@@ -50,8 +50,8 @@ class MainServerEngineClient {
     void initClient(uint32_t port);
 
     private:
-        std::unique_ptr<enginePackage::MainServerEngine::Stub> stub_;
-        std::string GetFile(const std::string& filename);
+      std::unique_ptr<enginePackage::MainServerEngine::Stub> stub_;
+      std::string GetFile(const std::string& filename);
 };
 
 class SlaveServerEngineClient {

@@ -11,7 +11,7 @@ class Graphics {
     Graphics() = default;
 
     // initializes the main components of the game
-    void launch_game(std::string mode, std::string port);
+    void launch_game(std::string mode, std::string port, std::string player);
 
     ~Graphics() = default;
 }; // class Grafics
