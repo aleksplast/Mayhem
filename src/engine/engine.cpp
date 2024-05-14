@@ -38,11 +38,14 @@ void MainServerEngineClient::place_card(uint16_t player_id, uint16_t card_id, ui
 
 };
 
-void MainServerEngineClient::play_action(uint16_t player_id, uint16_t card_id) {
+void MainServerEngineClient::play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id) {
     ClientContext context;
     enginePackage::playActionArgs args;
     args.set_playerid(player_id);
-    args.set_cardid(card_id);
+    args.set_actionid(action_id);
+    args.set_targetid(target_id);
+    args.set_srcid(src_id);
+    args.set_destid(dest_id);
     enginePackage::ServerResponse engineResponse;
     engineResponse.set_status(false);
 
@@ -145,11 +148,14 @@ void SlaveServerEngineClient::place_card(uint16_t player_id, uint16_t card_id, u
     std::cout << "Get response: " << engineResponse.status() << std::endl;
 };
 
-void SlaveServerEngineClient::play_action(uint16_t player_id, uint16_t card_id) {
+void SlaveServerEngineClient::play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id) {
     ClientContext context;
     enginePackage::playActionArgs args;
     args.set_playerid(player_id);
-    args.set_cardid(card_id);
+    args.set_actionid(action_id);
+    args.set_targetid(target_id);
+    args.set_srcid(src_id);
+    args.set_destid(dest_id);
     enginePackage::ServerResponse engineResponse;
     engineResponse.set_status(false);
 
@@ -285,13 +291,16 @@ Status Engine::playAction(::grpc::ServerContext* context, const ::enginePackage:
     std::cout << "Received playAction request" << std::endl;
 
     uint16_t player_id = request->playerid();
-    uint16_t card_id = request->cardid();
+    uint16_t action_id = request->actionid();
+    uint16_t target_id = request->targetid();
+    uint16_t src_id    = request->srcid();
+    uint16_t dest_id   = request->destid();
 
-    if (play_action(player_id, card_id))
+    if (play_action(player_id, action_id, target_id, src_id, dest_id))
     {
         response->set_status(1);
         for (auto &player : players_) { 
-            player.play_action(player_id, card_id);
+            player.play_action(player_id, action_id, target_id, src_id, dest_id);
         }
     }
     else
@@ -304,15 +313,19 @@ Status Engine::playAction(::grpc::ServerContext* context, const ::enginePackage:
 
 Status Engine::playActionSlave(::grpc::ServerContext* context, const ::enginePackage::playActionArgs* request, ::enginePackage::ServerResponse* response) {
     uint16_t player_id = request->playerid();
-    uint16_t card_id = request->cardid();
-    play_action(player_id, card_id);
+    uint16_t action_id = request->actionid();
+    uint16_t target_id = request->targetid();
+    uint16_t src_id    = request->srcid();
+    uint16_t dest_id   = request->destid();
+    play_action(player_id, action_id, target_id, src_id, dest_id);
 
     response->set_status(1);
     return Status::OK;
 };
 
-void Engine::play_action_online(uint16_t player_id, uint16_t card_id) {
-    this->client_.play_action(player_id, card_id);
+void Engine::play_action_online(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id,
+                         uint16_t dest_id) {
+    this->client_.play_action(player_id, action_id, target_id, src_id, dest_id);
 }
 
 bool Engine::play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id,
@@ -462,13 +475,6 @@ void Engine::add_player(uint32_t port) {
 
     players_.push_back(SlaveServerEngineClient(channel));
 };
-
-void Engine::prepare_game() {
-    for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
-        std::string player_deck_file = PLAYER + std::to_string(i) + DECK_JSON_FILE;
-        parser_.json_for_player(player_deck_file);
-    }
-}
 
 void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     size_t curr_id = playground.get_number_of_players();
