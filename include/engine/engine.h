@@ -44,7 +44,7 @@ class MainServerEngineClient {
     MainServerEngineClient(MainServerEngineClient&& client);
 
     void place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
-    void play_action(uint16_t player_id, uint16_t card_id);
+    void play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
     void end_turn(uint16_t player_id);
 
     void initClient(uint32_t port);
@@ -60,7 +60,7 @@ class SlaveServerEngineClient {
     SlaveServerEngineClient(std::shared_ptr<Channel> channel);
 
     void place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
-    void play_action(uint16_t player_id, uint16_t card_id);
+    void play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
     void end_turn(uint16_t player_id);
 
     private:
@@ -152,7 +152,7 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //! @return true if success, false if not
     //!--------------------------------
     bool play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
-    void play_action_online(uint16_t player_id, uint16_t card_id);
+    void play_action_online(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
     Status playAction(::grpc::ServerContext* context, const ::enginePackage::playActionArgs* request, ::enginePackage::ServerResponse* response) override;
     Status playActionSlave(::grpc::ServerContext* context, const ::enginePackage::playActionArgs* request, ::enginePackage::ServerResponse* response) override;
 

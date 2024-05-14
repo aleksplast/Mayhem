@@ -10,7 +10,10 @@ message placeCardArgs {
 
 message playActionArgs {
     uint32 playerId = 1;
-    uint32 cardId   = 2;
+    uint32 actionId = 2;
+    uint32 targetId = 3;
+    uint32 srcId    = 4;
+    uint32 destId   = 5;
 }
 
 message FileRequest {
