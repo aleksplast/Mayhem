@@ -14,10 +14,20 @@ class Entity : public Drawable {
     int id_;
 
   public:
+    //!--------------------------------
+    //! @brief Constructor for Engine
+    //! @param[out] name_main_file main image file
+    //! @param[in] id id of the entity
+    //! @param[out] name_extra_file extra_image_file
+    //! @return Players leaderboard on base
+    //!--------------------------------
     Entity(const std::string &name_main_file, const int id, const std::string &name_extra_file = "");
-    virtual ~Entity(){};
 
-    // Get ID of the entity
+    virtual ~Entity() = default;
+
+    //!--------------------------------
+    //! @brief Get ID of the entity
+    //!--------------------------------
     int get_id() const;
 }; // class Entity
 

@@ -45,55 +45,100 @@ class Player final : public Entity {
     ~Player() = default;
 
   public:
-    // Destroyrs card in hand, no interaction with the base
+    //!--------------------------------
+    //! @brief Destroys card in hand, no interaction with the base
+    //! @param[out] card card to destroy
+    //!--------------------------------
     void play_card(PlayerCard *card);
 
-    // Add card to dump deck
+    //!--------------------------------
+    //! @brief Add card to dump deck
+    //! @param[out] card Card to add
+    //!--------------------------------
     void dump_card(PlayerCard *card);
 
-    // Gain card to deck on the start of the game
+    //!--------------------------------
+    //! @brief Gain card to deck on the start of the game
+    //! @param[out] card Card to gain
+    //!--------------------------------
     void gain_card_on_start(PlayerCard *card);
 
-    // End turn of the player
+    //!--------------------------------
+    //! @brief End turn of the player
+    //!--------------------------------
     void end_turn();
 
-    // Moves number_of_cards from deck to hand
+    //!--------------------------------
+    //! @brief Moves number_of_cards from deck to hand
+    //! @param[in] number_of_cards Number of cards to draw
+    //!--------------------------------
     void take_card(uint32_t number_of_cards);
 
-    // Returns number of cards in hand
+    //!--------------------------------
+    //! @brief Returns number of cards in hand
+    //! @return Number of cards in hand
+    //!--------------------------------
     size_t get_number_of_cards();
 
-    // Returns minions_limit_
+    //!--------------------------------
+    //! @brief Returns minions_limit_
+    //!--------------------------------
     int get_minions_limit() const;
 
-    // Return actions_limit_
+    //!--------------------------------
+    //! @brief Return actions_limit_
+    //!--------------------------------
     int get_actions_limit() const;
 
-    // Change actions limit by num
+    //!--------------------------------
+    //! @brief Change actions limit by num
+    //! @param[in] num Add num to current minions limit
+    //!--------------------------------
     void change_minions_limit(int num);
 
-    // Change actions limit by num
+    //!--------------------------------
+    //! @brief Change actions limit by num
+    //! @param[in] num Add num to current minions limit
+    //!--------------------------------
     void change_actions_limit(int num);
 
-    // Set minions limit to num
+    //!--------------------------------
+    //! @brief Set minions limit to num
+    //! @param[in] num Num minions limit must be set to
+    //!--------------------------------
     void set_minions_limit(int num);
 
-    // Set minions limit to num
+    //!--------------------------------
+    //! @brief Set minions limit to num
+    //! @param[in] num Num actions limit must be set to
+    //!--------------------------------
     void set_actions_limit(int num);
 
-    // Dump state of the player
+    //!--------------------------------
+    //! @brief Dump state of the player
+    //! @param[in] os ostream to write to
+    //!--------------------------------
     void dump_state(std::ostream &os) const;
 
-    // Dump random card from hand
+    //!--------------------------------
+    //! @brief Dump random card from hand
+    //!--------------------------------
     void dump_random_card();
 
-    // Gain winning points
+    //!--------------------------------
+    //! @brief Gain winning points
+    //! @param[in] points points to gain
+    //!--------------------------------
     void gain_points(uint32_t points);
 
-    // Get number of winning points
+    //!--------------------------------
+    //! @return Get number of winning points
+    //!--------------------------------
     uint32_t get_points() const;
 
-    // Shuffle deck_, dump_deck_ and hand_ untouched
+    //!--------------------------------
+    //! @brief Shuffle deck_, dump_deck_ and hand_ untouched
+    //!--------------------------------
     void shuffle_deck();
 
   public: // graphics function

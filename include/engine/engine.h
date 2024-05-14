@@ -38,51 +38,95 @@ class Engine final {
     bool game_over_ = false;
 
   public:
-    // Engine can't be copied
+    //!--------------------------------
+    //! @brief Engine can't be copied
+    //!--------------------------------
     Engine(const Engine &rhs) = delete;
-    Engine &operator=(Engine &&rhs) = delete;
-
-    // Engine can't be moved
-    Engine(Engine &&rhs) = delete;
     Engine &operator=(const Engine &rhs) = delete;
 
-    // Default Constructor for Engine
+    //!--------------------------------
+    //! @brief Engine can't be moved
+    //!--------------------------------
+    Engine(Engine &&rhs) = delete;
+    Engine &operator=(Engine &&rhs) = delete;
+
+    //!--------------------------------
+    //! @brief Default Constructor for Engine
+    //!--------------------------------
     Engine();
 
-    // Default Engine Destructor
+    //!--------------------------------
+    //! @brief Default Engine Destructor
+    //!--------------------------------
     ~Engine();
 
-    // Return pointer to Entity by it's id
+    //!--------------------------------
+    //! @brief Get entity by id
+    //! @param[in] entity_id Entity id
+    //! @return Pointer to the Entity
+    //!--------------------------------
     Entity *get_by_id(uint16_t entity_id);
 
-    // Function for placing Minion to Base.
-    // Takes player's, minion's, base's id.
-    // Removes minion from player hand, adds minion to base.
+    //!--------------------------------
+    //! @brief Function for placing Minion to Base. Takes player's, minion's, base's id. Removes minion from player
+    //! hand, adds minion to base.
+    //! @param[in] player_id Player id, that is playing Minion
+    //! @param[in] card_id Minion id
+    //! @param[in] base_id base_id, where to place Minion
+    //! @return true if success, false if not
+    //!--------------------------------
     bool place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
 
-    // Function for playing Action.
-    // Takes player's, action's id.
-    // Removes action from player hand.
+    //!--------------------------------
+    //! @brief Function for playing Action. Takes player's, action's id and all id's for action ability, removes action
+    //! from player hand.
+    //! @param[in] player_id Player id, that is playing action
+    //! @param[in] action_id Action id
+    //! @param[in] target_id target id, Minion target for action
+    //! @param[in] src_id base_id, where target is located
+    //! @param[in] dest_id base_id, where to move target
+    //! @return true if success, false if not
+    //!--------------------------------
     bool play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
 
-    // End turn logic.
+    //!--------------------------------
+    //! @brief End turn logic
+    //! @param[in] player_id Player id, that is finishing turn
+    //! @return Number of next turn
+    //!--------------------------------
     uint16_t end_turn(uint16_t player_id);
 
-    // After base capture distribute points between top players
+    //!--------------------------------
+    //! @brief After base capture distribute points between top players
+    //! @param[out] base Captured base
+    //! @param[out] leaderboard Leaderboard on this base
+    //!--------------------------------
     void distribute_points(Base *base, LeaderBoard_t &leaderboard);
 
+    //!--------------------------------
+    //! @brief Choose factions for players and generate their decks
+    //!--------------------------------
     void prepare_game();
 
     // Parse players' decks, create bases, distribute cards
     void start_game(GraphicsModel::Data::Attributes &attributes);
 
-    // Dumps state of Engine
+    //!--------------------------------
+    //! @brief Dumps state of engine and all of its components
+    //! @param[in] file_name Name of the file to dump to
+    //!--------------------------------
     void dump_state(std::string file_name) const;
 
-    // Flag, indicates if the game is over
+    //!--------------------------------
+    //! @brief Check, if the game is over
+    //! @return bool flag, true if over, false if not
+    //!--------------------------------
     bool is_over() const;
 
-    // Get winner of the game
+    //!--------------------------------
+    //! @brief Get winner of the game
+    //! @return Winner player's id
+    //!--------------------------------
     uint32_t get_winner() const;
 
   public: // graphic functions
