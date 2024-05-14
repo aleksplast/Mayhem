@@ -11,9 +11,20 @@ namespace Mayhem {
 class Action : public PlayerCard {
     // FIXME: change it to abstract class
   public:
+    //!--------------------------------
+    //! @brief Constructor for Action
+    //! @param[out] action_main_file main file image for action
+    //! @param[out] action_extra_file extra file image for action
+    //! @param[in] id id of the action
+    //!--------------------------------
     Action(const std::string &action_main_file, const std::string &action_extra_file, int id);
 
-    // Activate ability of the action
+    //!--------------------------------
+    //! @brief Activate ability of the action (this is virtual method for other types of action)
+    //! @param[out] target Target for an action
+    //! @param[out] src Base, where target is located
+    //! @param[out] dest Base, where target must be moved (null for all actions expect Move action)
+    //!--------------------------------
     virtual void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr){};
 
     // Dump state of the action
@@ -26,9 +37,20 @@ class BuffAction final : public Action {
     uint32_t buff_;
 
   public:
+    //!--------------------------------
+    //! @brief Constructor for BuffAction
+    //! @param[out] action_main_file main file image for action
+    //! @param[out] action_extra_file extra file image for action
+    //! @param[in] id id of the action
+    //! @param[in] buff buff of the action
+    //!--------------------------------
     BuffAction(const std::string &action_main_file, const std::string &action_extra_file, int id, uint32_t buff);
 
-    // Buffs minion
+    //!--------------------------------
+    //! @brief Buff minion
+    //! @param[out] target Target for an action
+    //! @param[out] src Base, where target is located
+    //!--------------------------------
     void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr) override;
 
 }; // class BuffAction
@@ -38,27 +60,59 @@ class DebuffAction final : public Action {
     uint32_t debuff_;
 
   public:
+    //!--------------------------------
+    //! @brief Constructor for DebuffAction
+    //! @param[out] action_main_file main file image for action
+    //! @param[out] action_extra_file extra file image for action
+    //! @param[in] id id of the action
+    //! @param[in] debuff debuff of the action
+    //!--------------------------------
     DebuffAction(const std::string &action_main_file, const std::string &action_extra_file, int id, uint32_t debuff);
 
-    // Debuffs minion
+    //!--------------------------------
+    //! @brief Debuffs minion
+    //! @param[out] target Target for an action
+    //! @param[out] src Base, where target is located
+    //!--------------------------------
     void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr) override;
 }; // class DebuffAction
 
 class DestroyAction final : public Action {
   public:
+    //!--------------------------------
+    //! @brief Constructor for DestroyAction
+    //! @param[out] action_main_file main file image for action
+    //! @param[out] action_extra_file extra file image for action
+    //! @param[in] id id of the action
+    //!--------------------------------
     DestroyAction(const std::string &action_main_file, const std::string &action_extra_file, int id)
         : Action(action_main_file, action_extra_file, id){};
 
-    // Destroy minion
+    //!--------------------------------
+    //! @brief Destroys minion
+    //! @param[out] target Target for an action
+    //! @param[out] src Base, where target is located
+    //!--------------------------------
     void activate_abillity(Minion *target, Base *src, Base *dest = nullptr) override;
 }; // class DestroyAction
 
 class MoveAction final : public Action {
   public:
+    //!--------------------------------
+    //! @brief Constructor for MoveAction
+    //! @param[out] action_main_file main file image for action
+    //! @param[out] action_extra_file extra file image for action
+    //! @param[in] id id of the action
+    //!--------------------------------
     MoveAction(const std::string &action_main_file, const std::string &action_extra_file, int id)
         : Action(action_main_file, action_extra_file, id){};
 
-    // Move minion
+    //!--------------------------------
+    //! @brief Move minion
+    //! @param[out] target Target for an action
+    //! @param[out] src Base, where target is located
+    //! @param[out] dest Base, where target must be moved
+    //!--------------------------------
     void activate_abillity(Minion *target, Base *src, Base *dest) override;
 }; // class MoveAction
 
@@ -67,10 +121,20 @@ class DrawAction final : public Action {
     uint32_t num_;
 
   public:
+    //!--------------------------------
+    //! @brief Constructor for MoveAction
+    //! @param[out] action_main_file main file image for action
+    //! @param[out] action_extra_file extra file image for action
+    //! @param[in] id id of the action
+    //! @param[in] num num of cards to draw
+    //!--------------------------------
     DrawAction(const std::string &action_main_file, const std::string &action_extra_file, int id, int num)
         : Action(action_main_file, action_extra_file, id), num_(num){};
 
-    // Draw cards
+    //!--------------------------------
+    //! @brief Draw cards
+    //! @param[out] player player to draw cards
+    //!--------------------------------
     void activate_ability(Player *player);
 };
 

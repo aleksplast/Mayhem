@@ -27,25 +27,43 @@ class Base final : public Card {
     Button units_power_;
 
   public:
-    // Add minion to cards on the base
+    //!--------------------------------
+    //! @brief Add minion to cards on the base
+    //! @param[out] card minion to add
+    //!--------------------------------
     void gain_minion(Minion *card);
 
-    // Remove minion from minion on the base
+    //!--------------------------------
+    //! @brief Remove minion from minion on the base
+    //! @param[out] card minion to remove
+    //!--------------------------------
     void remove_minion(Minion *card);
 
-    // Is the base captured
+    //!--------------------------------
+    //! @brief Check if the base is captured
+    //! @return true if captured, false if not
+    //!--------------------------------
     bool is_captured() const;
 
-    // Get power to win on this base
+    //!--------------------------------
+    //! @brief Get power to win on this base
+    //!--------------------------------
     uint32_t get_power_to_win() const;
 
-    // Get current power on this base
+    //!--------------------------------
+    //! @brief Get current power on this base
+    //!--------------------------------
     uint32_t get_current_power() const;
 
-    // Get winning points on this base
+    //!--------------------------------
+    //! @brief Get winning points on this base
+    //!--------------------------------
     std::array<uint32_t, 3> get_points() const;
 
-    // Dump state of the base
+    //!--------------------------------
+    //! @brief Dump state of the base
+    //! @param[out] os ostream to dump to
+    //!--------------------------------
     void dump_state(std::ostream &os) const;
 
   public: // graphic functions

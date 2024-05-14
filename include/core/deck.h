@@ -32,25 +32,43 @@ template <class T> class Deck final : public Drawable {
     Deck() = default;
     Deck(const std::string &deck_file) : Drawable(deck_file){};
 
-    // Destroy all cards in deck
+    //!--------------------------------
+    //! @brief Destroy all cards in deck
+    //!--------------------------------
     void clear_deck();
 
-    // Add card to the deck
+    //!--------------------------------
+    //! @brief Add card to the deck
+    //! @param[out] card card to add
+    //!--------------------------------
     void gain_card(const T &card);
 
-    // Remove card from deck
+    //!--------------------------------
+    //! @brief Remove card from deck
+    //! @param[out] card card to be removed
+    //!--------------------------------
     void remove_card(const T &card);
 
-    // Dump state of the deck
+    //!--------------------------------
+    //! @brief Dump state of the deck
+    //! @param[out] os ostream to dump to
+    //!--------------------------------
     void dump_state(std::ostream &os) const;
 
-    // Number of cards in the deck
+    //!--------------------------------
+    //! @brief Number of cards in the deck
+    //!--------------------------------
     size_t size() const;
 
-    // Shuffle cards in the deck
+    //!--------------------------------
+    //! @brief Shuffle cards in the deck
+    //!--------------------------------
     void shuffle();
 
-    // Get top card from the deck and remove it from deck
+    //!--------------------------------
+    //! @brief Get top card from the deck and remove it from deck
+    //! @return Top card of the deck
+    //!--------------------------------
     T take_card();
 
   public: // graphics functions

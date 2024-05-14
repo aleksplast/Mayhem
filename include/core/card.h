@@ -45,16 +45,36 @@ class Minion final : public PlayerCard {
     Button power_picture_;
 
   public:
+    //!--------------------------------
+    //! @brief Constructor for Minion
+    //! @param[out] minion_main_file main file image for minion
+    //! @param[out] minion_extra_file extra file image for minion
+    //! @param[in] id id of the minion
+    //! @param[in] power power of the minion
+    //!--------------------------------
     Minion(const std::string &minion_main_file, const std::string &minion_extra_file, int id, uint32_t power);
 
-    // Dump state of the minion
+    //!--------------------------------
+    //! @brief Dump state of the minion
+    //! @param[out] os ostream to dump to
+    //!--------------------------------
     void dump_state(std::ostream &os) const override;
 
+    //!--------------------------------
+    //! @brief Get power of the minion
+    //!--------------------------------
     uint32_t get_power() const;
 
+    //!--------------------------------
+    //! @brief Increase power of the minion
+    //! @param[in] power power to increase by
+    //!--------------------------------
     void increase_power(uint32_t power);
 
-    // Decrease power of the minion
+    //!--------------------------------
+    //! @brief Decrease power of the minion
+    //! @param[in] power power to decrease by
+    //!--------------------------------
     void decrease_power(uint32_t power);
 
   public: // graphics functions

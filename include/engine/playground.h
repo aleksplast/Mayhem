@@ -46,41 +46,76 @@ class Playground : public Drawable {
     PlayerCard *popping_up_card = nullptr;
 
   public:
-    // Playground can't be copied
+    //!--------------------------------
+    //! @brief Playground can't be copied
+    //!--------------------------------
     Playground(const Playground &rhs) = delete;
     Playground &operator=(const Playground &rhs) = delete;
 
-    // Playground can't be moved
+    //!--------------------------------
+    //! @brief Playground can't be moved
+    //!--------------------------------
     Playground(Playground &&rhs) = delete;
     Playground &operator=(Playground &&rhs) = delete;
 
-    // Constructor for Playground
+    //!--------------------------------
+    //! @brief Constructor for Playground
+    //! @param[out] entities Vector of the captured bases
+    //!--------------------------------
     Playground(std::vector<Entity *> &entities);
 
-    // Check, if any base was captured
+    //!--------------------------------
+    //! @brief Check, if any base was captured
+    //! @return Vector of the captured bases
+    //!--------------------------------
     std::vector<Base *> check_bases();
 
-    // Logic of capturing base, returns leaderboard
+    //!--------------------------------
+    //! @brief Logic of capturing base, returns leaderboard
+    //! @param[out] base base to capture
+    //! @return Players leaderboard on base
+    //!--------------------------------
     LeaderBoard_t capture_base(Base *base);
 
-    // Move base from active_bases to dump
+    //!--------------------------------
+    //! @brief Move base from active_bases to dump
+    //! @param[out] base base to destroy
+    //!--------------------------------
     void destroy_base(Base *base);
 
-    // Move base from bases to active_bases
+    //!--------------------------------
+    //! @brief Move base from bases to active_bases
+    //! @param[out] base base to add
+    //!--------------------------------
     void set_new_base();
 
-    // Get number of players in the game
+    //!--------------------------------
+    //! @brief Get number of players in the game
+    //! @return Number of players in the game
+    //!--------------------------------
     uint16_t get_number_of_players() const;
 
-    // Base deck gain card on the game start
+    //!--------------------------------
+    //! @brief Base deck gain card on the game start
+    //! @param[out] base base to add
+    //!--------------------------------
     void gain_base_on_start(Base *base);
 
-    // Dump state of Playground
+    //!--------------------------------
+    //! @brief Dump state of Playground
+    //! @param[out] os ostream to write to
+    //!--------------------------------
     void dump_state(std::ostream &os) const;
 
-    // Check for winner of the game
+    //!--------------------------------
+    //! @brief Check for winner of the game
+    //! @return pair: true if winner exists and winner id
+    //!--------------------------------
     std::pair<bool, uint32_t> check_for_winner();
 
+    //!--------------------------------
+    //! @brief Destructor for Playground
+    //!--------------------------------
     ~Playground();
 
   private: // graphics functions
