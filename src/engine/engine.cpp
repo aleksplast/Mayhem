@@ -436,6 +436,8 @@ uint32_t Engine::get_winner() const { return winner_; }
 void Engine::prepare_game() {
     std::vector<std::string> names;
 
+    std::vector<std::string> names;
+
     for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
         std::string player_deck_file = PLAYER + std::to_string(i) + DECK_JSON_FILE;
         parser_.json_for_player(player_deck_file);
@@ -444,38 +446,6 @@ void Engine::prepare_game() {
 
     set_players_decks_names(names);
 }
-
-Status Engine::initClient(::grpc::ServerContext *context, const ::enginePackage::ClientNetInfo *request,
-                          ::enginePackage::ServerResponse *response) {
-    std::cout << "New player with port: " << request->port() << " and Ip: " << context->peer() << std::endl;
-    add_player(request->port());
-    return Status::OK;
-}
-
-Status Engine::GetFile(grpc::ServerContext *context, const enginePackage::FileRequest *request,
-                       enginePackage::FileResponse *response) {
-    std::string filename = request->file_name();
-    std::ifstream file(filename, std::ios::binary);
-    if (!file) {
-        return Status(grpc::StatusCode::NOT_FOUND, "File not found");
-    }
-
-    std::string file_content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-    file.close();
-
-    response->set_file_content(file_content);
-
-    return Status::OK;
-}
-
-void Engine::add_player(uint32_t port) {
-    std::string server_address("localhost:" + std::to_string(port));
-    std::cout << "adding player with address " << server_address << std::endl;
-    std::shared_ptr<Channel> channel = grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials());
-    std::cout << channel->GetState(true) << std::endl;
-
-    players_.push_back(SlaveServerEngineClient(channel));
-};
 
 void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     size_t curr_id = playground.get_number_of_players();
@@ -561,8 +531,12 @@ void Engine::dump_state(std::string file_name) const {
     os << "------------------------------------\n";
 }
 
-const std::vector<std::string> &Engine::get_players_decks_names() const { return players_decks_names_; }
+const std::vector<std::string> &Engine::get_players_decks_names() const {
+    return players_decks_names_;
+}
 
-void Engine::set_players_decks_names(std::vector<std::string> &names) { players_decks_names_ = names; }
+void Engine::set_players_decks_names(std::vector<std::string> &names) {
+    players_decks_names_ = names;
+}
 
 } // namespace Mayhem
