@@ -1,0 +1,64 @@
+{
+    "Action": [
+        {
+            "name": "Burglary.jpg",
+            "number": 1,
+            "type": "move"
+        },
+        {
+            "name": "Contract.jpg",
+            "number": 1,
+            "type": "destroy"
+        },
+        {
+            "name": "Amnesty.jpg",
+            "number": 1,
+            "power": 3,
+            "type": "debuff"
+        },
+        {
+            "name": "Universe key.jpg",
+            "num": 5,
+            "number": 1,
+            "type": "draw"
+        },
+        {
+            "name": "Quick escape.jpg",
+            "number": 1,
+            "type": "move"
+        }
+    ],
+    "Faction": "Rogues",
+    "Minion": [
+        {
+            "name": "Cruel thief.jpg",
+            "number": 1,
+            "power": 3
+        },
+        {
+            "name": "Villain thief.jpg",
+            "number": 1,
+            "power": 2
+        },
+        {
+            "name": "Identity thief.jpg",
+            "number": 1,
+            "power": 4
+        },
+        {
+            "name": "Petty thief.jpg",
+            "number": 1,
+            "power": 1
+        },
+        {
+            "name": "Agile thief.jpg",
+            "number": 1,
+            "power": 2
+        },
+        {
+            "name": "Thief of time.jpg",
+            "number": 1,
+            "power": 5
+        }
+    ]
+}

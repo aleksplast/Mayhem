@@ -1,0 +1,61 @@
+{
+    "Action": [
+        {
+            "name": "Infusion.jpg",
+            "number": 1,
+            "power": 3,
+            "type": "debuff"
+        },
+        {
+            "name": "Holy protection.jpg",
+            "number": 1,
+            "type": "move"
+        },
+        {
+            "name": "Holy place.jpg",
+            "number": 1,
+            "power": 3,
+            "type": "buff"
+        },
+        {
+            "name": "Ressurection.jpg",
+            "number": 1,
+            "power": 4,
+            "type": "buff"
+        },
+        {
+            "name": "Prayer.jpg",
+            "num": 3,
+            "number": 1,
+            "type": "draw"
+        },
+        {
+            "name": "Bonfire.jpg",
+            "number": 1,
+            "type": "destroy"
+        }
+    ],
+    "Faction": "Holy host",
+    "Minion": [
+        {
+            "name": "Paladin.jpg",
+            "number": 1,
+            "power": 2
+        },
+        {
+            "name": "Inquisitor.jpg",
+            "number": 1,
+            "power": 5
+        },
+        {
+            "name": "Angel of the Lord.jpg",
+            "number": 1,
+            "power": 4
+        },
+        {
+            "name": "Templar.jpg",
+            "number": 1,
+            "power": 3
+        }
+    ]
+}

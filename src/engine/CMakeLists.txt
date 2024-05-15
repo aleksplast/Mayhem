@@ -26,3 +26,4 @@ target_link_libraries(game
     ${_PROTOBUF_LIBPROTOBUF})
 
 target_sources(game PRIVATE ${ENGINE_SRC})
+target_sources(test_engine PRIVATE ${ENGINE_SRC})

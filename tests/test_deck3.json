@@ -1,0 +1,76 @@
+{
+    "Action": [
+        {
+            "name": "Coven.jpg",
+            "number": 1,
+            "power": 2,
+            "type": "buff"
+        },
+        {
+            "name": "Make a deal.jpg",
+            "num": 2,
+            "number": 1,
+            "type": "draw"
+        },
+        {
+            "name": "Combat drugs.jpg",
+            "num": 3,
+            "number": 1,
+            "type": "draw"
+        },
+        {
+            "name": "Soulstorm.jpg",
+            "number": 1,
+            "type": "destroy"
+        },
+        {
+            "name": "Power from pain.jpg",
+            "number": 1,
+            "power": 3,
+            "type": "buff"
+        }
+    ],
+    "Faction": "Drukhari",
+    "Minion": [
+        {
+            "name": "Witch.jpg",
+            "number": 1,
+            "power": 1
+        },
+        {
+            "name": "Haemonculi.jpg",
+            "number": 1,
+            "power": 3
+        },
+        {
+            "name": "Talos.jpg",
+            "number": 1,
+            "power": 4
+        },
+        {
+            "name": "Wrack.jpg",
+            "number": 1,
+            "power": 1
+        },
+        {
+            "name": "River.jpg",
+            "number": 1,
+            "power": 3
+        },
+        {
+            "name": "Mandrake.jpg",
+            "number": 1,
+            "power": 1
+        },
+        {
+            "name": "Helion.jpg",
+            "number": 1,
+            "power": 2
+        },
+        {
+            "name": "Scourge.jpg",
+            "number": 1,
+            "power": 3
+        }
+    ]
+}
