@@ -36,6 +36,8 @@ class Engine final {
     size_t winner_ = SIZE_MAX;
     // Flag, indicates if the game is over
     bool game_over_ = false;
+    // Vector of names of players decks
+    std::vector<std::string> players_decks_names_;
 
   public:
     //!--------------------------------
@@ -128,6 +130,16 @@ class Engine final {
     //! @return Winner player's id
     //!--------------------------------
     uint32_t get_winner() const;
+
+    //!--------------------------------
+    //! @brief Get players decks names
+    //!--------------------------------
+    const std::vector<std::string> &get_players_decks_names() const;
+
+    //!--------------------------------
+    //! @brief Set players decks names
+    //!--------------------------------
+    void set_players_decks_names(std::vector<std::string> &names);
 
   public: // graphic functions
     // Draw Engine

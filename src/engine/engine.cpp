@@ -130,10 +130,15 @@ bool Engine::is_over() const { return game_over_; }
 uint32_t Engine::get_winner() const { return winner_; }
 
 void Engine::prepare_game() {
+    std::vector<std::string> names;
+
     for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
         std::string player_deck_file = PLAYER + std::to_string(i) + DECK_JSON_FILE;
         parser_.json_for_player(player_deck_file);
+        names.push_back(player_deck_file);
     }
+
+    set_players_decks_names(names);
 }
 
 void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
@@ -151,7 +156,7 @@ void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
     curr_id = entities_.size();
 
     for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
-        std::string player_deck_file = PLAYER + std::to_string(i) + DECK_JSON_FILE;
+        std::string player_deck_file = get_players_decks_names().at(i);
 
         parser_.parse_json(entities_, player_deck_file);
         Player *player = static_cast<Player *>(get_by_id(i));
@@ -220,5 +225,9 @@ void Engine::dump_state(std::string file_name) const {
 
     os << "------------------------------------\n";
 }
+
+const std::vector<std::string> &Engine::get_players_decks_names() const { return players_decks_names_; }
+
+void Engine::set_players_decks_names(std::vector<std::string> &names) { players_decks_names_ = names; }
 
 } // namespace Mayhem
