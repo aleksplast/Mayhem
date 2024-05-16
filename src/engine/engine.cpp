@@ -531,20 +531,12 @@ void Engine::dump_state(std::string file_name) const {
     os << "------------------------------------\n";
 }
 
-const std::vector<std::string> &Engine::get_players_decks_names() const {
-    return players_decks_names_;
-}
+const std::vector<std::string> &Engine::get_players_decks_names() const { return players_decks_names_; }
 
-void Engine::set_players_decks_names(std::vector<std::string> &names) {
-    players_decks_names_ = names;
-}
+void Engine::set_players_decks_names(std::vector<std::string> &names) { players_decks_names_ = names; }
 
-const std::string &Engine::get_bases_deck_name() const {
-    return bases_deck_;
-}
+const std::string &Engine::get_bases_deck_name() const { return bases_deck_; }
 
-void Engine::set_bases_deck_name(const std::string &name) {
-    bases_deck_ = name;
-}
+void Engine::set_bases_deck_name(const std::string &name) { bases_deck_ = name; }
 
 } // namespace Mayhem
