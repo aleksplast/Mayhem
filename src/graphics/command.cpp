@@ -87,11 +87,11 @@ void Command::activate_move_action() {
 
     if (player->get_actions_limit()) {
         if (model.engine.isOnline())
-            model.engine.play_action_online(model.attributes.draw_player, action->get_id(), minion->get_id(), base_from->get_id(),
-                                    base_to->get_id());
+            model.engine.play_action_online(model.attributes.draw_player, action->get_id(), minion->get_id(),
+                                            base_from->get_id(), base_to->get_id());
         else {
-            model.engine.play_action(model.attributes.draw_player, action->get_id(), minion->get_id(), base_from->get_id(),
-                                    base_to->get_id());
+            model.engine.play_action(model.attributes.draw_player, action->get_id(), minion->get_id(),
+                                     base_from->get_id(), base_to->get_id());
         }
     }
     clear();
@@ -105,9 +105,11 @@ void Command::activate_typical_action() {
 
     if (player->get_actions_limit()) {
         if (model.engine.isOnline()) {
-            model.engine.play_action_online(model.attributes.draw_player, action->get_id(), minion->get_id(), base->get_id(), 0);
+            model.engine.play_action_online(model.attributes.draw_player, action->get_id(), minion->get_id(),
+                                            base->get_id(), 0);
         } else {
-            model.engine.play_action(model.attributes.draw_player, action->get_id(), minion->get_id(), base->get_id(), 0);
+            model.engine.play_action(model.attributes.draw_player, action->get_id(), minion->get_id(), base->get_id(),
+                                     0);
         }
     }
     clear();
@@ -178,9 +180,10 @@ void Command::check_commands() {
 
     switch (is_this_command<2>(minion_to_base)) {
     case Status::same:
-        if (model.engine.isOnline()){
-            model.engine.place_card_online(model.attributes.draw_player, dynamic_cast<Entity *>(events[0].second)->get_id(),
-                                    dynamic_cast<Entity *>(events[1].second)->get_id());
+        if (model.engine.isOnline()) {
+            model.engine.place_card_online(model.attributes.draw_player,
+                                           dynamic_cast<Entity *>(events[0].second)->get_id(),
+                                           dynamic_cast<Entity *>(events[1].second)->get_id());
         } else {
             model.engine.place_card(model.attributes.draw_player, dynamic_cast<Entity *>(events[0].second)->get_id(),
                                     dynamic_cast<Entity *>(events[1].second)->get_id());

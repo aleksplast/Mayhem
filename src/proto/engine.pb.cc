@@ -25,7 +25,10 @@ namespace enginePackage {
 inline constexpr playActionArgs::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : playerid_{0u},
-        cardid_{0u},
+        actionid_{0u},
+        targetid_{0u},
+        srcid_{0u},
+        destid_{0u},
         _cached_size_{0} {}
 
 template <typename>
@@ -189,7 +192,10 @@ const ::uint32_t TableStruct_engine_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE
     ~0u,  // no _split_
     ~0u,  // no sizeof(Split)
     PROTOBUF_FIELD_OFFSET(::enginePackage::playActionArgs, _impl_.playerid_),
-    PROTOBUF_FIELD_OFFSET(::enginePackage::playActionArgs, _impl_.cardid_),
+    PROTOBUF_FIELD_OFFSET(::enginePackage::playActionArgs, _impl_.actionid_),
+    PROTOBUF_FIELD_OFFSET(::enginePackage::playActionArgs, _impl_.targetid_),
+    PROTOBUF_FIELD_OFFSET(::enginePackage::playActionArgs, _impl_.srcid_),
+    PROTOBUF_FIELD_OFFSET(::enginePackage::playActionArgs, _impl_.destid_),
     ~0u,  // no _has_bits_
     PROTOBUF_FIELD_OFFSET(::enginePackage::FileRequest, _internal_metadata_),
     ~0u,  // no _extensions_
@@ -241,11 +247,11 @@ static const ::_pbi::MigrationSchema
     schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
         {0, -1, -1, sizeof(::enginePackage::placeCardArgs)},
         {11, -1, -1, sizeof(::enginePackage::playActionArgs)},
-        {21, -1, -1, sizeof(::enginePackage::FileRequest)},
-        {30, -1, -1, sizeof(::enginePackage::FileResponse)},
-        {39, -1, -1, sizeof(::enginePackage::endTurnArgs)},
-        {48, -1, -1, sizeof(::enginePackage::ServerResponse)},
-        {57, -1, -1, sizeof(::enginePackage::ClientNetInfo)},
+        {24, -1, -1, sizeof(::enginePackage::FileRequest)},
+        {33, -1, -1, sizeof(::enginePackage::FileResponse)},
+        {42, -1, -1, sizeof(::enginePackage::endTurnArgs)},
+        {51, -1, -1, sizeof(::enginePackage::ServerResponse)},
+        {60, -1, -1, sizeof(::enginePackage::ClientNetInfo)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -260,35 +266,36 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_engine_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
     "\n\014engine.proto\022\renginePackage\"A\n\rplaceCa"
     "rdArgs\022\020\n\010playerId\030\001 \001(\r\022\016\n\006cardId\030\002 \001(\r"
-    "\022\016\n\006baseId\030\003 \001(\r\"2\n\016playActionArgs\022\020\n\010pl"
-    "ayerId\030\001 \001(\r\022\016\n\006cardId\030\002 \001(\r\" \n\013FileRequ"
-    "est\022\021\n\tfile_name\030\001 \001(\t\"$\n\014FileResponse\022\024"
-    "\n\014file_content\030\001 \001(\014\"\037\n\013endTurnArgs\022\020\n\010p"
-    "layerId\030\001 \001(\r\" \n\016ServerResponse\022\016\n\006Statu"
-    "s\030\001 \001(\005\"\035\n\rClientNetInfo\022\014\n\004port\030\001 \001(\r2\375"
-    "\002\n\020MainServerEngine\022H\n\tplaceCard\022\034.engin"
-    "ePackage.placeCardArgs\032\035.enginePackage.S"
-    "erverResponse\022J\n\nplayAction\022\035.enginePack"
-    "age.playActionArgs\032\035.enginePackage.Serve"
-    "rResponse\022D\n\007endTurn\022\032.enginePackage.end"
-    "TurnArgs\032\035.enginePackage.ServerResponse\022"
-    "I\n\ninitClient\022\034.enginePackage.ClientNetI"
-    "nfo\032\035.enginePackage.ServerResponse\022B\n\007Ge"
-    "tFile\022\032.enginePackage.FileRequest\032\033.engi"
-    "nePackage.FileResponse2\376\001\n\021SlaveServerEn"
-    "gine\022M\n\016placeCardSlave\022\034.enginePackage.p"
-    "laceCardArgs\032\035.enginePackage.ServerRespo"
-    "nse\022O\n\017playActionSlave\022\035.enginePackage.p"
-    "layActionArgs\032\035.enginePackage.ServerResp"
-    "onse\022I\n\014endTurnSlave\022\032.enginePackage.end"
-    "TurnArgs\032\035.enginePackage.ServerResponseb"
-    "\006proto3"
+    "\022\016\n\006baseId\030\003 \001(\r\"e\n\016playActionArgs\022\020\n\010pl"
+    "ayerId\030\001 \001(\r\022\020\n\010actionId\030\002 \001(\r\022\020\n\010target"
+    "Id\030\003 \001(\r\022\r\n\005srcId\030\004 \001(\r\022\016\n\006destId\030\005 \001(\r\""
+    " \n\013FileRequest\022\021\n\tfile_name\030\001 \001(\t\"$\n\014Fil"
+    "eResponse\022\024\n\014file_content\030\001 \001(\014\"\037\n\013endTu"
+    "rnArgs\022\020\n\010playerId\030\001 \001(\r\" \n\016ServerRespon"
+    "se\022\016\n\006Status\030\001 \001(\005\"\035\n\rClientNetInfo\022\014\n\004p"
+    "ort\030\001 \001(\r2\375\002\n\020MainServerEngine\022H\n\tplaceC"
+    "ard\022\034.enginePackage.placeCardArgs\032\035.engi"
+    "nePackage.ServerResponse\022J\n\nplayAction\022\035"
+    ".enginePackage.playActionArgs\032\035.enginePa"
+    "ckage.ServerResponse\022D\n\007endTurn\022\032.engine"
+    "Package.endTurnArgs\032\035.enginePackage.Serv"
+    "erResponse\022I\n\ninitClient\022\034.enginePackage"
+    ".ClientNetInfo\032\035.enginePackage.ServerRes"
+    "ponse\022B\n\007GetFile\022\032.enginePackage.FileReq"
+    "uest\032\033.enginePackage.FileResponse2\376\001\n\021Sl"
+    "aveServerEngine\022M\n\016placeCardSlave\022\034.engi"
+    "nePackage.placeCardArgs\032\035.enginePackage."
+    "ServerResponse\022O\n\017playActionSlave\022\035.engi"
+    "nePackage.playActionArgs\032\035.enginePackage"
+    ".ServerResponse\022I\n\014endTurnSlave\022\032.engine"
+    "Package.endTurnArgs\032\035.enginePackage.Serv"
+    "erResponseb\006proto3"
 };
 static ::absl::once_flag descriptor_table_engine_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_engine_2eproto = {
     false,
     false,
-    967,
+    1018,
     descriptor_table_protodef_engine_2eproto,
     "engine.proto",
     &descriptor_table_engine_2eproto_once,
@@ -574,9 +581,9 @@ inline void playActionArgs::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, playerid_),
            0,
-           offsetof(Impl_, cardid_) -
+           offsetof(Impl_, destid_) -
                offsetof(Impl_, playerid_) +
-               sizeof(Impl_::cardid_));
+               sizeof(Impl_::destid_));
 }
 playActionArgs::~playActionArgs() {
   // @@protoc_insertion_point(destructor:enginePackage.playActionArgs)
@@ -596,8 +603,8 @@ PROTOBUF_NOINLINE void playActionArgs::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.playerid_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.cardid_) -
-      reinterpret_cast<char*>(&_impl_.playerid_)) + sizeof(_impl_.cardid_));
+      reinterpret_cast<char*>(&_impl_.destid_) -
+      reinterpret_cast<char*>(&_impl_.playerid_)) + sizeof(_impl_.destid_));
   _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
 }
 
@@ -609,34 +616,55 @@ const char* playActionArgs::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 0, 2> playActionArgs::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 0, 0, 2> playActionArgs::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    2, 8,  // max_field_number, fast_idx_mask
+    5, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967292,  // skipmap
+    4294967264,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    2,  // num_field_entries
+    5,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     &_playActionArgs_default_instance_._instance,
     ::_pbi::TcParser::GenericFallback,  // fallback
   }, {{
-    // uint32 cardId = 2;
-    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(playActionArgs, _impl_.cardid_), 63>(),
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.cardid_)}},
+    {::_pbi::TcParser::MiniParse, {}},
     // uint32 playerId = 1;
     {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(playActionArgs, _impl_.playerid_), 63>(),
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.playerid_)}},
+    // uint32 actionId = 2;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(playActionArgs, _impl_.actionid_), 63>(),
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.actionid_)}},
+    // uint32 targetId = 3;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(playActionArgs, _impl_.targetid_), 63>(),
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.targetid_)}},
+    // uint32 srcId = 4;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(playActionArgs, _impl_.srcid_), 63>(),
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.srcid_)}},
+    // uint32 destId = 5;
+    {::_pbi::TcParser::SingularVarintNoZag1<::uint32_t, offsetof(playActionArgs, _impl_.destid_), 63>(),
+     {40, 63, 0, PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.destid_)}},
+    {::_pbi::TcParser::MiniParse, {}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
     // uint32 playerId = 1;
     {PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.playerid_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
-    // uint32 cardId = 2;
-    {PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.cardid_), 0, 0,
+    // uint32 actionId = 2;
+    {PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.actionid_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 targetId = 3;
+    {PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.targetid_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 srcId = 4;
+    {PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.srcid_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
+    // uint32 destId = 5;
+    {PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.destid_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUInt32)},
   }},
   // no aux_entries
@@ -658,11 +686,32 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> playActionArgs::_table_ = {
         1, this->_internal_playerid(), target);
   }
 
-  // uint32 cardId = 2;
-  if (this->_internal_cardid() != 0) {
+  // uint32 actionId = 2;
+  if (this->_internal_actionid() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
-        2, this->_internal_cardid(), target);
+        2, this->_internal_actionid(), target);
+  }
+
+  // uint32 targetId = 3;
+  if (this->_internal_targetid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+        3, this->_internal_targetid(), target);
+  }
+
+  // uint32 srcId = 4;
+  if (this->_internal_srcid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+        4, this->_internal_srcid(), target);
+  }
+
+  // uint32 destId = 5;
+  if (this->_internal_destid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteUInt32ToArray(
+        5, this->_internal_destid(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -688,10 +737,28 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> playActionArgs::_table_ = {
         this->_internal_playerid());
   }
 
-  // uint32 cardId = 2;
-  if (this->_internal_cardid() != 0) {
+  // uint32 actionId = 2;
+  if (this->_internal_actionid() != 0) {
     total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
-        this->_internal_cardid());
+        this->_internal_actionid());
+  }
+
+  // uint32 targetId = 3;
+  if (this->_internal_targetid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+        this->_internal_targetid());
+  }
+
+  // uint32 srcId = 4;
+  if (this->_internal_srcid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+        this->_internal_srcid());
+  }
+
+  // uint32 destId = 5;
+  if (this->_internal_destid() != 0) {
+    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(
+        this->_internal_destid());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -716,8 +783,17 @@ void playActionArgs::MergeImpl(::google::protobuf::Message& to_msg, const ::goog
   if (from._internal_playerid() != 0) {
     _this->_internal_set_playerid(from._internal_playerid());
   }
-  if (from._internal_cardid() != 0) {
-    _this->_internal_set_cardid(from._internal_cardid());
+  if (from._internal_actionid() != 0) {
+    _this->_internal_set_actionid(from._internal_actionid());
+  }
+  if (from._internal_targetid() != 0) {
+    _this->_internal_set_targetid(from._internal_targetid());
+  }
+  if (from._internal_srcid() != 0) {
+    _this->_internal_set_srcid(from._internal_srcid());
+  }
+  if (from._internal_destid() != 0) {
+    _this->_internal_set_destid(from._internal_destid());
   }
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -740,8 +816,8 @@ void playActionArgs::InternalSwap(playActionArgs* PROTOBUF_RESTRICT other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.cardid_)
-      + sizeof(playActionArgs::_impl_.cardid_)
+      PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.destid_)
+      + sizeof(playActionArgs::_impl_.destid_)
       - PROTOBUF_FIELD_OFFSET(playActionArgs, _impl_.playerid_)>(
           reinterpret_cast<char*>(&_impl_.playerid_),
           reinterpret_cast<char*>(&other->_impl_.playerid_));

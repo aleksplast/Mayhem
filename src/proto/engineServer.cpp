@@ -1,8 +1,8 @@
-#include <iostream>
-#include <grpcpp/grpcpp.h>
-#include "engine.pb.h"
 #include "engine.grpc.pb.h"
+#include "engine.pb.h"
 #include "engineClient.h"
+#include <grpcpp/grpcpp.h>
+#include <iostream>
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -10,8 +10,9 @@ using grpc::ServerContext;
 using grpc::Status;
 
 class SlaveServerEngineClient {
-    public:
-    SlaveServerEngineClient(std::shared_ptr<Channel> channel) : stub_(enginePackage::SlaveServerEngine::NewStub(channel)) {};
+  public:
+    SlaveServerEngineClient(std::shared_ptr<Channel> channel)
+        : stub_(enginePackage::SlaveServerEngine::NewStub(channel)){};
 
     void placeCard(uint16_t baseId) {
         ClientContext context;
@@ -30,29 +31,27 @@ class SlaveServerEngineClient {
         }
 
         std::cout << "Get response: " << engineResponse.status() << std::endl;
-
     };
 
-    private:
-      std::unique_ptr<enginePackage::SlaveServerEngine::Stub> stub_;
+  private:
+    std::unique_ptr<enginePackage::SlaveServerEngine::Stub> stub_;
 };
 
 class MainServerEngineServiceImpl final : public enginePackage::MainServerEngine::Service {
 
-    Status placeCard(::grpc::ServerContext* context, const ::enginePackage::placeCardArgs* request, ::enginePackage::ServerResponse* response) override {
+    Status placeCard(::grpc::ServerContext *context, const ::enginePackage::placeCardArgs *request,
+                     ::enginePackage::ServerResponse *response) override {
         // Implement your logic here to handle the placeCard RPC
         // For example:
         std::cout << "Received placeCard request" << std::endl;
-        
+
         // Example response
-        if (request->baseid() == 0)
-        {
+        if (request->baseid() == 0) {
             response->set_status(1);
-            for (auto &player : players_) { //FIXME TYAZH: write better loop
+            for (auto &player : players_) { // FIXME TYAZH: write better loop
                 player.placeCard(1);
             }
-        }
-        else
+        } else
             response->set_status(0);
 
         std::cout << "Sending to all servers" << std::endl;
@@ -60,22 +59,22 @@ class MainServerEngineServiceImpl final : public enginePackage::MainServerEngine
         return Status::OK;
     }
 
-    Status initClient(::grpc::ServerContext* context, const ::enginePackage::ClientNetInfo* request, ::enginePackage::ServerResponse* response) override {
+    Status initClient(::grpc::ServerContext *context, const ::enginePackage::ClientNetInfo *request,
+                      ::enginePackage::ServerResponse *response) override {
         std::cout << "New player with port: " << request->port() << " and Ip: " << context->peer() << std::endl;
         add_player(request->port());
         return Status::OK;
     }
 
-    private:
+  private:
     std::vector<SlaveServerEngineClient> players_;
 
     void add_player(uint32_t port) {
         std::string server_address("localhost:" + std::to_string(port));
         std::cout << "adding player with address " << server_address << std::endl;
-        players_.push_back(SlaveServerEngineClient(grpc::CreateChannel(server_address,
-                          grpc::InsecureChannelCredentials())));
+        players_.push_back(
+            SlaveServerEngineClient(grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials())));
     };
-
 };
 
 void RunServer() {
@@ -91,7 +90,7 @@ void RunServer() {
     server->Wait();
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     RunServer();
     return 0;
 }
