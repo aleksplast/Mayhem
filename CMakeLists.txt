@@ -34,6 +34,8 @@ foreach(NUM ${RANGE})
     configure_file(tests/test_deck${NUM}.json test_deck${NUM}.json COPYONLY)
 endforeach()
 
+configure_file(tests/test_bases.json test_bases.json COPYONLY)
+
 #Tests
 target_include_directories(test_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(test_engine gtest gtest_main)

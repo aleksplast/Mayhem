@@ -9,6 +9,10 @@ namespace Mayhem {
 // class describing the objects to be drawn
 class Drawable {
   protected:
+#ifndef DEBUG
+    std::string texture_name;
+#endif
+
     sf::Texture main_texture;
     sf::Texture extra_texture;
     bool is_pressed = false;

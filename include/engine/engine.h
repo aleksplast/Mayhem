@@ -91,6 +91,8 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
     bool game_over_ = false;
     // Vector of names of players decks
     std::vector<std::string> players_decks_names_;
+    // File with bases
+    std::string bases_deck_;
 
     // vector of online players
     std::vector<SlaveServerEngineClient> players_;
@@ -187,7 +189,7 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
     void engine_wait() { server_->Wait(); };
 
     // Parse players' decks, create bases, distribute cards
-    void start_game(GraphicsModel::Data::Attributes &attributes);
+    void start_game();
 
     //!--------------------------------
     //! @brief Dumps state of engine and all of its components
@@ -225,6 +227,16 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
   private:
     // Add player in players structure
     void add_player(uint32_t port);
+
+    //!--------------------------------
+    //! @brief Get bases deck name
+    //!--------------------------------
+    const std::string &get_bases_deck_name() const;
+
+    //!--------------------------------
+    //! @brief Set bases deck name
+    //!--------------------------------
+    void set_bases_deck_name(const std::string &name);
 
   public: // graphic functions
     // Draw Engine
