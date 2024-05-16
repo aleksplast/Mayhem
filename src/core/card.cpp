@@ -20,8 +20,12 @@ uint32_t Minion::get_power() const { return power_; }
 void Minion::increase_power(uint32_t power) { power_ += power; }
 
 void Minion::dump_state(std::ostream &os) const {
+#ifndef DEBUG
     os << "\nDumping Minion\n";
     os << "power: " << power_ << "\n";
+    os << "texture_name: " << texture_name << "\n";
+    os << "id: " << id_ << "\n";
+#endif
 }
 
 void Minion::decrease_power(uint32_t power) {

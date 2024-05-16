@@ -445,12 +445,13 @@ void Engine::prepare_game() {
     }
 
     set_players_decks_names(names);
+    set_bases_deck_name(BASE_DATA_BASE_FILE);
 }
 
-void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
+void Engine::start_game() {
     size_t curr_id = playground.get_number_of_players();
 
-    parser_.parse_json(entities_, BASE_DATA_BASE_FILE);
+    parser_.parse_json(entities_, bases_deck_);
     for (size_t id = curr_id; id < entities_.size(); id++) {
         playground.gain_base_on_start(static_cast<Base *>(get_by_id(id)));
     }
@@ -477,7 +478,6 @@ void Engine::start_game(GraphicsModel::Data::Attributes &attributes) {
 
         player->take_card(5);
     }
-    // attributes.draw_player = 0;
 }
 
 void Engine::distribute_points(Base *base, LeaderBoard_t &leader_board) {
@@ -537,6 +537,14 @@ const std::vector<std::string> &Engine::get_players_decks_names() const {
 
 void Engine::set_players_decks_names(std::vector<std::string> &names) {
     players_decks_names_ = names;
+}
+
+const std::string &Engine::get_bases_deck_name() const {
+    return bases_deck_;
+}
+
+void Engine::set_bases_deck_name(const std::string &name) {
+    bases_deck_ = name;
 }
 
 } // namespace Mayhem

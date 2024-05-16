@@ -22,13 +22,17 @@ uint32_t Base::get_current_power() const {
 std::array<uint32_t, 3> Base::get_points() const { return points_; }
 
 void Base::dump_state(std::ostream &os) const {
+#ifndef DEBUG
     os << "\nDumping base\n";
     os << "---\n";
     os << "points: " << points_[0] << " " << points_[1] << " " << points_[2] << "\n";
     os << "current power: " << get_current_power() << "\n";
     os << "power to win: " << power_to_win_ << "\n";
+    os << "texture name: " << texture_name << "\n";
+    os << "id: " << id_ << "\n";
     cards_.dump_state(os);
     os << "---\n";
+#endif
 }
 
 Base::Base(const std::string &base_file, int id, uint32_t power_to_win, std::array<uint32_t, 3> points)

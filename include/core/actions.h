@@ -26,9 +26,6 @@ class Action : public PlayerCard {
     //! @param[out] dest Base, where target must be moved (null for all actions expect Move action)
     //!--------------------------------
     virtual void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr){};
-
-    // Dump state of the action
-    void dump_state(std::ostream &os) const override;
 }; // class Action
 
 // Action, that buffs other minion
@@ -53,6 +50,7 @@ class BuffAction final : public Action {
     //!--------------------------------
     void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr) override;
 
+    void dump_state(std::ostream &os) const override;
 }; // class BuffAction
 
 class DebuffAction final : public Action {
@@ -75,6 +73,8 @@ class DebuffAction final : public Action {
     //! @param[out] src Base, where target is located
     //!--------------------------------
     void activate_abillity(Minion *target, Base *src = nullptr, Base *dest = nullptr) override;
+
+    void dump_state(std::ostream &os) const override;
 }; // class DebuffAction
 
 class DestroyAction final : public Action {
@@ -94,6 +94,8 @@ class DestroyAction final : public Action {
     //! @param[out] src Base, where target is located
     //!--------------------------------
     void activate_abillity(Minion *target, Base *src, Base *dest = nullptr) override;
+
+    void dump_state(std::ostream &os) const override;
 }; // class DestroyAction
 
 class MoveAction final : public Action {
@@ -114,6 +116,8 @@ class MoveAction final : public Action {
     //! @param[out] dest Base, where target must be moved
     //!--------------------------------
     void activate_abillity(Minion *target, Base *src, Base *dest) override;
+
+    void dump_state(std::ostream &os) const override;
 }; // class MoveAction
 
 class DrawAction final : public Action {
@@ -136,6 +140,8 @@ class DrawAction final : public Action {
     //! @param[out] player player to draw cards
     //!--------------------------------
     void activate_ability(Player *player);
+
+    void dump_state(std::ostream &os) const override;
 };
 
 } // namespace Mayhem
