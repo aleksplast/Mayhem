@@ -5,8 +5,8 @@
 #include "core/entity.h"
 #include <cstdint>
 #include <ctime>
-#include <iterator>
 #include <iomanip>
+#include <iterator>
 #include <list>
 #include <nlohmann/json.hpp>
 #include <random>

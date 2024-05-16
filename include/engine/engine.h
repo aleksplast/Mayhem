@@ -1,10 +1,10 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <grpcpp/grpcpp.h>
 #include <grpcpp/channel.h>
 #include <grpcpp/client_context.h>
 #include <grpcpp/create_channel.h>
+#include <grpcpp/grpcpp.h>
 #include <grpcpp/security/credentials.h>
 
 #include "core/actions.h"
@@ -16,8 +16,8 @@
 #include "parser/parser.h"
 #include "player.h"
 #include "playground.h"
-#include "proto/engine.pb.h"
 #include "proto/engine.grpc.pb.h"
+#include "proto/engine.pb.h"
 
 #include <SFML/Graphics.hpp>
 #include <fstream>
@@ -29,7 +29,6 @@ using grpc::ClientContext;
 using grpc::ClientReader;
 using grpc::ClientReaderWriter;
 using grpc::ClientWriter;
-using grpc::Status;
 using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
@@ -38,10 +37,10 @@ using grpc::Status;
 namespace Mayhem {
 
 class MainServerEngineClient {
-    public:
-    MainServerEngineClient() {};
+  public:
+    MainServerEngineClient(){};
     MainServerEngineClient(std::shared_ptr<Channel> channel);
-    MainServerEngineClient(MainServerEngineClient&& client);
+    MainServerEngineClient(MainServerEngineClient &&client);
 
     void place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
     void play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
@@ -49,32 +48,32 @@ class MainServerEngineClient {
 
     void initClient(uint32_t port);
 
-    private:
-      std::unique_ptr<enginePackage::MainServerEngine::Stub> stub_;
-      std::string GetFile(const std::string& filename);
+  private:
+    std::unique_ptr<enginePackage::MainServerEngine::Stub> stub_;
+    std::string GetFile(const std::string &filename);
 };
 
 class SlaveServerEngineClient {
-    public:
-    SlaveServerEngineClient() {};
+  public:
+    SlaveServerEngineClient(){};
     SlaveServerEngineClient(std::shared_ptr<Channel> channel);
 
     void place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
     void play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
     void end_turn(uint16_t player_id);
 
-    private:
-      std::unique_ptr<enginePackage::SlaveServerEngine::Stub> stub_;
+  private:
+    std::unique_ptr<enginePackage::SlaveServerEngine::Stub> stub_;
 };
 
 // Main controlling structure
-class Engine final: public enginePackage::MainServerEngine::Service, public enginePackage::SlaveServerEngine::Service {
+class Engine final : public enginePackage::MainServerEngine::Service, public enginePackage::SlaveServerEngine::Service {
 
   private:
     std::unique_ptr<Server> server_;
     // Indicates if engine is slave
     bool isSlave_;
-    // Indicates if current game is online 
+    // Indicates if current game is online
     bool isOnline_;
     // Time for one turn
     int time_; // FIXME notimportatn: add support for time in game
@@ -114,7 +113,7 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //! @brief Default Constructor for Engine
     //!--------------------------------
     Engine();
-    Engine(std::shared_ptr<Channel> channel, std::string port); 
+    Engine(std::shared_ptr<Channel> channel, std::string port);
 
     //!--------------------------------
     //! @brief Default Engine Destructor
@@ -138,8 +137,10 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //!--------------------------------
     bool place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id);
     void place_card_online(uint16_t player_id, uint16_t card_id, uint16_t base_id);
-    Status placeCard(::grpc::ServerContext* context, const ::enginePackage::placeCardArgs* request, ::enginePackage::ServerResponse* response) override;
-    Status placeCardSlave(::grpc::ServerContext*, const ::enginePackage::placeCardArgs*, ::enginePackage::ServerResponse*) override;
+    Status placeCard(::grpc::ServerContext *context, const ::enginePackage::placeCardArgs *request,
+                     ::enginePackage::ServerResponse *response) override;
+    Status placeCardSlave(::grpc::ServerContext *, const ::enginePackage::placeCardArgs *,
+                          ::enginePackage::ServerResponse *) override;
 
     //!--------------------------------
     //! @brief Function for playing Action. Takes player's, action's id and all id's for action ability, removes action
@@ -152,9 +153,12 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //! @return true if success, false if not
     //!--------------------------------
     bool play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
-    void play_action_online(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
-    Status playAction(::grpc::ServerContext* context, const ::enginePackage::playActionArgs* request, ::enginePackage::ServerResponse* response) override;
-    Status playActionSlave(::grpc::ServerContext* context, const ::enginePackage::playActionArgs* request, ::enginePackage::ServerResponse* response) override;
+    void play_action_online(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id,
+                            uint16_t dest_id);
+    Status playAction(::grpc::ServerContext *context, const ::enginePackage::playActionArgs *request,
+                      ::enginePackage::ServerResponse *response) override;
+    Status playActionSlave(::grpc::ServerContext *context, const ::enginePackage::playActionArgs *request,
+                           ::enginePackage::ServerResponse *response) override;
 
     //!--------------------------------
     //! @brief End turn logic
@@ -163,9 +167,11 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //!--------------------------------
     uint16_t end_turn(uint16_t player_id);
     void end_turn_online(uint16_t player_id);
-    Status endTurn(::grpc::ServerContext* context, const ::enginePackage::endTurnArgs* request, ::enginePackage::ServerResponse* response) override;
-    Status endTurnSlave(::grpc::ServerContext* context, const ::enginePackage::endTurnArgs* request, ::enginePackage::ServerResponse* response) override;
-    bool isOnline() {return isOnline_;};
+    Status endTurn(::grpc::ServerContext *context, const ::enginePackage::endTurnArgs *request,
+                   ::enginePackage::ServerResponse *response) override;
+    Status endTurnSlave(::grpc::ServerContext *context, const ::enginePackage::endTurnArgs *request,
+                        ::enginePackage::ServerResponse *response) override;
+    bool isOnline() { return isOnline_; };
 
     //!--------------------------------
     //! @brief After base capture distribute points between top players
@@ -178,7 +184,7 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //! @brief Choose factions for players and generate their decks
     //!--------------------------------
     void prepare_game();
-    void engine_wait() {server_->Wait();};
+    void engine_wait() { server_->Wait(); };
 
     // Parse players' decks, create bases, distribute cards
     void start_game(GraphicsModel::Data::Attributes &attributes);
@@ -211,10 +217,11 @@ class Engine final: public enginePackage::MainServerEngine::Service, public engi
     //!--------------------------------
     void set_players_decks_names(std::vector<std::string> &names);
     // Inits online player
-    Status initClient(::grpc::ServerContext* context, const ::enginePackage::ClientNetInfo* request, ::enginePackage::ServerResponse* response) override;
-    Status GetFile(grpc::ServerContext* context, const enginePackage::FileRequest* request,
-                       enginePackage::FileResponse* response) override;
-  
+    Status initClient(::grpc::ServerContext *context, const ::enginePackage::ClientNetInfo *request,
+                      ::enginePackage::ServerResponse *response) override;
+    Status GetFile(grpc::ServerContext *context, const enginePackage::FileRequest *request,
+                   enginePackage::FileResponse *response) override;
+
   private:
     // Add player in players structure
     void add_player(uint32_t port);
