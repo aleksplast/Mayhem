@@ -1,7 +1,8 @@
 set(ENGINE_SRC engine.cpp player.cpp playground.cpp)
 
 include (common.cmake)
-include_directories("/home/viktor/.local/include") # FIXME TIAHZ: change paths
+include_directories(${GRPC_INCLUDE_DIR}) 
+message("Gprc inlcude dir is ${GRPC_INCLUDE_DIR}")
 set(rg_proto_srcs "${CMAKE_SOURCE_DIR}/src/proto/engine.pb.cc")
 set(rg_proto_hdrs "${CMAKE_SOURCE_DIR}/src/proto/engine.pb.h")
 set(rg_grpc_srcs "${CMAKE_SOURCE_DIR}/src/proto/engine.grpc.pb.cc")
