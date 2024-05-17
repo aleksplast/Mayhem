@@ -11,7 +11,7 @@ BuffAction::BuffAction(const std::string &action_main_file, const std::string &a
 void BuffAction::activate_abillity(Minion *target, Base *src, Base *dest) { target->increase_power(buff_); };
 
 void BuffAction::dump_state(std::ostream &os) const {
-#ifndef DEBUG
+#ifdef DEBUG
     os << "\nDumping BuffAction\n";
     os << "buff: " << buff_ << "\n";
     os << "texture_name: " << texture_name << "\n";
@@ -26,7 +26,7 @@ DebuffAction::DebuffAction(const std::string &action_main_file, const std::strin
 void DebuffAction::activate_abillity(Minion *target, Base *src, Base *dest) { target->decrease_power(debuff_); };
 
 void DebuffAction::dump_state(std::ostream &os) const {
-#ifndef DEBUG
+#ifdef DEBUG
     os << "\nDumping BuffAction\n";
     os << "debuff: " << debuff_ << "\n";
     os << "texture_name: " << texture_name << "\n";
@@ -37,7 +37,7 @@ void DebuffAction::dump_state(std::ostream &os) const {
 void DestroyAction::activate_abillity(Minion *target, Base *src, Base *dest) { src->remove_minion(target); };
 
 void DestroyAction::dump_state(std::ostream &os) const {
-#ifndef DEBUG
+#ifdef DEBUG
     os << "\nDumping DestroyAction\n";
     os << "texture_name: " << texture_name << "\n";
     os << "id: " << id_ << "\n";
@@ -50,7 +50,7 @@ void MoveAction::activate_abillity(Minion *target, Base *src, Base *dest) {
 };
 
 void MoveAction::dump_state(std::ostream &os) const {
-#ifndef DEBUG
+#ifdef DEBUG
     os << "\nDumping MoveAction\n";
     os << "texture_name: " << texture_name << "\n";
     os << "id: " << id_ << "\n";
@@ -60,7 +60,7 @@ void MoveAction::dump_state(std::ostream &os) const {
 void DrawAction::activate_ability(Player *player) { player->take_card(num_); }
 
 void DrawAction::dump_state(std::ostream &os) const {
-#ifndef DEBUG
+#ifdef DEBUG
     os << "\nDumping DrawAction\n";
     os << "num: " << num_ << "\n";
     os << "texture_name: " << texture_name << "\n";

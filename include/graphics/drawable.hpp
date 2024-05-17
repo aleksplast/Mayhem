@@ -9,7 +9,7 @@ namespace Mayhem {
 // class describing the objects to be drawn
 class Drawable {
   protected:
-#ifndef DEBUG
+#ifdef DEBUG
     std::string texture_name;
 #endif
 

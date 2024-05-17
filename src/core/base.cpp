@@ -22,7 +22,7 @@ uint32_t Base::get_current_power() const {
 std::array<uint32_t, 3> Base::get_points() const { return points_; }
 
 void Base::dump_state(std::ostream &os) const {
-#ifndef DEBUG
+#ifdef DEBUG
     os << "\nDumping base\n";
     os << "---\n";
     os << "points: " << points_[0] << " " << points_[1] << " " << points_[2] << "\n";

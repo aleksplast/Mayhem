@@ -8,7 +8,7 @@ Drawable::Drawable(const std::string &main_file, const std::string &extra_file) 
     main_texture.loadFromFile(main_file);
     main_texture.setSmooth(true);
 
-#ifndef DEBUG
+#ifdef DEBUG
     texture_name = main_file;
 #endif
 
