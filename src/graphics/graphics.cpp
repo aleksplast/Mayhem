@@ -14,7 +14,8 @@ void Graphics::launch_game(std::string mode, std::string port, std::string playe
         GraphicsView view(model);
         model.attributes.draw_player = 0;
         engine.prepare_game();
-        engine.start_game(model.attributes);
+        engine.start_game();
+        model.attributes.draw_player = 0;
         engine.dump_state("dump_file");
 
         while (model.attributes.window.isOpen()) {
@@ -31,7 +32,7 @@ void Graphics::launch_game(std::string mode, std::string port, std::string playe
             GraphicsView view(model);
             model.attributes.draw_player = 0;
             engine.prepare_game();
-            engine.start_game(model.attributes);
+            engine.start_game();
             engine.dump_state("dump_file");
 
             // FIXME TIAHZ: function
@@ -53,7 +54,7 @@ void Graphics::launch_game(std::string mode, std::string port, std::string playe
             model.attributes.draw_player = stoi(player); // FIXME: ADD CHECKS
             GraphicsController controller(model);
             GraphicsView view(model);
-            engine.start_game(model.attributes);
+            engine.start_game();
             engine.dump_state("dump_file");
 
             while (model.attributes.window.isOpen()) {
