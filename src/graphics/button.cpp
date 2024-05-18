@@ -12,7 +12,6 @@ Button::Button() {
 
 Button::Button(const std::string &text, const sf::IntRect &rect) : Button() {
     text_.setString(text);
-    sf::FloatRect text_bounds = text_.getGlobalBounds();
     rect_.setTextureRect(rect);
 }
 
