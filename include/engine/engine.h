@@ -46,7 +46,7 @@ class MainServerEngineClient {
     void play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
     void end_turn(uint16_t player_id);
 
-    void initClient(uint32_t port);
+    void initClient(std::string address);
 
   private:
     std::unique_ptr<enginePackage::MainServerEngine::Stub> stub_;
@@ -233,7 +233,7 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
 
   private:
     // Add player in players structure
-    void add_player(uint32_t port);
+    void add_player(std::string address);
 
     //!--------------------------------
     //! @brief Get bases deck name

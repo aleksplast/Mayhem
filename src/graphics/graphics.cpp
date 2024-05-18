@@ -6,8 +6,8 @@
 
 namespace Mayhem {
 
-void Graphics::launch_game(std::string mode, std::string port, std::string player) {
-    if (mode.compare("offline") == 0) {
+void Graphics::launch_game(std::string game_mode, std::string engine_mode, std::string server_address, std::string client_address, std::string player) {
+    if (game_mode.compare("offline") == 0) {
         Engine engine;
         GraphicsModel model(engine);
         GraphicsController controller(model);
@@ -24,8 +24,7 @@ void Graphics::launch_game(std::string mode, std::string port, std::string playe
         }
 
     } else {
-        if (port.compare("0") == 0) {
-            std::string server_address("0.0.0.0:50051");
+        if (engine_mode.compare("server") == 0) {
             Engine engine;
             GraphicsModel model(engine);
             GraphicsController controller(model);
@@ -48,7 +47,7 @@ void Graphics::launch_game(std::string mode, std::string port, std::string playe
                 view.display();
             }
         } else {
-            Engine engine(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()), port);
+            Engine engine(grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials()), client_address);
             GraphicsModel model(engine);
             std::cout << "Current player " << player << std::endl;
             model.attributes.draw_player = stoi(player); // FIXME: ADD CHECKS
