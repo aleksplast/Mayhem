@@ -13,7 +13,7 @@ mkdir build
 cd build
 cmake -DGRPC_INCLUDE_DIR="your path to grpc and absl include dir" ..
 make 
-./game
+./game [offline/online] [port] [you number as a player]
 ```
 ## Overview
 
