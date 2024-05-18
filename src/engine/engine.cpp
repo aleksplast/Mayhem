@@ -81,7 +81,7 @@ void MainServerEngineClient::end_turn(uint16_t player_id) {
     std::cout << "Get response: " << engineResponse.status() << std::endl;
 };
 
-void MainServerEngineClient::initClient(uint32_t port) {
+void MainServerEngineClient::initClient(std::string address) {
     std::ofstream outputFile("player0_deck.json"); // FIXME TIAZH: error handling
     outputFile << GetFile("player0_deck.json");
     outputFile.close();
@@ -96,7 +96,7 @@ void MainServerEngineClient::initClient(uint32_t port) {
     outputFile.close();
     ClientContext context;
     enginePackage::ClientNetInfo net_info;
-    net_info.set_port(port);
+    net_info.set_address(address);
     enginePackage::ServerResponse engine_response;
     Status status = stub_->initClient(&context, net_info, &engine_response);
 
@@ -203,15 +203,14 @@ const std::string DECK_JSON_FILE = "_deck.json";
 const uint32_t NUMBER_OF_WINNERS = 3;
 
 Engine::Engine() : isSlave_(false), isOnline_(false), turn_(0), entities_(), playground(entities_), parser_(){};
-Engine::Engine(std::shared_ptr<Channel> Channel, std::string port)
+Engine::Engine(std::shared_ptr<Channel> Channel, std::string player_address)
     : isSlave_(true), isOnline_(true), turn_(0), entities_(), playground(entities_), parser_(), client_(Channel) {
-    std::string server_address("localhost:" + port);
     ServerBuilder builder;
-    builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+    builder.AddListeningPort(player_address, grpc::InsecureServerCredentials());
     builder.RegisterService(static_cast<enginePackage::SlaveServerEngine::Service *>(this));
     std::unique_ptr<Server> server(builder.BuildAndStart());
-    std::cout << "Server listening on " << server_address << std::endl;
-    client_.initClient(stoi(port));
+    std::cout << "player Server listening on " << player_address << std::endl;
+    client_.initClient(player_address);
     server_ = std::move(server);
 };
 
@@ -434,8 +433,8 @@ void Engine::prepare_game() {
 
 Status Engine::initClient(::grpc::ServerContext *context, const ::enginePackage::ClientNetInfo *request,
                           ::enginePackage::ServerResponse *response) {
-    std::cout << "New player with port: " << request->port() << " and Ip: " << context->peer() << std::endl;
-    add_player(request->port());
+    std::cout << "New player with port: " << request->address() << " and Ip: " << context->peer() << std::endl;
+    add_player(request->address());
     return Status::OK;
 }
 
@@ -455,10 +454,9 @@ Status Engine::GetFile(grpc::ServerContext *context, const enginePackage::FileRe
     return Status::OK;
 }
 
-void Engine::add_player(uint32_t port) {
-    std::string server_address("localhost:" + std::to_string(port));
-    std::cout << "adding player with address " << server_address << std::endl;
-    std::shared_ptr<Channel> channel = grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials());
+void Engine::add_player(std::string player_address) {
+    std::cout << "adding player with address " << player_address << std::endl;
+    std::shared_ptr<Channel> channel = grpc::CreateChannel(player_address, grpc::InsecureChannelCredentials());
     std::cout << channel->GetState(true) << std::endl;
 
     players_.push_back(SlaveServerEngineClient(channel));
