@@ -25,8 +25,8 @@ class OnlineMenu final : private Screen {
 // Settings for the game type selection menu
 class TypeGameMenu final : private Screen {
   private:
-    PlayersMenu players_menu;
-    OnlineMenu online_menu;
+    PlayersMenu players_menu = PlayersMenu();
+    OnlineMenu online_menu = OnlineMenu();
 
   public:
     TypeGameMenu();
@@ -37,7 +37,7 @@ class TypeGameMenu final : private Screen {
 // The main menu
 class MainMenu final : private Screen {
   private:
-    TypeGameMenu type_menu;
+    TypeGameMenu type_menu = TypeGameMenu();
 
   public:
     MainMenu();

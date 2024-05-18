@@ -72,7 +72,7 @@ bool PlayersMenu::run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttribu
     case 0:
     case 1:
     case 2:
-        attributes.num_players = num_event + 2;
+        attributes.num_players = num_event + 2u;
         return true;
         break;
     default:

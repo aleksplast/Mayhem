@@ -12,7 +12,6 @@ Button::Button() {
 
 Button::Button(const std::string &text, const sf::IntRect &rect) : Button() {
     text_.setString(text);
-    sf::FloatRect text_bounds = text_.getGlobalBounds();
     rect_.setTextureRect(rect);
 }
 
@@ -22,7 +21,7 @@ Button::Button(const Button &rhs) : font_(rhs.font_), text_(rhs.text_) {
 }
 
 Button::Button(Button &&rhs) : font_(std::move(rhs.font_)), text_(std::move(rhs.text_)) {
-    rect_ = sf::RectangleShape(std::move(rhs.rect_));
+    rect_ = std::move(rhs.rect_);
 }
 
 Button &Button::operator=(const Button &rhs) {
@@ -42,18 +41,19 @@ Button &Button::operator=(Button &&rhs) {
 
 void Button::set_text_position() {
     sf::FloatRect rect_bounds = rect_.getGlobalBounds();
-    sf::Vector2u center_pos =
-        sf::Vector2u(rect_bounds.left + rect_bounds.width / 2, rect_bounds.top + rect_bounds.height / 2);
+    sf::Vector2u center_pos = sf::Vector2u(static_cast<unsigned>(rect_bounds.left + rect_bounds.width / 2),
+                                           static_cast<unsigned>(rect_bounds.top + rect_bounds.height / 2));
     sf::String str = text_.getString();
     sf::FloatRect text_bounds = text_.getGlobalBounds();
-    text_.setPosition(center_pos.x - text_bounds.width / 2, center_pos.y - text_bounds.height / 2);
+    text_.setPosition(static_cast<float>(center_pos.x) - text_bounds.width / 2,
+                      static_cast<float>(center_pos.y) - text_bounds.height / 2);
 }
 
 void Button::set_char_size(unsigned int size) { text_.setCharacterSize(size); }
 
 void Button::set_position(const sf::IntRect &rect) {
-    rect_.setSize(sf::Vector2f(rect.width, rect.height));
-    rect_.setPosition(sf::Vector2f(rect.left, rect.top));
+    rect_.setSize(sf::Vector2f(static_cast<float>(rect.width), static_cast<float>(rect.height)));
+    rect_.setPosition(sf::Vector2f(static_cast<float>(rect.left), static_cast<float>(rect.top)));
 }
 
 void Button::set_background_color(sf::Uint8 red, sf::Uint8 green, sf::Uint8 blue, sf::Uint8 alpha) {
