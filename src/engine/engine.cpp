@@ -196,9 +196,6 @@ const uint32_t MAX_CARDS_IN_HAND = 10;
 // At the end of the turn player draw 2 cards
 const uint32_t CARDS_TO_DRAW_END_TURN = 2;
 
-// Location of the data base with all bases
-const std::string BASE_DATA_BASE_FILE = "../assets/base_data_base.json";
-
 const std::string PLAYER = "player";
 
 const std::string DECK_JSON_FILE = "_deck.json";
@@ -434,16 +431,9 @@ bool Engine::is_over() const { return game_over_; }
 uint32_t Engine::get_winner() const { return winner_; }
 
 void Engine::prepare_game() {
-    std::vector<std::string> names;
-
     for (uint16_t i = 0; i < playground.get_number_of_players(); i++) {
-        std::string player_deck_file = PLAYER + std::to_string(i) + DECK_JSON_FILE;
-        parser_.json_for_player(player_deck_file);
-        names.push_back(player_deck_file);
+        parser_.json_for_player(players_decks_names_[i]);
     }
-
-    set_players_decks_names(names);
-    set_bases_deck_name(BASE_DATA_BASE_FILE);
 }
 
 Status Engine::initClient(::grpc::ServerContext *context, const ::enginePackage::ClientNetInfo *request,

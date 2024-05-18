@@ -66,6 +66,8 @@ class SlaveServerEngineClient {
     std::unique_ptr<enginePackage::SlaveServerEngine::Stub> stub_;
 };
 
+const std::string BASE_DATA_BASE_FILE = "../assets/base_data_base.json";
+const std::vector<std::string> PLAYERS_DECKS_FILES = {"player0_deck.json", "player1_deck.json", "player2_deck.json", "player3_deck.json"};
 // Main controlling structure
 class Engine final : public enginePackage::MainServerEngine::Service, public enginePackage::SlaveServerEngine::Service {
 
@@ -90,9 +92,9 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
     // Flag, indicates if the game is over
     bool game_over_ = false;
     // Vector of names of players decks
-    std::vector<std::string> players_decks_names_;
+    std::vector<std::string> players_decks_names_ = PLAYERS_DECKS_FILES;
     // File with bases
-    std::string bases_deck_;
+    std::string bases_deck_ = BASE_DATA_BASE_FILE;
 
     // vector of online players
     std::vector<SlaveServerEngineClient> players_;
