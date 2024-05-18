@@ -14,12 +14,12 @@ namespace Mayhem {
 // Describes the basic behavior of the screen
 class Screen {
   private:
-    Drawable background;
-    std::vector<Button *> buttons_;
+    Drawable background = Drawable();
+    std::vector<Button *> buttons_ = std::vector<Button *>();
 
   private:
     // Detects the pressed button
-    int16_t process_mouse_click(const sf::Vector2u mouse_pos);
+    int16_t process_mouse_click(const sf::Vector2f mouse_pos);
 
   public:
     Screen();

@@ -5,6 +5,7 @@
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <string>
 
 namespace Mayhem {
@@ -20,9 +21,9 @@ class Button {
     }; // enum class Type
 
   private:
-    sf::Font font_;
-    sf::Text text_;
-    sf::RectangleShape rect_;
+    sf::Font font_ = sf::Font();
+    sf::Text text_ = sf::Text();
+    sf::RectangleShape rect_ = sf::RectangleShape();
 
   private:
     // Sets the position of the text

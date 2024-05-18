@@ -47,12 +47,12 @@ class Command {
     const std::array<Type, 2> choose_base{Type::base, Type::base};
 
   private:
-    std::vector<std::pair<Type, Drawable *>> events;
+    std::vector<std::pair<Type, Drawable *>> events = std::vector<std::pair<Type, Drawable *>>();
     GraphicsModel &model;
 
   private:
     // determines the status of the command
-    template <int N> Status is_this_command(const std::array<Type, N> &data) const;
+    template <std::size_t N> Status is_this_command(const std::array<Type, N> &data) const;
 
     // checks whether the command can be executed
     void check_commands();

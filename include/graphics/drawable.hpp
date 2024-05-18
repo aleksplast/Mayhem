@@ -13,12 +13,12 @@ class Drawable {
     std::string texture_name;
 #endif
 
-    sf::Texture main_texture;
-    sf::Texture extra_texture;
+    sf::Texture main_texture = sf::Texture();
+    sf::Texture extra_texture = sf::Texture();
     bool is_pressed = false;
 
   public:
-    sf::Sprite sprite;
+    sf::Sprite sprite = sf::Sprite();
 
   public:
     Drawable() = default;
@@ -39,7 +39,7 @@ class Drawable {
     // disable entity selection
     void release();
 
-    ~Drawable() = default;
+    virtual ~Drawable() = default;
 }; // class Drawable
 
 } // namespace Mayhem
