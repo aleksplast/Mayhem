@@ -11,9 +11,9 @@ Command::Command(GraphicsModel &m) : model(m) {}
 void Command::set_card(PlayerCard *card) {
     if (!card)
         return;
-    if (Action *action = dynamic_cast<Action *>(card); action) {
-        events.push_back(std::make_pair(Type::action_on_hand, action));
-        action->press();
+    if (Action *action_card = dynamic_cast<Action *>(card); action_card) {
+        events.push_back(std::make_pair(Type::action_on_hand, action_card));
+        action_card->press();
     } else if (Minion *minion = dynamic_cast<Minion *>(card); minion) {
         events.push_back(std::make_pair(Type::minion_on_hand, minion));
         minion->press();
@@ -24,9 +24,9 @@ void Command::set_card(PlayerCard *card) {
 void Command::set_shown_card(PlayerCard *card) {
     if (!card)
         return;
-    if (Action *action = dynamic_cast<Action *>(card); action) {
-        events.push_back(std::make_pair(Type::action_on_base, action));
-        action->press();
+    if (Action *action_card = dynamic_cast<Action *>(card); action_card) {
+        events.push_back(std::make_pair(Type::action_on_base, action_card));
+        action_card->press();
     } else if (Minion *minion = dynamic_cast<Minion *>(card); minion) {
         events.push_back(std::make_pair(Type::minion_on_base, minion));
         minion->press();
@@ -61,11 +61,13 @@ void Command::set_button(Button::Type type) {
         clear();
         events.push_back(std::make_pair(Type::close_window, nullptr));
         break;
+    default:
+        break;
     }
     check_commands();
 }
 
-template <int N> Command::Status Command::is_this_command(const std::array<Type, N> &data) const {
+template <std::size_t N> Command::Status Command::is_this_command(const std::array<Type, N> &data) const {
     if (data.size() < events.size())
         return Status::different;
 
@@ -79,7 +81,7 @@ template <int N> Command::Status Command::is_this_command(const std::array<Type,
 }
 
 void Command::activate_move_action() {
-    MoveAction *action = dynamic_cast<MoveAction *>(events[0].second);
+    MoveAction *action_card = dynamic_cast<MoveAction *>(events[0].second);
     Base *base_from = dynamic_cast<Base *>(events[1].second);
     Minion *minion = dynamic_cast<Minion *>(events[2].second);
     Base *base_to = dynamic_cast<Base *>(events[3].second);
@@ -87,10 +89,10 @@ void Command::activate_move_action() {
 
     if (player->get_actions_limit()) {
         if (model.engine.isOnline())
-            model.engine.play_action_online(model.attributes.draw_player, action->get_id(), minion->get_id(),
+            model.engine.play_action_online(model.attributes.draw_player, action_card->get_id(), minion->get_id(),
                                             base_from->get_id(), base_to->get_id());
         else {
-            model.engine.play_action(model.attributes.draw_player, action->get_id(), minion->get_id(),
+            model.engine.play_action(model.attributes.draw_player, action_card->get_id(), minion->get_id(),
                                      base_from->get_id(), base_to->get_id());
         }
     }
@@ -98,17 +100,17 @@ void Command::activate_move_action() {
 }
 
 void Command::activate_typical_action() {
-    Action *action = dynamic_cast<Action *>(events[0].second);
+    Action *action_card = dynamic_cast<Action *>(events[0].second);
     Base *base = dynamic_cast<Base *>(events[1].second);
     Minion *minion = dynamic_cast<Minion *>(events[2].second);
     Player *player = dynamic_cast<Player *>(model.engine.get_by_id(model.attributes.draw_player));
 
     if (player->get_actions_limit()) {
         if (model.engine.isOnline()) {
-            model.engine.play_action_online(model.attributes.draw_player, action->get_id(), minion->get_id(),
+            model.engine.play_action_online(model.attributes.draw_player, action_card->get_id(), minion->get_id(),
                                             base->get_id(), 0);
         } else {
-            model.engine.play_action(model.attributes.draw_player, action->get_id(), minion->get_id(), base->get_id(),
+            model.engine.play_action(model.attributes.draw_player, action_card->get_id(), minion->get_id(), base->get_id(),
                                      0);
         }
     }
@@ -116,15 +118,15 @@ void Command::activate_typical_action() {
 }
 
 void Command::activate_draw_action() {
-    DrawAction *action = dynamic_cast<DrawAction *>(events[0].second);
+    DrawAction *action_card = dynamic_cast<DrawAction *>(events[0].second);
     uint16_t player_id = model.attributes.draw_player;
     Player *player = dynamic_cast<Player *>(model.engine.get_by_id(player_id));
 
     if (player->get_actions_limit()) {
         if (model.engine.isOnline()) {
-            model.engine.play_action_online(player_id, action->get_id(), 0, 0, 0);
+            model.engine.play_action_online(player_id, action_card->get_id(), 0, 0, 0);
         } else {
-            model.engine.play_action(player_id, action->get_id(), 0, 0, 0);
+            model.engine.play_action(player_id, action_card->get_id(), 0, 0, 0);
         }
     }
     clear();
@@ -137,6 +139,8 @@ void Command::check_commands() {
         model.attributes.window.close();
         clear();
         return;
+    default:
+        break;
     }
 
     switch (is_this_command<1>(end_turn)) {
@@ -149,6 +153,8 @@ void Command::check_commands() {
         return;
     case Status::possible:
         status = Status::possible;
+        break;
+    default:
         break;
     }
 
@@ -163,6 +169,8 @@ void Command::check_commands() {
     case Status::possible:
         status = Status::possible;
         return;
+    default:
+        break;
     }
 
     switch (is_this_command<2>(choose_base)) {
@@ -176,6 +184,8 @@ void Command::check_commands() {
     case Status::possible:
         status = Status::possible;
         return;
+    default:
+        break;
     }
 
     switch (is_this_command<2>(minion_to_base)) {
@@ -193,6 +203,8 @@ void Command::check_commands() {
         return;
     case Status::possible:
         status = Status::possible;
+    default:
+        break;
     }
 
     switch (is_this_command<4>(move_action)) {
@@ -201,6 +213,8 @@ void Command::check_commands() {
         return;
     case Status::possible:
         status = Status::possible;
+    default:
+        break;
     }
 
     switch (is_this_command<3>(action)) {
@@ -212,6 +226,8 @@ void Command::check_commands() {
         break;
     case Status::possible:
         status = Status::possible;
+    default:
+        break;
     }
 
     switch (is_this_command<2>(draw_action)) {
@@ -223,6 +239,8 @@ void Command::check_commands() {
         break;
     case Status::possible:
         status = Status::possible;
+    default:
+        break;
     }
 
     if (status == Status::different) {

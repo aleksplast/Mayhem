@@ -49,7 +49,6 @@ PlayerCard *GraphicsController::pressed_card(const sf::Vector2f &pos) {
 PlayerCard *GraphicsController::pressed_shown_card(const sf::Vector2f &pos) {
     auto end_it = model.attributes.shown_place.second.rend();
     for (auto it = model.attributes.shown_place.second.rbegin(); it != end_it; ++it) {
-        auto ret = (*it)->sprite.getGlobalBounds();
         if ((*it)->sprite.getGlobalBounds().contains(pos.x, pos.y)) {
             return *it;
         }
@@ -59,8 +58,11 @@ PlayerCard *GraphicsController::pressed_shown_card(const sf::Vector2f &pos) {
 
 void GraphicsController::process_mouse_events(const sf::Event &event) {
     sf::Vector2u window_size = model.attributes.window.getSize();
-    sf::Vector2f mouse_pos = sf::Vector2f(event.mouseButton.x * model.attributes.default_window_size.x / window_size.x,
-                                          event.mouseButton.y * model.attributes.default_window_size.y / window_size.y);
+    sf::Vector2f mouse_pos = sf::Vector2f(
+        static_cast<float>(event.mouseButton.x) * static_cast<float>(model.attributes.default_window_size.x) /
+            static_cast<float>(window_size.x),
+        static_cast<float>(event.mouseButton.y) * static_cast<float>(model.attributes.default_window_size.y) /
+            static_cast<float>(window_size.y));
 
     if (event.mouseButton.button == sf::Mouse::Left) {
         PlayerCard *card = pressed_card(mouse_pos);
@@ -99,6 +101,8 @@ void GraphicsController::process_events() {
 
         case sf::Event::MouseButtonPressed:
             process_mouse_events(event);
+            break;
+        default:
             break;
         }
     }

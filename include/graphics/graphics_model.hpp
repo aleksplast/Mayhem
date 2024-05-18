@@ -30,26 +30,26 @@ class GraphicsModel {
 
                 // Scale
                 struct Scale {
-                    static constexpr float x = 0.38;
-                    static constexpr float y = 0.25;
+                    static constexpr float x = 0.38f;
+                    static constexpr float y = 0.25f;
                 }; // struct Slace
 
                 // increasøòï the size of the main player
-                static constexpr float increase = 1.6;
+                static constexpr float increase = 1.6f;
 
                 // Drawing Cards' place
                 struct CardsPlace {
 
                     // Scale
                     struct Scale {
-                        static constexpr float x = 0.7;
-                        static constexpr float y = 0.75;
+                        static constexpr float x = 0.7f;
+                        static constexpr float y = 0.75f;
                     }; // struct Scale
 
                     // Position
                     struct Position {
-                        static constexpr float x = 0.5;
-                        static constexpr float y = 0.5;
+                        static constexpr float x = 0.5f;
+                        static constexpr float y = 0.5f;
                     }; // struct Position
 
                     // Drawing card
@@ -57,8 +57,8 @@ class GraphicsModel {
 
                         // Scale
                         struct Scale {
-                            static constexpr float x = 0.25;
-                            static constexpr float y = 1.0;
+                            static constexpr float x = 0.25f;
+                            static constexpr float y = 1.0f;
                         }; // struct Scale
                     };     // struct Card
                 };         // struct CardsPlace
@@ -69,14 +69,14 @@ class GraphicsModel {
 
                 // Scale
                 struct Scale {
-                    static constexpr float x = 0.8;
-                    static constexpr float y = 0.25;
+                    static constexpr float x = 0.8f;
+                    static constexpr float y = 0.25f;
                 }; // struct Scale
 
                 // Position
                 struct Position {
-                    static constexpr float x = 0.5;
-                    static constexpr float y = 0.65;
+                    static constexpr float x = 0.5f;
+                    static constexpr float y = 0.65f;
                 }; // struct Position
 
                 // Drawing card
@@ -84,8 +84,8 @@ class GraphicsModel {
 
                     // Scale
                     struct Scale {
-                        static constexpr float x = 0.12;
-                        static constexpr float y = 1;
+                        static constexpr float x = 0.12f;
+                        static constexpr float y = 1.0f;
                     }; // struct Scale
                 };     // struct Card
 
@@ -96,14 +96,14 @@ class GraphicsModel {
 
                 // Scale
                 struct Scale {
-                    static constexpr float x = 0.8;
-                    static constexpr float y = 0.2;
+                    static constexpr float x = 0.8f;
+                    static constexpr float y = 0.2f;
                 }; // struct Scale
 
                 // Position
                 struct Position {
-                    static constexpr float x = 0.5;
-                    static constexpr float y = 0.3;
+                    static constexpr float x = 0.5f;
+                    static constexpr float y = 0.3f;
                 }; // struct Position
 
                 // Drawing Bases
@@ -111,8 +111,8 @@ class GraphicsModel {
 
                     // Scale
                     struct Scale {
-                        static constexpr float x = 0.15;
-                        static constexpr float y = 1.0;
+                        static constexpr float x = 0.15f;
+                        static constexpr float y = 1.0f;
                     }; // struct Scale
 
                 }; // struct Base
@@ -127,14 +127,14 @@ class GraphicsModel {
 
                     // Scale
                     struct Scale {
-                        static constexpr float x = 0.1;
-                        static constexpr float y = 0.08;
+                        static constexpr float x = 0.1f;
+                        static constexpr float y = 0.08f;
                     }; // struct Scale
 
                     // Position
                     struct Position {
-                        static constexpr float x = 0.82;
-                        static constexpr float y = 0.46;
+                        static constexpr float x = 0.82f;
+                        static constexpr float y = 0.46f;
                     }; // struct Position
 
                 }; // struct EndTurn
@@ -144,8 +144,8 @@ class GraphicsModel {
 
                     // Scale
                     struct Scale {
-                        static constexpr float x = 0.18;
-                        static constexpr float y = 0.1;
+                        static constexpr float x = 0.18f;
+                        static constexpr float y = 0.1f;
                     }; // struct Scale
                 };     // struct Power
 
@@ -154,8 +154,8 @@ class GraphicsModel {
 
                     // Scale
                     struct Scale {
-                        static constexpr float x = 0.15;
-                        static constexpr float y = 0.15;
+                        static constexpr float x = 0.15f;
+                        static constexpr float y = 0.15f;
                     }; // struct Scale
                 };     // struct Points
 
@@ -164,14 +164,14 @@ class GraphicsModel {
 
                     // Scale
                     struct Scale {
-                        static constexpr float x = 0.7;
-                        static constexpr float y = 0.2;
+                        static constexpr float x = 0.7f;
+                        static constexpr float y = 0.2f;
                     }; // struct Scale
 
                     // Position
                     struct Position {
-                        static constexpr float x = 0.5;
-                        static constexpr float y = -0.1;
+                        static constexpr float x = 0.5f;
+                        static constexpr float y = -0.1f;
                     }; // struct Position
                 };     // struct UnitsPower
 
@@ -180,38 +180,18 @@ class GraphicsModel {
 
                     // Offset
                     struct Offset {
-                        static constexpr float x = 0.5;
-                        static constexpr float y = 0.15;
-                        static constexpr float start = 0.2; // initial y-axis offset
-                    };                                      // struct Offset
+                        static constexpr float x = 0.5f;
+                        static constexpr float y = 0.15f;
+                        static constexpr float start = 0.2f; // initial y-axis offset
+                    };                                       // struct Offset
 
                     // Scale
                     struct Scale {
-                        static constexpr float x = 0.28;
-                        static constexpr float y = 0.12;
+                        static constexpr float x = 0.28f;
+                        static constexpr float y = 0.12f;
                     }; // struct Scale
 
-                    static constexpr unsigned int char_size = 36;
-                }; // struct ScreenButtons
-            };     // struct Button
-
-                // Drawing buttons on Screen
-                struct ScreenButtons {
-
-                    // Offset
-                    struct Offset {
-                        static constexpr float x = 0.5;
-                        static constexpr float y = 0.15;
-                        static constexpr float start = 0.2; // initial y-axis offset
-                    };                                      // struct Offset
-
-                    // Scale
-                    struct Scale {
-                        static constexpr float x = 0.28;
-                        static constexpr float y = 0.12;
-                    }; // struct Scale
-
-                    static constexpr unsigned int char_size = 36;
+                    static constexpr unsigned int char_size = 36u;
                 }; // struct ScreenButtons
             };     // struct Button
 
@@ -220,14 +200,14 @@ class GraphicsModel {
 
                 // Scale
                 struct Scale {
-                    static constexpr float x = 0.13;
-                    static constexpr float y = 0.35;
+                    static constexpr float x = 0.13f;
+                    static constexpr float y = 0.35f;
                 }; // struct Scale
 
                 // Position
                 struct Position {
-                    static constexpr float x = 0.13;
-                    static constexpr float y = 0.5;
+                    static constexpr float x = 0.13f;
+                    static constexpr float y = 0.5f;
                 }; // struct Position
             };     // struct PopUpCard
         };         // struct Rendering
@@ -239,18 +219,24 @@ class GraphicsModel {
 
         // Attibutes for drawing entities
         struct Attributes {
-            uint16_t draw_player; // num player who graphics draw
+            uint16_t draw_player = 0; // num player who graphics draw
             sf::RenderWindow &window;
-            sf::Vector2u default_window_size;
-            std::vector<PlayerCard *> current_player_cards;
-            std::vector<Deck<PlayerCard *> *> current_decks;
-            std::vector<Base *> active_bases;
-            std::vector<std::pair<Button::Type, sf::FloatRect>> buttuns;
-            std::pair<Base *, std::vector<PlayerCard *>> shown_place;
+            sf::Vector2u default_window_size = sf::Vector2u();
+            std::vector<PlayerCard *> current_player_cards = std::vector<PlayerCard *>();
+            std::vector<Deck<PlayerCard *> *> current_decks = std::vector<Deck<PlayerCard *> *>();
+            std::vector<Base *> active_bases = std::vector<Base *>();
+            std::vector<std::pair<Button::Type, sf::FloatRect>> buttuns = std::vector<std::pair<Button::Type, sf::FloatRect>>();
+            std::pair<Base *, std::vector<PlayerCard *>> shown_place = std::pair<Base *, std::vector<PlayerCard *>>();
             PlayerCard *popping_up_card = nullptr;
 
           public:
-            Attributes(sf::RenderWindow &window) : window(window){};
+            Attributes() = delete;
+            Attributes(const Attributes&) = delete;
+            Attributes(Attributes &&) = delete;
+            Attributes &operator=(const Attributes &) = delete;
+            Attributes &operator=(Attributes &&) = delete;
+            Attributes(sf::RenderWindow &Window) : window(Window){};
+            ~Attributes() = default;
         }; // struct Attributes
 
         // Attributes for menu
@@ -261,9 +247,9 @@ class GraphicsModel {
                 exit,
             }; // enum class GameAction
 
-            sf::Vector2u default_window_size;
-            Settings::GameType type;
-            GameAction action;
+            sf::Vector2u default_window_size = sf::Vector2u();
+            Settings::GameType type = Settings::GameType::offline;
+            GameAction action = GameAction::exit;
             uint16_t num_players = 2;
             uint16_t number_of_player;
         }; // struct MenuAttributes
@@ -271,7 +257,7 @@ class GraphicsModel {
 
   public:
     Data::Attributes attributes;
-    Settings::GameType type;
+    Settings::GameType type = Settings::GameType::offline;
     Engine &engine;
 
   public:
