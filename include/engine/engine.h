@@ -220,6 +220,12 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
     //! @brief Set players decks names
     //!--------------------------------
     void set_players_decks_names(std::vector<std::string> &names);
+
+    //!--------------------------------
+    //! @brief Set bases deck name
+    //!--------------------------------
+    void set_bases_deck_name(const std::string &name);
+
     // Inits online player
     Status initClient(::grpc::ServerContext *context, const ::enginePackage::ClientNetInfo *request,
                       ::enginePackage::ServerResponse *response) override;
@@ -234,11 +240,6 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
     //! @brief Get bases deck name
     //!--------------------------------
     const std::string &get_bases_deck_name() const;
-
-    //!--------------------------------
-    //! @brief Set bases deck name
-    //!--------------------------------
-    void set_bases_deck_name(const std::string &name);
 
   public: // graphic functions
     // Draw Engine

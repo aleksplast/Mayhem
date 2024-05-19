@@ -39,7 +39,7 @@ if (ENABLE_TESTING)
     configure_file(tests/test_bases.json test_bases.json COPYONLY)
 
     #Tests
-    target_include_directories(test_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+    target_include_directories(test_engine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/src)
     target_link_libraries(test_engine gtest gtest_main)
     target_link_libraries(test_engine sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json)
     add_test(test_engine test_engine)

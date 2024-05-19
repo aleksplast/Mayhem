@@ -2,3 +2,4 @@ Makefile
 *.out
 .vscode
 build
+src/proto/*.pb.*
