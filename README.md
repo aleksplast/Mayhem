@@ -5,16 +5,41 @@ Trivial card game project
 2. SFML
 3. gRPC (1.62.2)
 4. protobuf (26.1.0)
-## Build 
+5. gtest (only if you want to perform test, see below)
+## Build and Run
 ```sh
 cd src/proto
 protoc --cpp_out=. --grpc_out=. --plugin=protoc-gen-grpc='which grpc_cpp_plugin' ./engine.proto
 mkdir build
 cd build
-cmake -DGRPC_INCLUDE_DIR="your path to grpc and absl include dir" ..
-make 
+cmake .. (if you installed gRPC into some $INSTALL_DIR, run cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR)
+make
 ./game [offline/online] [port] [you number as a player]
 ```
+
+## Tests and Debug
+
+There is possibility of game running in DEBUG mode. To build game in debug mode, run
+```
+cmake .. -DDEBUG=1 -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
+make
+```
+
+In debug mode, game will generate dump of starting state of the game.
+
+There is also exists test for the game, including testing engine interface.
+To build game with tests, run
+```
+cmake .. -DDEBUG=1 -DENABLE_TESTING=1 -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR
+make
+```
+
+To run test:
+
+```
+./test_engine
+```
+
 ## Overview
 
 This is trivial card game called Mayhem. Our team developed it during 4th semester in MIPT. The goal of this project was to develop skills in C++, Objected Oriented Programming and also have some fun. You can play this game by the rules, described below.
@@ -29,7 +54,7 @@ Each player has deck with card of one faction, which is picked randomly at the s
 
 #### Minion
 
-Minion is a card you can play to the base (for this click minion, then base). You can distinguish Minion from Action by it's power: each Minion has the power parameter in the top left corner. 
+Minion is a card you can play to the base (for this click minion, then base). You can distinguish Minion from Action by it's power: each Minion has the power parameter in the top left corner.
 
 <details>
 <summary> Example of the Minion </summary>

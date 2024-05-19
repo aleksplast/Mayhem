@@ -67,7 +67,8 @@ class SlaveServerEngineClient {
 };
 
 const std::string BASE_DATA_BASE_FILE = "../assets/base_data_base.json";
-const std::vector<std::string> PLAYERS_DECKS_FILES = {"player0_deck.json", "player1_deck.json", "player2_deck.json", "player3_deck.json"};
+const std::vector<std::string> PLAYERS_DECKS_FILES = {"player0_deck.json", "player1_deck.json", "player2_deck.json",
+                                                      "player3_deck.json"};
 // Main controlling structure
 class Engine final : public enginePackage::MainServerEngine::Service, public enginePackage::SlaveServerEngine::Service {
 
