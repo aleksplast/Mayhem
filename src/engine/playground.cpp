@@ -19,7 +19,7 @@ const uint32_t POINTS_TO_WIN = 15;
 const std::string PLAYGROUND_IMAGES = "../assets/images/playground.jpg";
 
 Playground::Playground(std::vector<Entity *> &entities)
-    : Drawable(PLAYGROUND_IMAGES), bases_(), active_bases_(), dump_(), end_turn_("") {
+    : Drawable(PLAYGROUND_IMAGES), active_bases_(), bases_(), dump_(), end_turn_("") {
     for (int i = 0; i < 4; i++) {
         Player *player = new Player(i);
         players_.push_back(player);

@@ -202,11 +202,9 @@ const std::string DECK_JSON_FILE = "_deck.json";
 
 const uint32_t NUMBER_OF_WINNERS = 3;
 
-Engine::Engine()
-    : turn_(0), isOnline_(false), isSlave_(false), time_(0), entities_(), playground(entities_), parser_(){};
+Engine::Engine() : isSlave_(false), isOnline_(false), turn_(0), entities_(), playground(entities_), parser_(){};
 Engine::Engine(std::shared_ptr<Channel> Channel, std::string port)
-    : isOnline_(true), isSlave_(true), turn_(0), time_(0), entities_(), playground(entities_), parser_(),
-      client_(Channel) {
+    : isSlave_(true), isOnline_(true), turn_(0), entities_(), playground(entities_), parser_(), client_(Channel) {
     std::string server_address("localhost:" + port);
     ServerBuilder builder;
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
@@ -247,7 +245,6 @@ Status Engine::placeCard(::grpc::ServerContext *context, const ::enginePackage::
     return Status::OK;
 };
 
-// FIXME notimortant: add some check if place card is executed
 Status Engine::placeCardSlave(::grpc::ServerContext *context, const ::enginePackage::placeCardArgs *request,
                               ::enginePackage::ServerResponse *response) {
     uint16_t player_id = request->playerid();
@@ -265,7 +262,6 @@ void Engine::place_card_online(uint16_t player_id, uint16_t card_id, uint16_t ba
 }
 
 bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) {
-    // Проверка на мастера и на слейва
     if (player_id != turn_)
         return false;
 
@@ -281,7 +277,7 @@ bool Engine::place_card(uint16_t player_id, uint16_t card_id, uint16_t base_id) 
     if (player_id != card->get_owner())
         return false;
 
-    player->play_card(card); // FIXME: add error handling
+    player->play_card(card);
     base->gain_minion(card);
     player->change_minions_limit(-1);
 
@@ -539,7 +535,6 @@ void Engine::dump_state(std::string file_name) const {
     os << "------------------------------------\n";
     os << "Dumping state of engine\n";
     os << "Turn: " << turn_ << "\n";
-    os << "Time: " << time_ << "\n";
 
     os << "Dumping entities\n";
     for (auto curr = entities_.begin(), end = entities_.end(); curr != end; ++curr) {

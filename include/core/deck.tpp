@@ -8,7 +8,7 @@ namespace Mayhem {
 
 template <class T> void Deck<T>::clear_deck() {
     for (size_t i = 0, sz = size(); i < sz; ++i) {
-        auto _ = take_card();
+        take_card();
     }
 }
 

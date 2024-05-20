@@ -78,8 +78,6 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
     bool isSlave_;
     // Indicates if current game is online
     bool isOnline_;
-    // Time for one turn
-    int time_; // FIXME notimportatn: add support for time in game
     // Indicates, which player's turn is now
     uint16_t turn_;
     // All entities in the game
