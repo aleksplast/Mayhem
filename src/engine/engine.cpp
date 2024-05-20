@@ -334,6 +334,9 @@ bool Engine::play_action(uint16_t player_id, uint16_t action_id, uint16_t target
     if (auto *act = dynamic_cast<Action *>(get_by_id(action_id))) {
         Player *player = static_cast<Player *>(get_by_id(player_id));
 
+        if (player_id != act->get_owner())
+            return false;
+
         if (player->get_actions_limit() == 0) {
             return false;
         }

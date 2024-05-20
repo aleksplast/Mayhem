@@ -61,6 +61,75 @@ TEST_F(TestEngine, test_minions_limit) {
     ASSERT_EQ(engine->place_card(0, 21, 8), false);
 }
 
+TEST_F(TestEngine, test_play_action_not_on_your_turn) {
+    engine->place_card(0, 19, 8);
+    ASSERT_EQ(engine->play_action(2, 38, 19, 8, 0), false);
+}
+
+TEST_F(TestEngine, test_actions_limit) {
+    engine->place_card(0, 17, 8);
+    engine->end_turn(0);
+    engine->dump_state("test_dump2");
+    // ASSERT_EQ(engine->play_action(0, ), false); //дописать id action, которое появилось у первого игрока после end_turn
+}
+
+TEST_F(TestEngine, test_play_others_action) {
+    engine->place_card(0, 19, 8);
+    engine->end_turn(0);
+    ASSERT_EQ(engine->play_action(1, 38, 19, 8, 0), false);
+}
+
+TEST_F(TestEngine, test_move_to_destination) {
+    engine->place_card(0, 19, 8);
+    engine->end_turn(0);
+    engine->dump_state("test_dump2");
+    engine->place_card(1, 31, 8);
+    engine->end_turn(1);
+    engine->place_card(2, 42, 8);
+    engine->end_turn(2);
+    engine->place_card(3, 53, 8);
+    engine->end_turn(3);
+    // ASSERT_EQ(engine->play_action(0, ), true); //здесь написать для действия перемещения команду 
+                                              //(если такое дествие есть у нулевого игрока)
+}
+
+TEST_F(TestEngine, test_end_other_turn) {
+    engine->place_card(0, 19, 8);
+    ASSERT_EQ(engine->end_turn(1), 0);
+}
+
+TEST_F(TestEngine, test_end_zero_turn) {
+    engine->place_card(0, 19, 8);
+    ASSERT_EQ(engine->end_turn(0), 1);
+}
+
+TEST_F(TestEngine, test_end_first_turn) {
+    engine->place_card(0, 19, 8);
+    engine->end_turn(0);
+    engine->place_card(1, 32, 8);
+    ASSERT_EQ(engine->end_turn(1), 2);
+}
+
+TEST_F(TestEngine, test_end_second_turn) {
+    engine->place_card(0, 19, 8);
+    engine->end_turn(0);
+    engine->place_card(1, 32, 8);
+    engine->end_turn(1);
+    engine->place_card(2, 42, 8);
+    ASSERT_EQ(engine->end_turn(2), 3);
+}
+
+TEST_F(TestEngine, test_end_third_turn) {
+    engine->place_card(0, 19, 8);
+    engine->end_turn(0);
+    engine->place_card(1, 32, 8);
+    engine->end_turn(1);
+    engine->place_card(2, 42, 8);
+    engine->end_turn(2);
+    engine->place_card(3, 53, 8);
+    ASSERT_EQ(engine->end_turn(3), 0);
+}
+
 TEST(Start_game, test_start_game) {
     Engine *engine = new Engine;
     std::vector<std::string> names;
