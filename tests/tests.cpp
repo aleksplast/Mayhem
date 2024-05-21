@@ -67,30 +67,22 @@ TEST_F(TestEngine, test_play_action_not_on_your_turn) {
 }
 
 TEST_F(TestEngine, test_actions_limit) {
-    engine->place_card(0, 17, 8);
+    engine->place_card(0, 21, 8);
     engine->end_turn(0);
-    engine->dump_state("test_dump2");
-    // ASSERT_EQ(engine->play_action(0, ), false); //дописать id action, которое появилось у первого игрока после end_turn
+    engine->place_card(1, 31, 8);
+    engine->end_turn(1);
+    engine->play_action(2, 38, 21, 8, 0);
+    engine->end_turn(2);
+    engine->place_card(3, 51, 8);
+    engine->end_turn(3);
+    engine->play_action(0, 15, 31, 8, 0);
+    ASSERT_EQ(engine->play_action(0, 16, 51, 8, 0), false);
 }
 
 TEST_F(TestEngine, test_play_others_action) {
     engine->place_card(0, 19, 8);
     engine->end_turn(0);
     ASSERT_EQ(engine->play_action(1, 38, 19, 8, 0), false);
-}
-
-TEST_F(TestEngine, test_move_to_destination) {
-    engine->place_card(0, 19, 8);
-    engine->end_turn(0);
-    engine->dump_state("test_dump2");
-    engine->place_card(1, 31, 8);
-    engine->end_turn(1);
-    engine->place_card(2, 42, 8);
-    engine->end_turn(2);
-    engine->place_card(3, 53, 8);
-    engine->end_turn(3);
-    // ASSERT_EQ(engine->play_action(0, ), true); //здесь написать для действия перемещения команду 
-                                              //(если такое дествие есть у нулевого игрока)
 }
 
 TEST_F(TestEngine, test_end_other_turn) {
