@@ -10,224 +10,239 @@ class PlayerCard;
 class Base;
 template <class T> class Deck;
 
-// The graphics class responsible for data storage
+/// The graphics class responsible for data storage
 class GraphicsModel {
   public:
-    // Graphics settings
+    /// Graphics settings
     struct Settings {
 
-        // Game types
+        /// Game types
         enum class GameType {
-            online,
-            offline,
-        }; // enum class GameType
+            online,  ///< Online game
+            offline, ///< Offline game
+        };           // enum class GameType
 
-        // The structure describing the location of entities on the window
+        /// The structure describing the location of entities on the window
         struct Rendering {
 
-            // Drawing Player
+            /// Drawing player
             struct Player {
 
-                // Scale
+                /// Relative scale to the playground
                 struct Scale {
-                    static constexpr float x = 0.38f;
-                    static constexpr float y = 0.25f;
-                }; // struct Slace
+                    static constexpr float x = 0.38f; ///< Scale on the x axis
+                    static constexpr float y = 0.25f; ///< Scale on the y axis
+                };                                    // struct Slace
 
-                // increasing the size of the main player
+                /// Increasing the size of the main player
                 static constexpr float increase = 1.6f;
 
-                // Drawing Cards' place
+                /// Drawing Cards' place
                 struct CardsPlace {
 
-                    // Scale
+                    /// Relative scale to the player
                     struct Scale {
-                        static constexpr float x = 0.7f;
-                        static constexpr float y = 0.75f;
-                    }; // struct Scale
+                        static constexpr float x = 0.7f;  ///< Scale on the x axis
+                        static constexpr float y = 0.75f; ///< Scale on the y axis
+                    };                                    // struct Scale
 
-                    // Position
+                    /// Relative position to the player
                     struct Position {
-                        static constexpr float x = 0.5f;
-                        static constexpr float y = 0.5f;
-                    }; // struct Position
+                        static constexpr float x = 0.5f; ///< Position on the x axis
+                        static constexpr float y = 0.5f; ///< Position on the y axis
+                    };                                   // struct Position
 
                     // Drawing card
                     struct Card {
 
-                        // Scale
+                        /// Relative scale to the cards place
                         struct Scale {
-                            static constexpr float x = 0.25f;
-                            static constexpr float y = 1.0f;
-                        }; // struct Scale
-                    };     // struct Card
-                };         // struct CardsPlace
-            };             // struct Player
+                            static constexpr float x = 0.25f; ///< Scale on the x axis
+                            static constexpr float y = 1.0f;  ///< Scale on the y axis
+                        };                                    // struct Scale
+                    };                                        // struct Card
+                };                                            // struct CardsPlace
+            };                                                // struct Player
 
-            // Displaying a place with the main cards
+            /// Displaying a place with the main cards
             struct ShowenPlace {
 
-                // Scale
+                /// Relative scale to the playground
                 struct Scale {
-                    static constexpr float x = 0.8f;
-                    static constexpr float y = 0.25f;
-                }; // struct Scale
+                    static constexpr float x = 0.8f;  ///< Scale on the x axis
+                    static constexpr float y = 0.25f; ///< Scale on the y axis
+                };                                    // struct Scale
 
-                // Position
+                /// Relative position to the playground
                 struct Position {
-                    static constexpr float x = 0.5f;
-                    static constexpr float y = 0.65f;
-                }; // struct Position
+                    static constexpr float x = 0.5f;  ///< Position on the x axis
+                    static constexpr float y = 0.65f; ///< Position on the y axis
+                };                                    // struct Position
 
-                // Drawing card
+                /// Drawing card
                 struct Card {
 
-                    // Scale
+                    /// Relative scale to the showen palce
                     struct Scale {
-                        static constexpr float x = 0.12f;
-                        static constexpr float y = 1.0f;
-                    }; // struct Scale
-                };     // struct Card
+                        static constexpr float x = 0.12f; ///< Scale on the x axis
+                        static constexpr float y = 1.0f;  ///< Scale on the y axis
+                    };                                    // struct Scale
+                };                                        // struct Card
 
             }; // struct ShowenPlace
 
-            // Drawing the place where the bases are located
+            /// Drawing the place where the bases are located
             struct BasesPlace {
 
-                // Scale
+                /// Relative scale to the playgorund
                 struct Scale {
-                    static constexpr float x = 0.8f;
-                    static constexpr float y = 0.2f;
-                }; // struct Scale
+                    static constexpr float x = 0.8f; ///< Scale on the x axis
+                    static constexpr float y = 0.2f; ///< Scale on the y axis
+                };                                   // struct Scale
 
-                // Position
+                /// Relative position to the playground
                 struct Position {
-                    static constexpr float x = 0.5f;
-                    static constexpr float y = 0.3f;
-                }; // struct Position
+                    static constexpr float x = 0.5f; ///< Position on the x axis
+                    static constexpr float y = 0.3f; ///< Position on the y axis
+                };                                   // struct Position
 
-                // Drawing Bases
+                /// Drawing Bases
                 struct Base {
 
-                    // Scale
+                    /// Relative scale to the Base place
                     struct Scale {
-                        static constexpr float x = 0.15f;
-                        static constexpr float y = 1.0f;
-                    }; // struct Scale
+                        static constexpr float x = 0.15f; ///< Scale on the x axis
+                        static constexpr float y = 1.0f;  ///< Scale on the y axis
+                    };                                    // struct Scale
 
                 }; // struct Base
 
             }; // strust BasesPlace
 
-            // Drawing Buttons
+            /// Drawing Buttons
             struct Button {
 
-                // Drawing Button end_turn
+                /// Drawing Button end_turn
                 struct EndTurn {
 
-                    // Scale
+                    /// Relative scale to the playground
                     struct Scale {
-                        static constexpr float x = 0.1f;
-                        static constexpr float y = 0.08f;
-                    }; // struct Scale
+                        static constexpr float x = 0.1f;  ///< Scale on the x axis
+                        static constexpr float y = 0.08f; ///< Scale on the y axis
+                    };                                    // struct Scale
 
-                    // Position
+                    // Relative position to the playground
                     struct Position {
-                        static constexpr float x = 0.82f;
-                        static constexpr float y = 0.46f;
-                    }; // struct Position
+                        static constexpr float x = 0.82f; ///< Position on the x axis
+                        static constexpr float y = 0.46f; ///< Position on the y axis
+                    };                                    // struct Position
 
                 }; // struct EndTurn
 
-                // Drawing power icon
+                /// Drawing power icon
                 struct Power {
 
-                    // Scale
+                    /// Relative scale to the playground
                     struct Scale {
-                        static constexpr float x = 0.18f;
-                        static constexpr float y = 0.1f;
-                    }; // struct Scale
-                };     // struct Power
+                        static constexpr float x = 0.18f; ///< Scale on the x axis
+                        static constexpr float y = 0.1f;  ///< Scale on the y axis
+                    };                                    // struct Scale
+                };                                        // struct Power
 
-                // Player points
+                /// Player points
                 struct Points {
 
-                    // Scale
+                    /// Relative scale to the playground
                     struct Scale {
-                        static constexpr float x = 0.15f;
-                        static constexpr float y = 0.15f;
-                    }; // struct Scale
-                };     // struct Points
+                        static constexpr float x = 0.15f; ///< Scale on the x axis
+                        static constexpr float y = 0.15f; ///< Scale on the y axis
+                    };                                    // struct Scale
+                };                                        // struct Points
 
-                // Drawing summary units power on base
+                /// Drawing summary units power on base
                 struct UnitsPower {
 
-                    // Scale
+                    /// Relative scale to the player
                     struct Scale {
-                        static constexpr float x = 0.7f;
-                        static constexpr float y = 0.2f;
-                    }; // struct Scale
+                        static constexpr float x = 0.7f; ///< Scale on the x axis
+                        static constexpr float y = 0.2f; ///< Scale on the y axis
+                    };                                   // struct Scale
 
-                    // Position
+                    /// Relative position to the player
                     struct Position {
-                        static constexpr float x = 0.5f;
-                        static constexpr float y = -0.1f;
-                    }; // struct Position
-                };     // struct UnitsPower
+                        static constexpr float x = 0.5f;  ///< Position on the x axis
+                        static constexpr float y = -0.1f; ///< Position on the y axis
+                    };                                    // struct Position
+                };                                        // struct UnitsPower
 
-                // Drawing buttons on Screen
+                /// Drawing buttons on Screen
                 struct ScreenButtons {
 
-                    // Offset
+                    /// Relative offset to the screen
                     struct Offset {
-                        static constexpr float x = 0.5f;
-                        static constexpr float y = 0.15f;
-                        static constexpr float start = 0.2f; // initial y-axis offset
+                        static constexpr float x = 0.5f;     ///< Offset on the x axis
+                        static constexpr float y = 0.15f;    ///< offset on the y axis
+                        static constexpr float start = 0.2f; ///< initial y axis offset
                     };                                       // struct Offset
 
-                    // Scale
+                    /// Relative scale to the screen
                     struct Scale {
-                        static constexpr float x = 0.28f;
-                        static constexpr float y = 0.12f;
-                    }; // struct Scale
+                        static constexpr float x = 0.28f; ///< Scale on the x axis
+                        static constexpr float y = 0.12f; ///< Scale on the y axis
+                    };                                    // struct Scale
 
-                    static constexpr unsigned int char_size = 36u;
-                }; // struct ScreenButtons
-            };     // struct Button
+                    static constexpr unsigned int char_size = 36u; ///< Char size
+                };                                                 // struct ScreenButtons
+            };                                                     // struct Button
 
-            // Drawing poppong up card
+            /// Drawing poppong up card
             struct PopUpCard {
 
-                // Scale
+                /// Relative scale to the playground
                 struct Scale {
-                    static constexpr float x = 0.13f;
-                    static constexpr float y = 0.35f;
-                }; // struct Scale
+                    static constexpr float x = 0.13f; ///< Scale on the x axis
+                    static constexpr float y = 0.35f; ///< Scale on the y axis
+                };                                    // struct Scale
 
-                // Position
+                /// Relative position to  the playground
                 struct Position {
-                    static constexpr float x = 0.13f;
-                    static constexpr float y = 0.5f;
-                }; // struct Position
-            };     // struct PopUpCard
-        };         // struct Rendering
+                    static constexpr float x = 0.13f; ///< Position on the x axis
+                    static constexpr float y = 0.5f;  ///< Position on the y axis
+                };                                    // struct Position
+            };                                        // struct PopUpCard
+        };                                            // struct Rendering
 
     }; // struct Settings
 
-    // The data set for graphics
+    /// The data set for graphics
     struct Data {
 
-        // Attibutes for drawing entities
+        /// Attibutes for drawing entities
         struct Attributes {
-            uint16_t draw_player = 0; // num player who graphics draw
+            /// @brief Num player who graphics draw
+            uint16_t draw_player = 0;
+
+            /// @brief Reference to the window
             sf::RenderWindow &window;
+
+            /// @brief Default window size
             sf::Vector2u default_window_size = sf::Vector2u();
+
+            /// @brief The cards of the player being drawn
             std::vector<PlayerCard *> current_player_cards = std::vector<PlayerCard *>();
+
+            /// @brief The decks of the player being drawn
             std::vector<Deck<PlayerCard *> *> current_decks = std::vector<Deck<PlayerCard *> *>();
+
+            /// @brief The bases being drawn
             std::vector<Base *> active_bases = std::vector<Base *>();
+
+            /// @brief The buttons being drawn
             std::vector<std::pair<Button::Type, sf::FloatRect>> buttuns =
                 std::vector<std::pair<Button::Type, sf::FloatRect>>();
             std::pair<Base *, std::vector<PlayerCard *>> shown_place = std::pair<Base *, std::vector<PlayerCard *>>();
+
+            /// @brief A map with a description
             PlayerCard *popping_up_card = nullptr;
 
           public:
@@ -236,34 +251,53 @@ class GraphicsModel {
             Attributes(Attributes &&) = delete;
             Attributes &operator=(const Attributes &) = delete;
             Attributes &operator=(Attributes &&) = delete;
+
+            /// @brief Constructor
+            /// @param[out] Window Window
             Attributes(sf::RenderWindow &Window) : window(Window){};
+
+            /// @brief Destructor
             ~Attributes() = default;
         }; // struct Attributes
 
-        // Attributes for menu
+        /// Attributes for menu
         struct MenuAttributes {
-            // Game actions
+            /// Actions of game
             enum class GameAction {
                 play,
                 exit,
             }; // enum class GameAction
 
+            /// @brief Default window size
             sf::Vector2u default_window_size = sf::Vector2u();
+
+            /// @brief Type of game
             Settings::GameType type = Settings::GameType::offline;
+
+            /// @brief Action of game
             GameAction action = GameAction::exit;
+            /// @brief Number of players
             uint16_t num_players = 4;
             uint16_t number_of_player;
         }; // struct MenuAttributes
     };     // struct Data
 
   public:
+    /// @brief Attributes of the game
     Data::Attributes attributes;
+    /// @brief Type of game
     Settings::GameType type = Settings::GameType::offline;
+    /// @brief Reference to the engine
     Engine &engine;
 
   public:
     GraphicsModel() = delete;
+    /// @brief Constructor
+    /// @param[out] e Reference to the engine
+    /// @param[out] window Window
+    /// @param[in] menu_attributes Game parameters
     GraphicsModel(Engine &e, sf::RenderWindow &window, const Data::MenuAttributes &menu_attributes);
+    /// @brief Destructor
     ~GraphicsModel() = default;
 
 }; // class GraphicsModel

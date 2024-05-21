@@ -5,20 +5,24 @@
 
 namespace Mayhem {
 
-// The graphics subclass responsible for drawing elements
+/// The graphics subclass responsible for drawing elements
 class GraphicsView {
   private:
+    /// @brief Graphics model
     GraphicsModel &model;
 
   public:
     GraphicsView() = delete;
     GraphicsView(const GraphicsView &) = delete;
     GraphicsView(GraphicsView &&) = delete;
+    /// @brief Constructor
+    /// @param m Graphics model
     GraphicsView(GraphicsModel &m);
 
-    // displays all items on the window
+    /// @brief displays all items on the window
     void display();
 
+    /// @brief Destructor
     ~GraphicsView() = default;
 
 }; // class GraphicsView
