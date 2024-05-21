@@ -27,6 +27,15 @@ Playground::Playground(std::vector<Entity *> &entities)
     }
 }
 
+void Playground::shrink_to(uint32_t players_num, std::vector<Entity *> &entities) {
+    while (players_.size() > players_num) {
+        Entity *last_player = entities[players_.size()];
+        entities.pop_back();
+        delete last_player;
+        players_.pop_back();
+    }
+}
+
 std::vector<Base *> Playground::check_bases() {
     std::vector<Base *> captured_bases{};
 

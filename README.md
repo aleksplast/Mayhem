@@ -9,7 +9,7 @@ Trivial card game project
 ## Build and Run
 ```sh
 pushd src/proto
-protoc --cpp_out=. --grpc_out=. --plugin=protoc-gen-grpc='which grpc_cpp_plugin' ./engine.proto
+protoc --cpp_out=. --grpc_out=. --plugin=protoc-gen-grpc=`which grpc_cpp_plugin` ./engine.proto
 popd
 mkdir build
 cd build

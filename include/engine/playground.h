@@ -60,9 +60,16 @@ class Playground : public Drawable {
 
     //!--------------------------------
     //! @brief Constructor for Playground
-    //! @param[out] entities Vector of the captured bases
+    //! @param[out] entities Vector of the entities in the game
     //!--------------------------------
     Playground(std::vector<Entity *> &entities);
+
+    //!--------------------------------
+    //! @brief Shrink number of players to players num
+    //! @param[in] players_num number of players to shrink to
+    //! @param[out] entities Vector of the captured bases
+    //!--------------------------------
+    void shrink_to(uint32_t players_num, std::vector<Entity *> &entities);
 
     //!--------------------------------
     //! @brief Check, if any base was captured
