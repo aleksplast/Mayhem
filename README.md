@@ -8,8 +8,9 @@ Trivial card game project
 5. gtest (only if you want to perform test, see below)
 ## Build and Run
 ```sh
-cd src/proto
+pushd src/proto
 protoc --cpp_out=. --grpc_out=. --plugin=protoc-gen-grpc='which grpc_cpp_plugin' ./engine.proto
+popd
 mkdir build
 cd build
 cmake .. (if you installed gRPC into some $INSTALL_DIR, run cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR)
