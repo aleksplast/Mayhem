@@ -6,7 +6,8 @@
 
 namespace Mayhem {
 
-void Graphics::launch_game(std::string game_mode, std::string engine_mode, std::string server_address, std::string client_address, std::string player) {
+void Graphics::launch_game(std::string game_mode, std::string engine_mode, std::string server_address,
+                           std::string client_address, std::string player) {
     if (game_mode.compare("offline") == 0) {
         Engine engine;
         GraphicsModel model(engine);
