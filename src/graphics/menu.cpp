@@ -7,7 +7,7 @@ using namespace Mayhem;
 PlayersMenu::PlayersMenu() : Screen({"2 players", "3 players", "4 players", "back"}){};
 TypeGameMenu::TypeGameMenu() : Screen({"offline", "online", "back"}){};
 MainMenu::MainMenu() : Screen({"play", "exit"}){};
-OnlineMenu::OnlineMenu() : Screen({"Number 1", "Number 2", "Number 3", "Number 4"}){};
+ServerMenu::ServerMenu() : Screen({"2 Players", "3 players", "4 players", "back"}){};
 
 bool MainMenu::run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttributes &attributes) {
     using Scope = GraphicsModel::Data::MenuAttributes;
@@ -47,10 +47,7 @@ bool TypeGameMenu::run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttrib
         break;
     case 1:
         attributes.type = GraphicsModel::Settings::GameType::online;
-        if (!online_menu.run(window, attributes))
-            return run(window, attributes);
-        else
-            return true;
+        return true;
         break;
     default:
         return false;
@@ -81,7 +78,7 @@ bool PlayersMenu::run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttribu
     }
 }
 
-bool OnlineMenu::run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttributes &attributes) {
+bool ServerMenu::run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttributes &attributes) {
     window.clear();
     Screen::draw(window, attributes.default_window_size);
     window.display();
@@ -95,8 +92,7 @@ bool OnlineMenu::run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttribut
     case 0:
     case 1:
     case 2:
-    case 3:
-        attributes.number_of_player = num_event;
+        attributes.num_players = num_event + 2;
         return true;
         break;
     default:

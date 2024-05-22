@@ -10,10 +10,7 @@ namespace Mayhem {
 void Graphics::run(std::string server_address, std::string client_address) {
     using Scope = GraphicsModel::Data::MenuAttributes;
     Scope attributes;
-    if (client_address.compare("server") == 0) {
-        launch_game("server", server_address, client_address, attributes);
-        return;
-    }
+
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
 
@@ -29,10 +26,22 @@ void Graphics::run(std::string server_address, std::string client_address) {
         window.setIcon(icon_size.x, icon_size.y, icon.getPixelsPtr());
     }
 
-    attributes.num_players = 3;
+    if (client_address.compare("server") == 0) {
+        ServerMenu server_menu;
+        attributes.action = GraphicsModel::Data::MenuAttributes::GameAction::play;
+        attributes.type = GraphicsModel::Settings::GameType::online;
+        attributes.default_window_size = default_window_size;
+        server_menu.run(window, attributes);
+        window.clear();
+        window.close();
+        launch_game("server", server_address, client_address, attributes);
+        return;
+    }
+
     attributes.action = GraphicsModel::Data::MenuAttributes::GameAction::play;
     attributes.type = GraphicsModel::Settings::GameType::offline;
     attributes.default_window_size = default_window_size;
+
     MainMenu menu;
     menu.run(window, attributes);
     if (attributes.action == Scope::GameAction::play)
@@ -83,10 +92,6 @@ void Graphics::launch_game(std::string engine_mode, std::string server_address, 
         std::cout << "Server listening on " << server_address << std::endl;
         server->Wait();
 
-        while (model.attributes.window.isOpen()) {
-            controller.process_events();
-            view.display();
-        }
     } else {
         uint16_t player = 0;
         Engine engine(grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials()), client_address,
