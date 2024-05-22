@@ -63,7 +63,7 @@ void Graphics::launch_game(GraphicsModel::Data::MenuAttributes &attributes) {
     }
 }
 
-void Graphics::launch_game(std::string engine_mode, std::string server_address, std::string client_address, 
+void Graphics::launch_game(std::string engine_mode, std::string server_address, std::string client_address,
                            GraphicsModel::Data::MenuAttributes &attributes) {
     if (engine_mode.compare("server") == 0) {
         Engine engine(attributes.num_players);
