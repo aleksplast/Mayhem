@@ -29,7 +29,7 @@ Playground::Playground(uint16_t num_players, std::vector<Entity *> &entities)
 
 void Playground::shrink_to(uint32_t players_num, std::vector<Entity *> &entities) {
     while (players_.size() > players_num) {
-        Entity *last_player = entities[players_.size()];
+        Entity *last_player = entities[players_.size() - 1];
         entities.pop_back();
         delete last_player;
         players_.pop_back();

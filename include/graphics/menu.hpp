@@ -15,7 +15,7 @@ class PlayersMenu final : private Screen {
     /// @brief Run this screan
     /// @param window Window
     /// @param attributes Attributes from menu
-    /// @return State of gettng menu parameters
+    /// @return State of getting menu parameters
     bool run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttributes &attributes);
 
     /// @brief Destructor
@@ -23,19 +23,19 @@ class PlayersMenu final : private Screen {
 }; // class PlayerMenu
 
 /// A menu with a choice of the number of player
-class OnlineMenu final : private Screen {
+class ServerMenu final : private Screen {
   public:
     /// @brief Constructor
-    OnlineMenu();
+    ServerMenu();
 
     /// @brief Run this screan
     /// @param window Window
     /// @param attributes Attributes from menu
-    /// @return State of gettng menu parameters
+    /// @return State of getting menu parameters
     bool run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttributes &attributes);
 
     /// @brief Destructor
-    ~OnlineMenu() = default;
+    ~ServerMenu() = default;
 }; // class OnlineMenu
 
 // Settings for the game type selection menu
@@ -44,9 +44,6 @@ class TypeGameMenu final : private Screen {
     /// @brief Menu with choosing number of players
     PlayersMenu players_menu = PlayersMenu();
 
-    /// @brief Menu for online game
-    OnlineMenu online_menu = OnlineMenu();
-
   public:
     /// @brief Constructor
     TypeGameMenu();
@@ -54,7 +51,7 @@ class TypeGameMenu final : private Screen {
     /// @brief Run this screan
     /// @param window Window
     /// @param attributes Attributes from menu
-    /// @return State of gettng menu parameters
+    /// @return State of getting menu parameters
     bool run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttributes &attributes);
 
     /// @brief Destructor
@@ -74,7 +71,7 @@ class MainMenu final : private Screen {
     /// @brief Run this screan
     /// @param window Window
     /// @param attributes Attributes from menu
-    /// @return State of gettng menu parameters
+    /// @return State of getting menu parameters
     bool run(sf::RenderWindow &window, GraphicsModel::Data::MenuAttributes &attributes);
 
     /// @brief Destructor

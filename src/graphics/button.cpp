@@ -29,6 +29,7 @@ Button &Button::operator=(const Button &rhs) {
     text_ = rhs.text_;
     rect_.setTextureRect(rhs.rect_.getTextureRect());
     rect_.setPosition(rhs.rect_.getPosition());
+    rect_.setFillColor(rhs.rect_.getFillColor());
     return *this;
 }
 
