@@ -103,10 +103,10 @@ std::tuple<int, int> MainServerEngineClient::initClient(std::string address) {
 
     if (!status.ok()) {
         std::cout << "GetFeature rpc failed." << std::endl;
-        return {-1,-1};
+        return {-1, -1};
     }
 
-    return {engine_response.numofplayers(), engine_response.playernumber() };
+    return {engine_response.numofplayers(), engine_response.playernumber()};
 };
 
 std::string MainServerEngineClient::GetFile(const std::string &filename) {
@@ -207,8 +207,10 @@ const uint32_t NUMBER_OF_WINNERS = 3;
 
 Engine::Engine(uint16_t num_players)
     : isSlave_(false), isOnline_(false), turn_(0), entities_(), playground(num_players, entities_), parser_(){};
-Engine::Engine(std::shared_ptr<Channel> Channel, std::string player_address, uint16_t& num_players, uint16_t& player_num)
-    : isSlave_(true), isOnline_(true), turn_(0), entities_(), playground(num_players, entities_), parser_(), client_(Channel) {
+Engine::Engine(std::shared_ptr<Channel> Channel, std::string player_address, uint16_t &num_players,
+               uint16_t &player_num)
+    : isSlave_(true), isOnline_(true), turn_(0), entities_(), playground(num_players, entities_), parser_(),
+      client_(Channel) {
 
     ServerBuilder builder;
     builder.AddListeningPort(player_address, grpc::InsecureServerCredentials());
@@ -221,7 +223,7 @@ Engine::Engine(std::shared_ptr<Channel> Channel, std::string player_address, uin
     playground.shrink_to(num_of_players, entities_);
     server_ = std::move(server);
     num_players = num_of_players;
-    player_num = real_player_num; 
+    player_num = real_player_num;
 };
 
 Entity *Engine::get_by_id(uint16_t entity_id) {
@@ -447,8 +449,8 @@ void Engine::prepare_game() {
 Status Engine::initClient(::grpc::ServerContext *context, const ::enginePackage::ClientNetInfo *request,
                           ::enginePackage::InitClientResponse *response) {
     std::cout << "New player with port: " << request->address() << " and Ip: " << context->peer() << std::endl;
-    response->set_numofplayers( playground.get_number_of_players() );
-    response->set_playernumber( add_player(request->address()) );
+    response->set_numofplayers(playground.get_number_of_players());
+    response->set_playernumber(add_player(request->address()));
     return Status::OK;
 }
 

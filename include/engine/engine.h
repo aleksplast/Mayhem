@@ -116,7 +116,8 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
     //! @brief Default Constructor for Engine
     //!--------------------------------
     Engine(uint16_t num_players);
-    Engine(std::shared_ptr<Channel> channel, std::string player_address, uint16_t& num_players, uint16_t& player_number);
+    Engine(std::shared_ptr<Channel> channel, std::string player_address, uint16_t &num_players,
+           uint16_t &player_number);
 
     //!--------------------------------
     //! @brief Default Engine Destructor

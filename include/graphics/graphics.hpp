@@ -18,7 +18,7 @@ class Graphics {
 
     void launch_game(GraphicsModel::Data::MenuAttributes &attributes);
     // initializes the main components of the game
-    void launch_game(std::string engine_mode, std::string server_address, std::string client_address, 
+    void launch_game(std::string engine_mode, std::string server_address, std::string client_address,
                      GraphicsModel::Data::MenuAttributes &attributes);
 
     // Starts the game as a whole
