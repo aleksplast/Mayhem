@@ -34,7 +34,7 @@ class GraphicsModel {
                     static constexpr float y = 0.25;
                 }; // struct Slace
 
-                // increasøòï the size of the main player
+                // increasï¿½ï¿½ï¿½ the size of the main player
                 static constexpr float increase = 1.6;
 
                 // Drawing Cards' place
@@ -244,7 +244,7 @@ class GraphicsModel {
             sf::Vector2u default_window_size;
             Settings::GameType type;
             GameAction action;
-            uint16_t num_players = 2;
+            uint16_t num_players = 3;
             uint16_t number_of_player;
         }; // struct MenuAttributes
     };     // struct Data

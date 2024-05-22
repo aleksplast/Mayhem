@@ -31,6 +31,10 @@ message endTurnArgs {
 message ServerResponse {
     int32 Status = 1;
 }
+message InitClientResponse {
+    int32 numOfPlayers = 1;
+    int32 playerNumber = 2;
+}
 message ClientNetInfo {
     string address = 1;
 }
@@ -39,7 +43,7 @@ service MainServerEngine {
     rpc placeCard(placeCardArgs) returns (ServerResponse);
     rpc playAction(playActionArgs) returns (ServerResponse);
     rpc endTurn(endTurnArgs) returns (ServerResponse);
-    rpc initClient(ClientNetInfo) returns (ServerResponse);
+    rpc initClient(ClientNetInfo) returns (InitClientResponse);
     rpc GetFile(FileRequest) returns (FileResponse);
 }
 
