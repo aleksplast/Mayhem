@@ -10,8 +10,8 @@ namespace Mayhem {
 void Graphics::run(std::string server_address, std::string client_address) {
     using Scope = GraphicsModel::Data::MenuAttributes;
     Scope attributes;
-    if (server_address.compare("server") == 0) {
-        launch_game("server", server_address, client_address, 0, attributes);
+    if (client_address.compare("server") == 0) {
+        launch_game("server", server_address, client_address, attributes);
         return;
     }
     sf::ContextSettings settings;
@@ -29,7 +29,7 @@ void Graphics::run(std::string server_address, std::string client_address) {
         window.setIcon(icon_size.x, icon_size.y, icon.getPixelsPtr());
     }
 
-    attributes.num_players = 4;
+    attributes.num_players = 3;
     attributes.action = GraphicsModel::Data::MenuAttributes::GameAction::play;
     attributes.type = GraphicsModel::Settings::GameType::offline;
     attributes.default_window_size = default_window_size;
@@ -39,14 +39,14 @@ void Graphics::run(std::string server_address, std::string client_address) {
         if (attributes.type == GraphicsModel::Settings::GameType::offline)
             launch_game(attributes);
         else if (attributes.type == GraphicsModel::Settings::GameType::online)
-            launch_game("player", server_address, client_address, attributes.number_of_player, attributes);
+            launch_game("player", server_address, client_address, attributes);
         else
             return;
     else
         return;
 }
 
-void Graphics::launch_game(const GraphicsModel::Data::MenuAttributes &attributes) {
+void Graphics::launch_game(GraphicsModel::Data::MenuAttributes &attributes) {
     Engine engine(attributes.num_players);
     GraphicsModel model(engine, window, attributes);
     GraphicsController controller(model);
@@ -63,8 +63,8 @@ void Graphics::launch_game(const GraphicsModel::Data::MenuAttributes &attributes
     }
 }
 
-void Graphics::launch_game(std::string engine_mode, std::string server_address, std::string client_address, int player,
-                           const GraphicsModel::Data::MenuAttributes &attributes) {
+void Graphics::launch_game(std::string engine_mode, std::string server_address, std::string client_address, 
+                           GraphicsModel::Data::MenuAttributes &attributes) {
     if (engine_mode.compare("server") == 0) {
         Engine engine(attributes.num_players);
         GraphicsModel model(engine, window, attributes);
@@ -88,8 +88,9 @@ void Graphics::launch_game(std::string engine_mode, std::string server_address, 
             view.display();
         }
     } else {
+        uint16_t player = 0;
         Engine engine(grpc::CreateChannel(server_address, grpc::InsecureChannelCredentials()), client_address,
-                      attributes.num_players);
+                      attributes.num_players, player);
         GraphicsModel model(engine, window, attributes);
         std::cout << "Current player " << player << std::endl;
         model.attributes.draw_player = player; // FIXME: ADD CHECKS

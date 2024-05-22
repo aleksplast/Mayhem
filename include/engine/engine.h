@@ -46,7 +46,7 @@ class MainServerEngineClient {
     void play_action(uint16_t player_id, uint16_t action_id, uint16_t target_id, uint16_t src_id, uint16_t dest_id);
     void end_turn(uint16_t player_id);
 
-    void initClient(std::string address);
+    std::tuple<int, int> initClient(std::string address);
 
   private:
     std::unique_ptr<enginePackage::MainServerEngine::Stub> stub_;
@@ -116,7 +116,7 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
     //! @brief Default Constructor for Engine
     //!--------------------------------
     Engine(uint16_t num_players);
-    Engine(std::shared_ptr<Channel> channel, std::string port, uint16_t num_players);
+    Engine(std::shared_ptr<Channel> channel, std::string player_address, uint16_t& num_players, uint16_t& player_number);
 
     //!--------------------------------
     //! @brief Default Engine Destructor
@@ -227,13 +227,13 @@ class Engine final : public enginePackage::MainServerEngine::Service, public eng
 
     // Inits online player
     Status initClient(::grpc::ServerContext *context, const ::enginePackage::ClientNetInfo *request,
-                      ::enginePackage::ServerResponse *response) override;
+                      ::enginePackage::InitClientResponse *response) override;
     Status GetFile(grpc::ServerContext *context, const enginePackage::FileRequest *request,
                    enginePackage::FileResponse *response) override;
 
   private:
     // Add player in players structure
-    void add_player(std::string address);
+    int add_player(std::string address);
 
     //!--------------------------------
     //! @brief Get bases deck name
